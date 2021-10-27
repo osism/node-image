@@ -35,7 +35,7 @@ build_task:
     - cp ./isoconf/grub.cfg ./ubuntu-seed/boot/grub/grub.cfg
     - cp ./isoconf/txt.cfg ./ubuntu-seed/isolinux/txt.cfg
     - cp ./isoconf/osism-ubuntu-server.seed ./ubuntu-seed/preseed/osism-ubuntu-server.seed
-    - sed -i "s|boot/grub/grub.cfg$||g" ./md5sum.txt
+    - sed -i "s|boot/grub/grub.cfg$||g" ./ubuntu-seed/md5sum.txt
     - md5sum ./ubuntu-seed/boot/grub/grub.cfg >> ./ubuntu-seed/md5sum.txt
     - md5sum ./ubuntu-seed/preseed/osism-ubuntu-server.seed >> ./ubuntu-seed/md5sum.txt
 

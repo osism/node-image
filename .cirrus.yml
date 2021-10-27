@@ -43,6 +43,6 @@ build_task:
     - cd /dev/shm/ubuntu-seed/
     - mkisofs -U -A "UbuntuOSISM" -V "UbuntuOSISM" -volset "UbuntuOSISM" -J -joliet-long -r -v -T -o /dev/shm/osism-manager-install.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot /dev/shm/ubuntu-seed/
 
-  upload_script:
-    - ls -la /dev/shm/
+# /dev/shm/osism-manager-install.iso
+  #upload_script:
   #  - bash ./upload.sh

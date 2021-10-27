@@ -22,13 +22,14 @@ build_task:
     - apt-get install -y genisoimage coreutils
 
   downloadiso_script:
-    - wget -o ./ubuntu-image.iso https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/ubuntu-20.04.1-legacy-server-amd64.iso
+    - wget -O ./ubuntu-image.iso https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/ubuntu-20.04.1-legacy-server-amd64.iso
 
   mountiso_script:
     - mkdir ./ubuntu-seed
     - mkdir ./ubuntu-iso
-    - sudo mount -o loop,ro ./ubuntu-image.iso ./ubuntu-iso/
+    - mount -o loop,ro ./ubuntu-image.iso ./ubuntu-iso/
     - cp -rT ./ubuntu-iso ./ubuntu-seed
+    - umount ./ubuntu-iso/
 
   editisoconf_script:
     - cp ./isoconf/grub.cfg ./ubuntu-seed/boot/grub/grub.cfg

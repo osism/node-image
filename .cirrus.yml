@@ -38,11 +38,11 @@ build_task:
     - sed -i "s|boot/grub/grub.cfg$||g" ./ubuntu-seed/md5sum.txt
     - md5sum ./ubuntu-seed/boot/grub/grub.cfg >> ./ubuntu-seed/md5sum.txt
     - md5sum ./ubuntu-seed/preseed/osism-ubuntu-server.seed >> ./ubuntu-seed/md5sum.txt
-    - pwd
 
   isobuild_script:
     - cd ./ubuntu-seed/
     - mkisofs -U -A "UbuntuOSISM" -V "UbuntuOSISM" -volset "UbuntuOSISM" -J -joliet-long -r -v -T -o ../osism-manager-install.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot ../ubuntu-seed/
 
-  #upload_script:
+  upload_script:
+    - cd && ls -la
   #  - bash ./upload.sh

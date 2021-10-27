@@ -7,7 +7,7 @@ compute_engine_instance:
   platform: linux
   cpu: 4
   memory: 16G
-  disk: 15
+  disk: 100
   nested_virtualization: true
 
 #env:

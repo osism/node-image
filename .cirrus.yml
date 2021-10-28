@@ -1,0 +1,48 @@
+---
+# NOTE: That didn't work, thus use of instance with nested virtualization enabled.
+
+compute_engine_instance:
+  image_project: cirrus-images
+  image: family/docker-kvm
+  platform: linux
+  cpu: 4
+  memory: 16G
+  disk: 100
+  nested_virtualization: true
+
+#env:
+#  S3CMD_ACCESS_KEY:
+#  S3CMD_BUCKET:
+#  S3CMD_HOST:
+#  S3CMD_SECRET_KEY:
+
+build_task:
+  pre_script:
+    - apt-get update
+    - apt-get install -y genisoimage coreutils
+
+  downloadiso_script:
+    - wget -O ./ubuntu-image.iso https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/ubuntu-20.04.1-legacy-server-amd64.iso
+
+  mountiso_script:
+    - mkdir /dev/shm/ubuntu-seed
+    - mkdir ./ubuntu-iso
+    - mount -o loop,ro ./ubuntu-image.iso ./ubuntu-iso/
+    - cp -rT ./ubuntu-iso /dev/shm/ubuntu-seed
+    - umount ./ubuntu-iso/
+
+  editisoconf_script:
+    - cp ./isoconf/grub.cfg /dev/shm/ubuntu-seed/boot/grub/grub.cfg
+    - cp ./isoconf/txt.cfg /dev/shm/ubuntu-seed/isolinux/txt.cfg
+    - cp ./isoconf/osism-ubuntu-server.seed /dev/shm/ubuntu-seed/preseed/osism-ubuntu-server.seed
+    - sed -i "s|boot/grub/grub.cfg$||g" /dev/shm/ubuntu-seed/md5sum.txt
+    - md5sum /dev/shm/ubuntu-seed/boot/grub/grub.cfg >> /dev/shm/ubuntu-seed/md5sum.txt
+    - md5sum /dev/shm/ubuntu-seed/preseed/osism-ubuntu-server.seed >> /dev/shm/ubuntu-seed/md5sum.txt
+
+  isobuild_script:
+    - cd /dev/shm/ubuntu-seed/
+    - mkisofs -U -A "UbuntuOSISM" -V "UbuntuOSISM" -volset "UbuntuOSISM" -J -joliet-long -r -v -T -o /dev/shm/osism-manager-install.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot /dev/shm/ubuntu-seed/
+
+# /dev/shm/osism-manager-install.iso
+  #upload_script:
+  #  - bash ./upload.sh

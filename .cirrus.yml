@@ -21,7 +21,7 @@ env:
 build_task:
   install_script:
     - apt-get update
-    - apt-get install -y genisoimage coreutils
+    - apt-get install -y genisoimage coreutils syslinux-utils
     - wget https://dl.min.io/client/mc/release/linux-amd64/mc
     - chmod +x mc
     - ./mc alias set minio https://minio.services.osism.tech $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
@@ -41,12 +41,14 @@ build_task:
     - cp ./isoconf/txt.cfg /dev/shm/ubuntu-seed/isolinux/txt.cfg
     - cp ./isoconf/osism-ubuntu-server.seed /dev/shm/ubuntu-seed/preseed/osism-ubuntu-server.seed
     - sed -i "s|boot/grub/grub.cfg$||g" /dev/shm/ubuntu-seed/md5sum.txt
-    - md5sum /dev/shm/ubuntu-seed/boot/grub/grub.cfg >> /dev/shm/ubuntu-seed/md5sum.txt
-    - md5sum /dev/shm/ubuntu-seed/preseed/osism-ubuntu-server.seed >> /dev/shm/ubuntu-seed/md5sum.txt
+    - cd /dev/shm/ubuntu-seed/
+    - md5sum ./boot/grub/grub.cfg >> /dev/shm/ubuntu-seed/md5sum.txt
+    - md5sum ./preseed/osism-ubuntu-server.seed >> /dev/shm/ubuntu-seed/md5sum.txt
 
   build_script:
     - cd /dev/shm/ubuntu-seed/
     - mkisofs -U -A "UbuntuOSISM" -V "UbuntuOSISM" -volset "UbuntuOSISM" -J -joliet-long -r -v -T -o /dev/shm/osism-manager-installer.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot /dev/shm/ubuntu-seed/
+    - isohybrid /dev/shm/osism-manager-installer.iso
 
   push_script:
     - ./mc cp /dev/shm/osism-manager-installer.iso minio/manager-installer

@@ -50,6 +50,8 @@ build_task:
     - mkisofs -U -A "UbuntuOSISM" -V "UbuntuOSISM" -volset "UbuntuOSISM" -J -joliet-long -r -v -T -o /dev/shm/osism-manager-installer.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot /dev/shm/ubuntu-seed/
     - isohybrid /dev/shm/osism-manager-installer.iso
 
-  push_script:
-    - ./mc cp /dev/shm/osism-manager-installer.iso minio/manager-installer
-    - ./mc policy set download minio/manager-installer
+  push_script: |
+    if [ "$CIRRUS_BRANCH" == "main" ]; then
+      ./mc cp /dev/shm/osism-manager-installer.iso minio/manager-installer
+      ./mc policy set download minio/manager-installer
+    fi

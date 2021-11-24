@@ -1,0 +1,158 @@
+#cloud-config
+
+autoinstall:
+  version: 1
+  updates: all
+  timezone: Etc/UTC
+  keyboard:
+    layout: us
+  ssh:
+    install-server: true
+  # proxy:
+  #   proxy: "http://proxy.server:8080"
+  apt:
+    preserve_sources_list: false
+    primary:
+      - arches: [amd64, i386]
+        uri: http://us.archive.ubuntu.com/ubuntu
+      - arches: [default]
+        uri: http://ports.ubuntu.com/ubuntu-ports
+  packages:
+    - software-properties-common
+    - python3
+    - htop
+    - vim
+  user-data:
+    hostname: install
+    users:
+      - name: install
+        shell: /bin/bash
+        lock_passwd: false
+        sudo: "ALL=(ALL) NOPASSWD:ALL"
+        passwd: "$6$install.$9gdK1qU19lp0j8Bv96HYGAZEn/C0KcBZf4tnXHrlezoUMPXt7x8aYABQsASIY8WluwSgQSiQFQMLitgKUUHCI1"
+  network:
+    network:
+      version: 2
+      ethernets:
+        alleths:
+          match:
+            name: en*
+          dhcp4: true
+  storage:
+    swap:
+      size: 0
+    config:
+      - id: disk-sda
+        type: disk
+        path: /dev/sda
+        ptable: gpt
+        preserve: false
+
+      - id: partition-bios
+        type: partition
+        size: 1MB
+        wipe: superblock
+        flag: bios_grub
+        device: disk-sda
+        preserve: false
+
+      - id: partition-uefi
+        type: partition
+        size: 200MB
+        wipe: superblock
+        flag: boot
+        device: disk-sda
+        preserve: false
+        grub_device: true
+
+      - id: partition-boot
+        type: partition
+        size: 500MB
+        wipe: superblock
+        device: disk-sda
+        preserve: false
+        grub_device: false
+
+      - id: partition-system
+        type: partition
+        size: -1
+        wipe: superblock
+        device: disk-sda
+        preserve: false
+        grub_device: false
+
+      - id: vg-system
+        type: lvm_volgroup
+        name: system
+        preserve: false
+        devices: [partition-system]
+
+      - id: lv-system-root
+        type: lvm_partition
+        name: root
+        size: 10GB
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - id: lv-system-swap
+        type: lvm_partition
+        name: swap
+        size: 8GB
+        flag: swap
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - id: lv-system-home
+        type: lvm_partition
+        name: home
+        size: 10GB
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - id: lv-system-tmp
+        type: lvm_partition
+        name: tmp
+        size: 10GB
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - id: lv-system-var
+        type: lvm_partition
+        name: var
+        size: 10GB
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - id: lv-system-audit
+        type: lvm_partition
+        name: audit
+        size: 1GB
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - id: lv-system-docker
+        type: lvm_partition
+        name: docker
+        size: 30GB
+        wipe: superblock-recursive
+        volgroup: vg-system
+
+      - {id: format-swap, type: format, fstype: swap, volume: lv-system-swap}
+      - {id: format-uefi, type: format, fstype: fat32, volume: partition-uefi}
+      - {id: format-boot, type: format, fstype: ext4, volume: partition-boot}
+      - {id: format-root, type: format, fstype: ext4, volume: lv-system-root}
+      - {id: format-home, type: format, fstype: ext4, volume: lv-system-home}
+      - {id: format-tmp, type: format, fstype: ext4, volume: lv-system-tmp}
+      - {id: format-var, type: format, fstype: ext4, volume: lv-system-var}
+      - {id: format-audit, type: format, fstype: ext4, volume: lv-system-audit}
+      - {id: format-docker, type: format, fstype: ext4, volume: lv-system-docker}
+
+      - {device: format-swap, path: "", type: mount, id: mount-swap}
+      - {device: format-root, path: /, type: mount, id: mount-root}
+      - {device: format-boot, path: /boot, type: mount, id: mount-boot}
+      - {device: format-uefi, path: /boot/efi, type: mount, id: mount-uefi}
+      - {device: format-home, path: /home, type: mount, id: mount-home}
+      - {device: format-tmp, path: /tmp, type: mount, id: mount-tmp}
+      - {device: format-var, path: /var, type: mount, id: mount-var}
+      - {device: format-audit, path: /var/log/audit, type: mount, id: mount-audit}
+      - {device: format-docker, path: /var/lib/docker, type: mount, id: mount-docker}

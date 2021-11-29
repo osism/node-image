@@ -1,0 +1,4 @@
+*.iso
+*.raw
+user-data.yml
+base_image

@@ -66,6 +66,5 @@ create-image: ## create prepared iso image
 	bash ubuntu-autoinstall-generator.sh \
 	  --no-verify \
 	  --all-in-one \
-	  --use-release-iso \
 	  --user-data $(USER_DATA) \
 	  --destination $(ISO_PREP_IMAGE)

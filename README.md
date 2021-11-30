@@ -44,3 +44,9 @@ make install
 ```shell
 make boot
 ```
+
+## Notes
+
+The ``ubuntu-autoinstall-generator.sh`` script is from
+[covertsh/ubuntu-autoinstall-generator](https://github.com/covertsh/ubuntu-autoinstall-generator)
+and is licensed under the MIT License.

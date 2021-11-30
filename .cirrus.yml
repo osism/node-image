@@ -21,7 +21,7 @@ env:
 build_task:
   install_script:
     - apt-get update
-    - apt-get install -y genisoimage coreutils syslinux-utils p7zip-full
+    - apt-get install -y coreutils syslinux-utils p7zip-full xorriso isolinux
     - wget https://dl.min.io/client/mc/release/linux-amd64/mc
     - chmod 0755 mc
     - ./mc alias set minio https://minio.services.osism.tech $MINIO_ACCESS_KEY $MINIO_SECRET_KEY

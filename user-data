@@ -18,9 +18,12 @@ autoinstall:
       - arches: [default]
         uri: http://ports.ubuntu.com/ubuntu-ports
   packages:
-    - software-properties-common
-    - python3
+    - git
     - htop
+    - python3
+    - python3-virtualenv
+    - software-properties-common
+    - sshpass
     - vim
   user-data:
     hostname: install

@@ -31,6 +31,6 @@ build_task:
 
   push_script: |
     if [ "$CIRRUS_BRANCH" == "main" ]; then
-      ./mc cp /dev/shm/osism-manager-installer.iso minio/manager-installer
+      ./mc cp osism-manager-installer.iso minio/manager-installer
       ./mc policy set download minio/manager-installer
     fi

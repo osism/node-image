@@ -136,7 +136,7 @@ autoinstall:
       - id: lv-system-docker
         type: lvm_partition
         name: docker
-        size: 30GB
+        size: 60GB
         wipe: superblock-recursive
         volgroup: vg-system
 

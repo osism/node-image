@@ -9,6 +9,22 @@ The login it possible with the user ``install`` and the password ``install``.
 The automated creation of the ISO image in this repository is documented in the
 [OSISM documentation](https://docs.osism.tech/deployment/provisioning.html#preseed-installation).
 
+## Custom user-data
+
+Clone this repository and copy your user-data file into it.
+
+```shell
+git clone <this repo>
+cd manager-installer
+cp /path/to/your/user-data ./
+```
+
+## ``cloud-init`` syntax check
+
+```shell
+cloud-init devel shema --config-file ./user-data
+```
+
 ## Create ISO image
 
 ```shell
@@ -25,7 +41,7 @@ make boot-prep
 
 ## Testing the configuration
 
-#### Run http server to serve meta-data for *autoinstall*
+### Run http server to serve meta-data for *autoinstall*
 
 ```shell
 make http

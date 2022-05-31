@@ -14,7 +14,7 @@ The automated creation of the ISO image in this repository is documented in the
 Clone this repository and copy your user-data file into it.
 
 ```shell
-git clone <this repo>
+git clone https://github.com/osism/manager-installer.git
 cd manager-installer
 cp /path/to/your/user-data ./
 ```

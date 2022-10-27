@@ -21,12 +21,11 @@ autoinstall:
     - git
     - htop
     - python3
-    - python3-virtualenv
     - software-properties-common
     - sshpass
     - vim
   user-data:
-    hostname: install
+    hostname: osism
     users:
       - name: install
         shell: /bin/bash

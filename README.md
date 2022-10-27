@@ -1,5 +1,5 @@
 # node-image
 
-* https://minio.services.osism.tech/node-image/ubunt-autoinstall.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall.iso
 
 Source of ``image-create.sh``: https://github.com/cloudymax/pxeless

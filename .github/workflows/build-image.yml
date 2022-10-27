@@ -5,14 +5,13 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-latest
-    container: 
-      image: deserializeme/pxeless:latest
-      options: -v ${{ github.workspace }}:/data
     steps:
       - uses: actions/checkout@v3
+      - name: Install required packages
+        run: sudo apt-get install --yes xorriso sed curl gpg wget fdisk isolinux
       - name: Build image
         run: |
-          /app/image-create.sh -a -k -u /data/user-data -n jammy
+          bash image-create.sh -r -a -k -u user-data -n jammy
       - name: Upload image
         run: |
           wget https://dl.min.io/client/mc/release/linux-amd64/mc

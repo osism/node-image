@@ -1,37 +1,23 @@
 #cloud-config
-
 autoinstall:
   version: 1
-  updates: all
-  timezone: Etc/UTC
-  keyboard:
-    layout: us
+
   ssh:
+    allow-pw: true
     install-server: true
-  # proxy:
-  #   proxy: "http://proxy.server:8080"
-  apt:
-    preserve_sources_list: false
-    primary:
-      - arches: [amd64]
-        uri: http://de.archive.ubuntu.com/ubuntu
-      - arches: [default]
-        uri: http://ports.ubuntu.com/ubuntu-ports
-  packages:
-    - git
-    - htop
-    - python3
-    - software-properties-common
-    - sshpass
-    - vim
-  user-data:
+
+  identity:
     hostname: osism
-    users:
-      - name: install
-        shell: /bin/bash
-        lock_passwd: false
-        sudo: "ALL=(ALL) NOPASSWD:ALL"
-        passwd: "$6$install.$9gdK1qU19lp0j8Bv96HYGAZEn/C0KcBZf4tnXHrlezoUMPXt7x8aYABQsASIY8WluwSgQSiQFQMLitgKUUHCI1"
+    password: "$5$H2wkOHUVMIm2Yl2n$2AR/A2ILtgZcWx5UXL6N56Ha/wkdGvs0w5sFUMQ3iaB"
+    username: ubuntu
+
+  packages:
+    - ca-certificates
+    - curl
+    - git
+    - software-properties-common
+    - wget
+
   network:
     network:
       version: 2
@@ -40,121 +26,230 @@ autoinstall:
           match:
             name: en*
           dhcp4: true
+
   storage:
-    swap:
-      size: 0
     config:
-      - id: disk-sda
-        type: disk
+      - grub_device: false
+        id: disk-sda
+        name: ''
         path: /dev/sda
+        preserve: false
         ptable: gpt
+        type: disk
+        wipe: superblock-recursive
+      - grub_device: false
+        id: disk-sdb
+        name: ''
+        path: /dev/sdb
         preserve: false
-
-      - id: partition-bios
-        type: partition
-        size: 1MB
-        wipe: superblock
-        flag: bios_grub
-        device: disk-sda
-        preserve: false
-
-      - id: partition-uefi
-        type: partition
-        size: 200MB
-        wipe: superblock
+        ptable: gpt
+        type: disk
+        wipe: superblock-recursive
+      - device: disk-sdb
         flag: boot
-        device: disk-sda
-        preserve: false
         grub_device: true
-
-      - id: partition-boot
-        type: partition
-        size: 500MB
-        wipe: superblock
-        device: disk-sda
+        id: partition-0
+        number: 1
         preserve: false
-        grub_device: false
-
-      - id: partition-system
+        size: 1127219200
         type: partition
+        wipe: superblock
+      - fstype: fat32
+        id: format-0
+        preserve: false
+        type: format
+        volume: partition-0
+      - device: disk-sdb
+        flag: ''
+        grub_device: false
+        id: partition-1
+        number: 2
+        preserve: false
+        size: 1073741824
+        type: partition
+        wipe: superblock
+      - fstype: ext4
+        id: format-1
+        preserve: false
+        type: format
+        volume: partition-1
+      - device: disk-sda
+        flag: ''
+        grub_device: false
+        id: partition-2
+        number: 1
+        preserve: false
+        size: 1073741824
+        type: partition
+      - device: disk-sda
+        flag: ''
+        grub_device: false
+        id: partition-3
+        number: 2
+        preserve: false
+        size: 1127219200
+        type: partition
+      - device: disk-sdb
+        flag: swap
+        grub_device: false
+        id: partition-4
+        number: 3
+        preserve: false
+        size: 8589934592
+        type: partition
+        wipe: superblock
+      - fstype: swap
+        id: format-2
+        preserve: false
+        type: format
+        volume: partition-4
+      - device: format-2
+        id: mount-2
+        path: ''
+        type: mount
+      - device: disk-sda
+        flag: swap
+        grub_device: false
+        id: partition-5
+        number: 3
+        preserve: false
+        size: 8589934592
+        type: partition
+        wipe: superblock
+      - fstype: swap
+        id: format-3
+        preserve: false
+        type: format
+        volume: partition-5
+      - device: format-3
+        id: mount-3
+        path: ''
+        type: mount
+      - device: disk-sdb
+        flag: ''
+        grub_device: false
+        id: partition-6
+        number: 4
+        preserve: false
         size: -1
+        type: partition
         wipe: superblock
-        device: disk-sda
-        preserve: false
+      - device: disk-sda
+        flag: ''
         grub_device: false
-
-      - id: vg-system
-        type: lvm_volgroup
+        id: partition-7
+        number: 4
+        preserve: false
+        size: -1
+        type: partition
+        wipe: superblock
+      - devices:
+          - partition-6
+          - partition-7
+        id: raid-0
+        name: md0
+        preserve: false
+        raidlevel: raid1
+        spare_devices: []
+        type: raid
+        wipe: superblock
+      - devices:
+          - raid-0
+        id: lvm_volgroup-0
         name: system
         preserve: false
-        devices: [partition-system]
-
-      - id: lv-system-root
-        type: lvm_partition
+        type: lvm_volgroup
+      - id: lvm_partition-0
         name: root
+        preserve: false
         size: 10GB
-        wipe: superblock-recursive
-        volgroup: vg-system
-
-      - id: lv-system-swap
         type: lvm_partition
-        name: swap
-        size: 8GB
-        flag: swap
-        wipe: superblock-recursive
-        volgroup: vg-system
+        volgroup: lvm_volgroup-0
+        wipe: superblock
+      - fstype: ext4
+        id: format-5
+        preserve: false
+        type: format
+        volume: lvm_partition-0
+      - device: format-5
+        id: mount-5
+        path: /
+        type: mount
+      - device: format-1
+        id: mount-1
+        path: /boot
+        type: mount
+      - device: format-0
+        id: mount-0
+        path: /boot/efi
+        type: mount
 
       - id: lv-system-home
         type: lvm_partition
         name: home
         size: 10GB
         wipe: superblock-recursive
-        volgroup: vg-system
+        volgroup: lvm_volgroup-0
 
       - id: lv-system-tmp
         type: lvm_partition
         name: tmp
         size: 10GB
         wipe: superblock-recursive
-        volgroup: vg-system
+        volgroup: lvm_volgroup-0
 
       - id: lv-system-var
         type: lvm_partition
         name: var
         size: 10GB
         wipe: superblock-recursive
-        volgroup: vg-system
+        volgroup: lvm_volgroup-0
 
       - id: lv-system-audit
         type: lvm_partition
         name: audit
         size: 1GB
         wipe: superblock-recursive
-        volgroup: vg-system
+        volgroup: lvm_volgroup-0
 
       - id: lv-system-docker
         type: lvm_partition
         name: docker
         size: 60GB
         wipe: superblock-recursive
-        volgroup: vg-system
+        volgroup: lvm_volgroup-0
 
-      - {id: format-swap, type: format, fstype: swap, volume: lv-system-swap}
-      - {id: format-uefi, type: format, fstype: fat32, volume: partition-uefi}
-      - {id: format-boot, type: format, fstype: ext4, volume: partition-boot}
-      - {id: format-root, type: format, fstype: ext4, volume: lv-system-root}
       - {id: format-home, type: format, fstype: ext4, volume: lv-system-home}
       - {id: format-tmp, type: format, fstype: ext4, volume: lv-system-tmp}
       - {id: format-var, type: format, fstype: ext4, volume: lv-system-var}
       - {id: format-audit, type: format, fstype: ext4, volume: lv-system-audit}
       - {id: format-docker, type: format, fstype: ext4, volume: lv-system-docker}
 
-      - {device: format-swap, path: "", type: mount, id: mount-swap}
-      - {device: format-root, path: /, type: mount, id: mount-root}
-      - {device: format-boot, path: /boot, type: mount, id: mount-boot}
-      - {device: format-uefi, path: /boot/efi, type: mount, id: mount-uefi}
       - {device: format-home, path: /home, type: mount, id: mount-home}
       - {device: format-tmp, path: /tmp, type: mount, id: mount-tmp}
       - {device: format-var, path: /var, type: mount, id: mount-var}
       - {device: format-audit, path: /var/log/audit, type: mount, id: mount-audit}
       - {device: format-docker, path: /var/lib/docker, type: mount, id: mount-docker}
+
+  late-commands:
+    - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
+    - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
+    # shut-down the host to avoid an infinite installer loop
+    - shutdown -h now
+
+  user-data:
+    disable_root: true
+    timezone: Etc/UTC
+    package_update: true
+    package_upgrade: true
+    packages:
+      - file
+      - htop
+      - procps
+      - python3
+      - sshpass
+      - vim
+      - whois
+    # shutdown after first host initial provisioning
+    power_state:
+      mode: poweroff

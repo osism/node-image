@@ -250,6 +250,9 @@ autoinstall:
       - sshpass
       - vim
       - whois
+    runcmd:
+      - apt-get remove --yes snapd modemmanager
+      - apt-get autoremove --yes
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

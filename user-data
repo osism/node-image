@@ -205,6 +205,13 @@ autoinstall:
         wipe: superblock-recursive
         volgroup: lvm_volgroup-0
 
+      - id: lv-system-log
+        type: lvm_partition
+        name: log
+        size: 10GB
+        wipe: superblock-recursive
+        volgroup: lvm_volgroup-0
+
       - id: lv-system-audit
         type: lvm_partition
         name: audit
@@ -222,12 +229,14 @@ autoinstall:
       - {id: format-home, type: format, fstype: ext4, volume: lv-system-home}
       - {id: format-tmp, type: format, fstype: ext4, volume: lv-system-tmp}
       - {id: format-var, type: format, fstype: ext4, volume: lv-system-var}
+      - {id: format-log, type: format, fstype: ext4, volume: lv-system-log}
       - {id: format-audit, type: format, fstype: ext4, volume: lv-system-audit}
       - {id: format-docker, type: format, fstype: ext4, volume: lv-system-docker}
 
       - {device: format-home, path: /home, type: mount, id: mount-home}
       - {device: format-tmp, path: /tmp, type: mount, id: mount-tmp}
       - {device: format-var, path: /var, type: mount, id: mount-var}
+      - {device: format-log, path: /var/log, type: mount, id: mount-log}
       - {device: format-audit, path: /var/log/audit, type: mount, id: mount-audit}
       - {device: format-docker, path: /var/lib/docker, type: mount, id: mount-docker}
 

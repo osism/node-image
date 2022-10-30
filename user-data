@@ -275,6 +275,7 @@ autoinstall:
       - apt-get remove --yes snapd modemmanager lxd-agent-loader
       - apt-get autoremove --yes
       - systemctl disable snap.lxd.activate.service
+      - systemctl disable unattended-upgrades.service
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

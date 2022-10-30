@@ -243,6 +243,10 @@ autoinstall:
     package_update: true
     package_upgrade: true
     packages:
+      - containerd.io
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose-plugin
       - file
       - htop
       - procps
@@ -250,6 +254,14 @@ autoinstall:
       - sshpass
       - vim
       - whois
+    apt:
+      primary:
+        - arches: [default]
+          uri: http://de.archive.ubuntu.com/ubuntu/
+      sources:
+        docker.list:
+          source: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+          keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
     runcmd:
       - apt-get remove --yes snapd modemmanager lxd-agent-loader
       - apt-get autoremove --yes

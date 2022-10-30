@@ -251,8 +251,9 @@ autoinstall:
       - vim
       - whois
     runcmd:
-      - apt-get remove --yes snapd modemmanager
+      - apt-get remove --yes snapd modemmanager lxd-agent-loader
       - apt-get autoremove --yes
+      - systemctl disable snap.lxd.activate.service
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

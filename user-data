@@ -272,9 +272,9 @@ autoinstall:
           source: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
           keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
     runcmd:
-      - apt-get purge --yes snapd modemmanager lxd-agent-loader
-      - apt-get purge --yes plymouth plymouth-theme-ubuntu-text
-      - apt-get autoremove --yes
+      - apt purge --yes snapd modemmanager lxd-agent-loader
+      - apt purge --yes plymouth plymouth-theme-ubuntu-text
+      - apt autoremove --yes --purge
       - systemctl disable unattended-upgrades.service
     # shutdown after first host initial provisioning
     power_state:

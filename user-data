@@ -278,6 +278,7 @@ autoinstall:
       - apt purge --yes telnet pastebinit tnftp ftp open-iscsi bolt packagekit
       - apt autoremove --yes --purge
       - systemctl disable unattended-upgrades.service
+      - systemctl disable motd-news.timer
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

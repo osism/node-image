@@ -277,8 +277,10 @@ autoinstall:
       - apt purge --yes apport apport-symptoms open-vm-tools ntfs-3g
       - apt purge --yes telnet pastebinit tnftp ftp open-iscsi bolt packagekit
       - apt autoremove --yes --purge
-      - systemctl disable unattended-upgrades.service
+      - systemctl disable apt-daily-upgrade.timer
+      - systemctl disable apt-daily.timer
       - systemctl disable motd-news.timer
+      - systemctl disable unattended-upgrades.service
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

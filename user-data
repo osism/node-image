@@ -257,6 +257,7 @@ autoinstall:
       - docker-ce-cli
       - docker-compose-plugin
       - file
+      - frr
       - htop
       - procps
       - python3

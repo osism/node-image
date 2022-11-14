@@ -282,6 +282,9 @@ autoinstall:
       - systemctl disable apt-daily.timer
       - systemctl disable motd-news.timer
       - systemctl disable unattended-upgrades.service
+      - dd if=/dev/sda1 of=/dev/sdb1
+      - efibootmgr -c -d /dev/sdb -p 1 -L "ubuntu2" -l "\EFI\UBUNTU\GRUBX64.EFI"
+      - efibootmgr -c -d /dev/sdb -p 1 -L "ubuntu2" -l "\EFI\UBUNTU\SHIMX64.EFI"
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

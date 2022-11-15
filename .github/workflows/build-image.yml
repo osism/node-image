@@ -42,3 +42,8 @@ jobs:
           ./mc cp ubuntu-autoinstall-${{ matrix.disk-layout }}.iso minio/node-image
           ./mc policy set download minio/node-image/ubuntu-autoinstall-${{ matrix.disk-layout }}.iso
         if: github.ref == 'refs/heads/main'
+      - name: Upload user-data
+        uses: actions/upload-artifact@v3
+        with:
+          name: "user-data-${{ matrix.disk-layout }}"
+          path: user-data

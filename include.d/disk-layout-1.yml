@@ -1,0 +1,210 @@
+- grub_device: false
+  id: disk-sda
+  name: ''
+  path: /dev/sda
+  preserve: false
+  ptable: gpt
+  type: disk
+  wipe: superblock-recursive
+- grub_device: false
+  id: disk-sdb
+  name: ''
+  path: /dev/sdb
+  preserve: false
+  ptable: gpt
+  type: disk
+  wipe: superblock-recursive
+- device: disk-sdb
+  flag: boot
+  grub_device: true
+  id: partition-0
+  number: 1
+  preserve: false
+  size: 1127219200
+  type: partition
+  wipe: superblock
+- fstype: fat32
+  id: format-0
+  preserve: false
+  type: format
+  volume: partition-0
+- device: disk-sdb
+  flag: ''
+  grub_device: false
+  id: partition-1
+  number: 2
+  preserve: false
+  size: 1073741824
+  type: partition
+  wipe: superblock
+- fstype: ext4
+  id: format-1
+  preserve: false
+  type: format
+  volume: partition-1
+- device: disk-sda
+  flag: ''
+  grub_device: false
+  id: partition-2
+  number: 1
+  preserve: false
+  size: 1073741824
+  type: partition
+- device: disk-sda
+  flag: ''
+  grub_device: false
+  id: partition-3
+  number: 2
+  preserve: false
+  size: 1127219200
+  type: partition
+- device: disk-sdb
+  flag: swap
+  grub_device: false
+  id: partition-4
+  number: 3
+  preserve: false
+  size: 8589934592
+  type: partition
+  wipe: superblock
+- fstype: swap
+  id: format-2
+  preserve: false
+  type: format
+  volume: partition-4
+- device: format-2
+  id: mount-2
+  path: ''
+  type: mount
+- device: disk-sda
+  flag: swap
+  grub_device: false
+  id: partition-5
+  number: 3
+  preserve: false
+  size: 8589934592
+  type: partition
+  wipe: superblock
+- fstype: swap
+  id: format-3
+  preserve: false
+  type: format
+  volume: partition-5
+- device: format-3
+  id: mount-3
+  path: ''
+  type: mount
+- device: disk-sdb
+  flag: ''
+  grub_device: false
+  id: partition-6
+  number: 4
+  preserve: false
+  size: -1
+  type: partition
+  wipe: superblock
+- device: disk-sda
+  flag: ''
+  grub_device: false
+  id: partition-7
+  number: 4
+  preserve: false
+  size: -1
+  type: partition
+  wipe: superblock
+- devices:
+    - partition-6
+    - partition-7
+  id: raid-0
+  name: md0
+  preserve: false
+  raidlevel: raid1
+  spare_devices: []
+  type: raid
+  wipe: superblock
+- devices:
+    - raid-0
+  id: lvm_volgroup-0
+  name: system
+  preserve: false
+  type: lvm_volgroup
+- id: lvm_partition-0
+  name: root
+  preserve: false
+  size: 10GB
+  type: lvm_partition
+  volgroup: lvm_volgroup-0
+  wipe: superblock
+- fstype: ext4
+  id: format-5
+  preserve: false
+  type: format
+  volume: lvm_partition-0
+- device: format-5
+  id: mount-5
+  path: /
+  type: mount
+- device: format-1
+  id: mount-1
+  path: /boot
+  type: mount
+- device: format-0
+  id: mount-0
+  path: /boot/efi
+  type: mount
+
+- id: lv-system-home
+  type: lvm_partition
+  name: home
+  size: 10GB
+  wipe: superblock-recursive
+  volgroup: lvm_volgroup-0
+
+- id: lv-system-tmp
+  type: lvm_partition
+  name: tmp
+  size: 10GB
+  wipe: superblock-recursive
+  volgroup: lvm_volgroup-0
+
+- id: lv-system-var
+  type: lvm_partition
+  name: var
+  size: 10GB
+  wipe: superblock-recursive
+  volgroup: lvm_volgroup-0
+
+- id: lv-system-log
+  type: lvm_partition
+  name: log
+  size: 10GB
+  wipe: superblock-recursive
+  volgroup: lvm_volgroup-0
+
+- id: lv-system-audit
+  type: lvm_partition
+  name: audit
+  size: 1GB
+  wipe: superblock-recursive
+  volgroup: lvm_volgroup-0
+
+- id: lv-system-docker
+  type: lvm_partition
+  name: docker
+  size: 60GB
+  wipe: superblock-recursive
+  volgroup: lvm_volgroup-0
+
+- {id: format-home, type: format, fstype: ext4, volume: lv-system-home}
+- {id: format-tmp, type: format, fstype: ext4, volume: lv-system-tmp}
+- {id: format-var, type: format, fstype: ext4, volume: lv-system-var}
+- {id: format-log, type: format, fstype: ext4, volume: lv-system-log}
+- {id: format-audit, type: format, fstype: ext4, volume: lv-system-audit}
+- {id: format-docker, type: format, fstype: ext4, volume: lv-system-docker}
+
+- {device: format-home, path: /home, type: mount, id: mount-home}
+- {device: format-tmp, path: /tmp, type: mount, id: mount-tmp}
+- {device: format-var, path: /var, type: mount, id: mount-var}
+- {device: format-log, path: /var/log, type: mount, id: mount-log}
+- {device: format-audit, path: /var/log/audit, type: mount, id: mount-audit}
+- {device: format-docker, path: /var/lib/docker, type: mount, id: mount-docker}

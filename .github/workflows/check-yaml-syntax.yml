@@ -5,13 +5,15 @@ name: Check yaml syntax
   push:
     paths:
       - .github/workflows/check-yaml-syntax.yml
-      - user-data
+      - user-data-template
+      - include.d/*.yml
     branches:
       - main
   pull_request:
     paths:
       - .github/workflows/check-yaml-syntax.yml
-      - user-data
+      - user-data-template
+      - include.d/*.yml
 
 jobs:
   check-yaml-syntax:
@@ -22,4 +24,4 @@ jobs:
         with:
           python-version: '3.x'
       - run: pip3 install yamllint
-      - run: yamllint --config-file .yamllint.yml user-data
+      - run: yamllint --config-file .yamllint.yml user-data-template include.d/

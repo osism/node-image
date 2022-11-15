@@ -16,9 +16,11 @@
 * After the 1st boot the system shuts down again
 * System is ready for use, by default DHCP is tried on all available devices (login via ``ubuntu`` and ``password``)
 
-## Disk layout
+## Disk layouts
 
-![Disk layout](/disklayout.drawio.png "Disk layout")
+### Disk layout 1
+
+![Disk layout](/assets/disklayout-1.drawio.png "Disk layout")
 
 ## References
 

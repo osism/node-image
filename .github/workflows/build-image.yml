@@ -4,7 +4,7 @@ on:
     branches: [ "main" ]
   pull_request:
     paths:
-      - user-data
+      - user-data-template
       - image-create.sh
 jobs:
   build-image:
@@ -13,6 +13,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install required packages
         run: sudo apt-get install --yes xorriso sed curl gpg wget fdisk isolinux
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Prepare user-data
+        run: |
+          pip3 install pipenv
+          pipenv install
+          pipenv run python3 render-user-data.py > user-data
       - name: Build image
         run: |
           bash image-create.sh -r -a -k -u user-data -n jammy

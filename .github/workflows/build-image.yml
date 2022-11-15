@@ -2,6 +2,10 @@ name: Build image
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    paths:
+      - user-data
+      - image-create.sh
 jobs:
   build-image:
     runs-on: ubuntu-latest

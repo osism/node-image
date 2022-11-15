@@ -259,6 +259,7 @@ autoinstall:
       - file
       - frr
       - htop
+      - lldpd
       - procps
       - python3
       - vim

@@ -1,5 +1,6 @@
 *.iso
 *.raw
 base_image
+include.d/disk-layout.yml
 user-data
 user-data.yml

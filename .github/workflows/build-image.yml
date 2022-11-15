@@ -1,14 +1,19 @@
 name: Build image
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
     paths:
       - user-data-template
       - image-create.sh
+      - include.d/*.yml
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        disk-layout: ['1', '2']
     steps:
       - uses: actions/checkout@v3
       - name: Install required packages
@@ -17,6 +22,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Prepare disk-layout
+        run: |
+          cp include.d/disk-layout-${{ matrix.disk-layout }}.yml include.d/disk-layout.yml
       - name: Prepare user-data
         run: |
           pip3 install pipenv
@@ -30,6 +38,7 @@ jobs:
           wget https://dl.min.io/client/mc/release/linux-amd64/mc
           chmod +x mc
           ./mc alias set minio https://minio.services.osism.tech ${{ secrets.MINIO_ACCESS_KEY }} ${{ secrets.MINIO_SECRET_KEY }}
-          ./mc cp ubuntu-autoinstall.iso minio/node-image
-          ./mc policy set download minio/node-image/ubuntu-autoinstall.iso
+          mv ubuntu-autoinstall.iso ubuntu-autoinstall-${{ matrix.disk-layout }}.iso
+          ./mc cp ubuntu-autoinstall-${{ matrix.disk-layout }}.iso minio/node-image
+          ./mc policy set download minio/node-image/ubuntu-autoinstall-${{ matrix.disk-layout }}.iso
         if: github.ref == 'refs/heads/main'

@@ -5,7 +5,8 @@
 
 ## Download
 
-* https://minio.services.osism.tech/node-image/ubuntu-autoinstall.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-1.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-2.iso
 
 ## Usage
 
@@ -14,13 +15,18 @@
 * Installation is performed, system shuts down afterwards
 * Remove USB stick and start system
 * After the 1st boot the system shuts down again
-* System is ready for use, by default DHCP is tried on all available devices (login via ``ubuntu`` and ``password``)
+* System is ready for use, by default DHCP is tried on all available
+  devices (login via ``ubuntu`` and ``password``)
 
-## Disk layouts
+## Variants
 
-### Disk layout 1
+### Variant 1
 
-![Disk layout](/assets/disklayout-1.drawio.png "Disk layout")
+![Disk layout 1](/assets/disklayout-1.drawio.png "Disk layout 1")
+
+### Variant 2
+
+![Disk layout 2](/assets/disklayout-2.drawio.png "Disk layout 2")
 
 ## References
 

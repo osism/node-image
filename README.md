@@ -7,6 +7,7 @@
 
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-1.iso
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-2.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-3.iso
 
 ## Usage
 
@@ -27,6 +28,10 @@
 ### Variant 2
 
 ![Disk layout 2](/assets/disklayout-2.drawio.png "Disk layout 2")
+
+### Variant 3
+
+![Disk layout 3](/assets/disklayout-3.drawio.png "Disk layout 3")
 
 ## References
 

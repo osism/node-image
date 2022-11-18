@@ -8,6 +8,7 @@
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-1.iso
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-2.iso
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-3.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-4.iso
 
 ## Usage
 
@@ -23,15 +24,19 @@
 
 ### Variant 1
 
-![Disk layout 1](/assets/disklayout-1.drawio.png "Disk layout 1")
+![Disk layout](/assets/disklayout-1.drawio.png "Disk layout")
 
 ### Variant 2
 
-![Disk layout 2](/assets/disklayout-2.drawio.png "Disk layout 2")
+![Disk layout](/assets/disklayout-2.drawio.png "Disk layout")
 
 ### Variant 3
 
-![Disk layout 3](/assets/disklayout-3.drawio.png "Disk layout 3")
+![Disk layout](/assets/disklayout-3.drawio.png "Disk layout")
+
+### Variant 4 (Cloud-in-a-Box)
+
+![Disk layout](/assets/disklayout-3.drawio.png "Disk layout")
 
 ## References
 

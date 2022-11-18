@@ -2,5 +2,6 @@
 *.raw
 base_image
 include.d/disk-layout.yml
+include.d/runcmd.yml
 user-data
 user-data.yml

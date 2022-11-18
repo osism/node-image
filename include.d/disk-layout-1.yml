@@ -115,15 +115,6 @@
 - devices:
     - partition-6
     - partition-7
-  id: raid-0
-  name: md0
-  preserve: false
-  raidlevel: raid1
-  spare_devices: []
-  type: raid
-  wipe: superblock
-- devices:
-    - raid-0
   id: lvm_volgroup-0
   name: system
   preserve: false

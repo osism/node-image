@@ -115,7 +115,7 @@
 - devices:
     - partition-6
     - partition-7
-  id: lvm_volgroup-0
+  id: vg-system
   name: system
   preserve: false
   type: lvm_volgroup
@@ -124,7 +124,7 @@
   preserve: false
   size: 100GB
   type: lvm_partition
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
   wipe: superblock
 - fstype: ext4
   id: format-5

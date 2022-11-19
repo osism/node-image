@@ -115,7 +115,7 @@
 - devices:
     - partition-6
     - partition-7
-  id: lvm_volgroup-0
+  id: vg-system
   name: system
   preserve: false
   type: lvm_volgroup
@@ -124,7 +124,7 @@
   preserve: false
   size: 10GB
   type: lvm_partition
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
   wipe: superblock
 - fstype: ext4
   id: format-5
@@ -149,42 +149,42 @@
   name: home
   size: 10GB
   wipe: superblock-recursive
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
 
 - id: lv-system-tmp
   type: lvm_partition
   name: tmp
   size: 10GB
   wipe: superblock-recursive
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
 
 - id: lv-system-var
   type: lvm_partition
   name: var
   size: 10GB
   wipe: superblock-recursive
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
 
 - id: lv-system-log
   type: lvm_partition
   name: log
   size: 10GB
   wipe: superblock-recursive
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
 
 - id: lv-system-audit
   type: lvm_partition
   name: audit
   size: 1GB
   wipe: superblock-recursive
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
 
 - id: lv-system-docker
   type: lvm_partition
   name: docker
   size: 60GB
   wipe: superblock-recursive
-  volgroup: lvm_volgroup-0
+  volgroup: vg-system
 
 - {id: format-home, type: format, fstype: ext4, volume: lv-system-home}
 - {id: format-tmp, type: format, fstype: ext4, volume: lv-system-tmp}

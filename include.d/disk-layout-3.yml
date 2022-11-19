@@ -1,100 +1,93 @@
-- grub_device: false
-  id: disk-sda
-  name: ''
+- ptable: gpt
   path: /dev/sda
-  preserve: false
-  ptable: gpt
-  type: disk
   wipe: superblock-recursive
-- fstype: fat32
-  id: format-0
   preserve: false
-  type: format
-  volume: partition-0
-- fstype: ext4
-  id: format-1
-  preserve: false
-  type: format
-  volume: partition-1
-- device: disk-sda
-  flag: ''
+  name: ''
   grub_device: false
-  id: partition-2
+  type: disk
+  id: disk-sda
+- device: disk-sda
+  size: 1GB
+  wipe: superblock
+  flag: boot
   number: 1
   preserve: false
-  size: 1GB
+  grub_device: true
   type: partition
+  id: partition-0
+- fstype: fat32
+  volume: partition-0
+  preserve: false
+  type: format
+  id: format-2
 - device: disk-sda
+  size: 1GB
+  wipe: superblock
   flag: ''
-  grub_device: false
-  id: partition-3
   number: 2
   preserve: false
-  size: 1GB
+  grub_device: false
   type: partition
-- fstype: swap
-  id: format-2
+  id: partition-1
+- fstype: ext4
+  volume: partition-1
   preserve: false
   type: format
-  volume: partition-4
-- device: format-2
-  id: mount-2
-  path: ''
-  type: mount
+  id: format-3
 - device: disk-sda
+  size: 8GB
+  wipe: superblock
   flag: swap
-  grub_device: false
-  id: partition-5
   number: 3
   preserve: false
-  size: 8GB
+  grub_device: false
   type: partition
-  wipe: superblock
+  id: partition-2
 - fstype: swap
-  id: format-3
+  volume: partition-2
   preserve: false
   type: format
-  volume: partition-5
-- device: format-3
-  id: mount-3
-  path: ''
+  id: format-4
+- path: ''
+  device: format-4
   type: mount
+  id: mount-2
 - device: disk-sda
+  size: -1
+  wipe: superblock
   flag: ''
-  grub_device: false
-  id: partition-7
   number: 4
   preserve: false
-  size: -1
+  grub_device: false
   type: partition
-  wipe: superblock
-- devices:
-    - partition-7
-  id: vg-system
-  name: system
+  id: partition-4
+- name: system
+  devices:
+  - partition-4
   preserve: false
   type: lvm_volgroup
-- id: lvm_partition-0
-  name: root
-  preserve: false
+  id: lvm_volgroup-0
+- name: root
+  volgroup: lvm_volgroup-0
   size: 100GB
-  type: lvm_partition
-  volgroup: vg-system
   wipe: superblock
+  preserve: false
+  type: lvm_partition
+  id: lvm_partition-0
 - fstype: ext4
-  id: format-5
+  volume: lvm_partition-0
   preserve: false
   type: format
-  volume: lvm_partition-0
-- device: format-5
-  id: mount-5
-  path: /
+  id: format-5
+- path: /
+  device: format-5
   type: mount
-- device: format-1
+  id: mount-3
+- path: /boot
+  device: format-3
+  type: mount
   id: mount-1
-  path: /boot
+- path: /boot/efi
+  device: format-2
   type: mount
-- device: format-0
   id: mount-0
-  path: /boot/efi
-  type: mount

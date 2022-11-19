@@ -10,5 +10,5 @@
 - systemctl disable unattended-upgrades.service
 - git clone https://github.com/osism/cloud-in-a-box /opt/cloud-in-a-box
 - chown -R ubuntu: /opt/cloud-in-a-box
-- /opt/cloud-in-a-box/bootstraph.sh
+- /opt/cloud-in-a-box/bootstrap.sh
 - /opt/cloud-in-a-box/deploy.sh

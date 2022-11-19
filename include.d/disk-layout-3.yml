@@ -22,7 +22,7 @@
   id: partition-2
   number: 1
   preserve: false
-  size: 1073741824
+  size: 1GB
   type: partition
 - device: disk-sda
   flag: ''
@@ -30,7 +30,7 @@
   id: partition-3
   number: 2
   preserve: false
-  size: 1127219200
+  size: 1GB
   type: partition
 - fstype: swap
   id: format-2
@@ -47,7 +47,7 @@
   id: partition-5
   number: 3
   preserve: false
-  size: 8589934592
+  size: 8GB
   type: partition
   wipe: superblock
 - fstype: swap

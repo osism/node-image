@@ -20,7 +20,7 @@
   id: partition-0
   number: 1
   preserve: false
-  size: 1127219200
+  size: 1GB
   type: partition
   wipe: superblock
 - fstype: fat32
@@ -34,7 +34,7 @@
   id: partition-1
   number: 2
   preserve: false
-  size: 1073741824
+  size: 1GB
   type: partition
   wipe: superblock
 - fstype: ext4
@@ -48,7 +48,7 @@
   id: partition-2
   number: 1
   preserve: false
-  size: 1073741824
+  size: 1GB
   type: partition
 - device: disk-sda
   flag: ''
@@ -56,7 +56,7 @@
   id: partition-3
   number: 2
   preserve: false
-  size: 1127219200
+  size: 1GB
   type: partition
 - device: disk-sdb
   flag: swap
@@ -64,7 +64,7 @@
   id: partition-4
   number: 3
   preserve: false
-  size: 8589934592
+  size: 8GB
   type: partition
   wipe: superblock
 - fstype: swap
@@ -82,7 +82,7 @@
   id: partition-5
   number: 3
   preserve: false
-  size: 8589934592
+  size: 8GB
   type: partition
   wipe: superblock
 - fstype: swap

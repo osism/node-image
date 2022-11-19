@@ -31,6 +31,9 @@ jobs:
           pip3 install pipenv
           pipenv install
           pipenv run python3 render-user-data.py > user-data
+      - name: Validate user-data
+        run: |
+          cloud-init schema --config-file user-data
       - name: Build image
         run: |
           bash image-create.sh -r -a -k -u user-data -n jammy

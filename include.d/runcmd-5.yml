@@ -1,0 +1,13 @@
+- apt purge --yes snapd modemmanager lxd-agent-loader
+- apt purge --yes plymouth plymouth-theme-ubuntu-text
+- apt purge --yes ubuntu-advantage-tools xauth landscape-common btrfs-progs
+- apt purge --yes apport apport-symptoms open-vm-tools ntfs-3g
+- apt purge --yes telnet pastebinit tnftp ftp open-iscsi bolt packagekit
+- apt autoremove --yes --purge
+- systemctl disable apt-daily-upgrade.timer
+- systemctl disable apt-daily.timer
+- systemctl disable motd-news.timer
+- systemctl disable unattended-upgrades.service
+- git clone https://github.com/osism/cloud-in-a-box /opt/cloud-in-a-box
+- /opt/cloud-in-a-box/bootstrap.sh
+- /opt/cloud-in-a-box/deploy.sh

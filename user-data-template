@@ -11,12 +11,6 @@ autoinstall:
     password: "$5$H2wkOHUVMIm2Yl2n$2AR/A2ILtgZcWx5UXL6N56Ha/wkdGvs0w5sFUMQ3iaB"
     username: ubuntu
 
-  packages:
-    - ca-certificates
-    - curl
-    - git
-    - wget
-
   network:
     network:
       version: 2
@@ -42,14 +36,19 @@ autoinstall:
     package_update: true
     package_upgrade: true
     packages:
+      - ca-certificates
+      - curl
       - file
       - frr
+      - git
       - htop
       - lldpd
       - procps
       - python3
       - vim
+      - wget
       - whois
+
     apt:
       primary:
         - arches: [default]

@@ -7,4 +7,5 @@
 - systemctl disable apt-daily-upgrade.timer
 - systemctl disable apt-daily.timer
 - systemctl disable motd-news.timer
+- systemctl disable ufw.service
 - systemctl disable unattended-upgrades.service

@@ -9,3 +9,4 @@
 - systemctl disable motd-news.timer
 - systemctl disable ufw.service
 - systemctl disable unattended-upgrades.service
+- echo "ubuntu ALL=(ALL:ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/ubuntu

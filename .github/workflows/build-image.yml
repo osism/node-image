@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        variant: ['1', '2', '3', '4', '5']
+        variant: ['1', '2', '3', 'cloud-in-a-box-1', 'cloud-in-a-box-2']
     steps:
       - uses: actions/checkout@v3
       - name: Install required packages

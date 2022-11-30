@@ -8,8 +8,11 @@
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-1.iso
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-2.iso
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-3.iso
-* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-4.iso
-* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-5.iso
+
+### Cloud-in-a-box images
+
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso
 
 ## Usage
 
@@ -35,17 +38,15 @@
 
 ![Disk layout](/assets/disklayout-3.drawio.png "Disk layout")
 
-### Variant 4 (Cloud-in-a-Box)
+### Cloud-in-a-Box: Variant 1
 
 * with /``dev/sda``
 
-![Disk layout](/assets/disklayout-4.drawio.png "Disk layout")
+![Disk layout](/assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
 
-### Variant 5 (Cloud-in-a-Box)
+### Cloud-in-a-Box: Variant 2
 
-* with ``/dev/nvme0n1`` instead of ``/dev/sda``
-
-![Disk layout](/assets/disklayout-4.drawio.png "Disk layout")
+![Disk layout](/assets/disklayout-cloud-in-a-box-2.drawio.png "Disk layout")
 
 ## References
 

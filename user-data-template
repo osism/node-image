@@ -42,6 +42,7 @@ autoinstall:
       - frr
       - git
       - htop
+      - ipmitool
       - lldpd
       - procps
       - python3

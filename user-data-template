@@ -27,6 +27,7 @@ autoinstall:
   late-commands:
     - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
     - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
+    - apt-get remove -y casper
     # shut-down the host to avoid an infinite installer loop
     - shutdown -h now
 

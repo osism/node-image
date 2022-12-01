@@ -317,8 +317,8 @@ set_hwe_kernel(){
 # add the auto-install kernel param
 set_kernel_autoinstall(){
         log "🧩 Reduce the boot menu timeout..."
-        sed -i -e 's/timeout=30/timeout=10/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        log "👍 Reduced the boot menu timeout to 10 seconds."
+        sed -i -e 's/timeout=30/timeout=3/g' "${BUILD_DIR}/boot/grub/grub.cfg"
+        log "👍 Reduced the boot menu timeout to 3 seconds."
 
         log "🧩 Change menuentry title..."
         sed -i -e 's/Try or Install Ubuntu Server/Prepare OSISM node/g' "${BUILD_DIR}/boot/grub/grub.cfg"

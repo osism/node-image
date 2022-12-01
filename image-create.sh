@@ -314,7 +314,7 @@ set_hwe_kernel(){
         fi
 }
 
-# add the auto-install kerel param
+# add the auto-install kernel param
 set_kernel_autoinstall(){
         log "🧩 Reduce the boot menu timeout..."
         sed -i -e 's/timeout=30/timeout=10/g' "${BUILD_DIR}/boot/grub/grub.cfg"
@@ -325,8 +325,8 @@ set_kernel_autoinstall(){
         log "👍 Changed menuentry title to 'Prepare OSISM node'."
 
         log "🧩 Adding autoinstall parameter to kernel command line..."
-        sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+        sed -i -e 's/---/ autoinstall fsck.mode=skip ---/g' "${BUILD_DIR}/boot/grub/grub.cfg"
+        sed -i -e 's/---/ autoinstall fsck.mode=skip ---/g' "${BUILD_DIR}/boot/grub/loopback.cfg"
 
         if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then   
                 log "🧩 Adding autoinstall parameter to isolinux..."   

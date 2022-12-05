@@ -1,0 +1,7 @@
+- lvconvert -y --type raid1 -m 1 system/root
+- lvconvert -y --type raid1 -m 1 system/home
+- lvconvert -y --type raid1 -m 1 system/tmp
+- lvconvert -y --type raid1 -m 1 system/var
+- lvconvert -y --type raid1 -m 1 system/log
+- lvconvert -y --type raid1 -m 1 system/audit
+- lvconvert -y --type raid1 -m 1 system/docker

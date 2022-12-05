@@ -7,8 +7,8 @@ on:
     paths:
       - .github/workflows/build-image.yml
       - image-create.sh
-      - include.d/*.yml
       - user-data-template
+      - variants/*.yml
 jobs:
   build-image:
     runs-on: ubuntu-latest
@@ -31,8 +31,8 @@ jobs:
           python-version: '3.10'
       - name: Prepare files
         run: |
-          cp include.d/disk-layout-${{ matrix.variant }}.yml include.d/disk-layout.yml
-          cp include.d/runcmd-${{ matrix.variant }}.yml include.d/runcmd.yml
+          cp variants/disk-layout-${{ matrix.variant }}.yml include.d/disk-layout.yml
+          cp variants/runcmd-${{ matrix.variant }}.yml include.d/runcmd.yml
       - name: Prepare user-data
         run: |
           pip3 install pipenv

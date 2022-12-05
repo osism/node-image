@@ -5,9 +5,10 @@ on:
     branches: [ "main" ]
   pull_request:
     paths:
-      - user-data-template
+      - .github/workflows/build-image.yml
       - image-create.sh
       - include.d/*.yml
+      - user-data-template
 jobs:
   build-image:
     runs-on: ubuntu-latest

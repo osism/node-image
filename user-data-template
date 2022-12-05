@@ -43,6 +43,7 @@ autoinstall:
       - git
       - htop
       - ipmitool
+      - linux-generic-hwe-22.04
       - lldpd
       - procps
       - python3

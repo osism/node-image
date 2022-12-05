@@ -10,6 +10,6 @@
 - systemctl disable ufw.service
 - systemctl disable unattended-upgrades.service
 - echo "ubuntu ALL=(ALL:ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/ubuntu
-- git clone https://github.com/osism/cloud-in-a-box /opt/cloud-in-a-box
-- /opt/cloud-in-a-box/bootstrap.sh
-- /opt/cloud-in-a-box/deploy.sh
+- swapoff /swap.img
+- rm /swap.img
+- sed -i '/swap.img/d' /etc/fstab

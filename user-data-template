@@ -54,7 +54,11 @@ autoinstall:
       primary:
         - arches: [default]
           uri: http://de.archive.ubuntu.com/ubuntu/
-    runcmd: !include include.d/runcmd.yml
+
+    runcmd:
+      - !include include.d/runcmd-default.yml
+      - !include include.d/runcmd.yml
+
     # shutdown after first host initial provisioning
     power_state:
       mode: poweroff

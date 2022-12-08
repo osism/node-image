@@ -17,6 +17,7 @@
 ### Other
 
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-osism-1.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-osism-2.iso
 
 ## Usage
 
@@ -57,6 +58,10 @@
 ### OSISM 1
 
 Like ``Variant 2``, with ``/dev/nvme3n1`` and ``/dev/nvme4n1``
+
+### OSISM 2
+
+Like ``Variant 3``, with ``/dev/nvme0n1``
 
 ## References
 

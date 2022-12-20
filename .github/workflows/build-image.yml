@@ -19,7 +19,6 @@ jobs:
           - '2'
           - '3'
           - 'cloud-in-a-box-1'
-          - 'cloud-in-a-box-2'
           - 'osism-1'
           - 'osism-2'
     steps:

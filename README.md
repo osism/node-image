@@ -12,7 +12,6 @@
 ### Cloud-in-a-box images
 
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso
-* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso
 
 ### Other
 
@@ -48,10 +47,6 @@
 ### Variant 1
 
 ![Disk layout](/assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
-
-### Variant 2
-
-![Disk layout](/assets/disklayout-cloud-in-a-box-2.drawio.png "Disk layout")
 
 ## Other variants
 

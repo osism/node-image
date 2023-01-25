@@ -9,7 +9,7 @@ autoinstall:
   identity:
     hostname: osism
     password: "$5$H2wkOHUVMIm2Yl2n$2AR/A2ILtgZcWx5UXL6N56Ha/wkdGvs0w5sFUMQ3iaB"
-    username: ubuntu
+    username: osism
 
   network:
     network:

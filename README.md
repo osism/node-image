@@ -59,10 +59,6 @@
 
 Like ``Variant 2``, with ``/dev/nvme3n1`` and ``/dev/nvme4n1``
 
-### OSISM 2
-
-Like ``Variant 3``, with ``/dev/nvme0n1``
-
 ## Known issues
 
 - Disk initialization may fail if the devices have been in use before.

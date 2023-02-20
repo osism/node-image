@@ -1,0 +1,9 @@
+---
+- project:
+    merge-mode: squash-merge
+    check:
+      jobs:
+        - yamllint
+    gate:
+      jobs:
+        - yamllint

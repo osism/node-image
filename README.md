@@ -18,6 +18,8 @@
 
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-osism-1.iso
 * https://minio.services.osism.tech/node-image/ubuntu-autoinstall-osism-2.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-osism-3.iso
+* https://minio.services.osism.tech/node-image/ubuntu-autoinstall-osism-4.iso
 
 ## Usage
 
@@ -66,6 +68,10 @@ Like ``Variant 2``, with ``/dev/nvme4n1`` and ``/dev/nvme5n1``
 ### OSISM 3
 
 Like ``Variant 2``, with ``/dev/nvme2n1`` and ``/dev/nvme3n1``
+
+### OSISM 4
+
+Like ``Variant 2``, with ``/dev/nvme0n1`` and ``/dev/nvme1n1``
 
 ## Known issues
 

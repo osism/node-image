@@ -23,6 +23,7 @@ jobs:
           - 'osism-1'
           - 'osism-2'
           - 'osism-3'
+          - 'osism-4'
     steps:
       - uses: actions/checkout@v3
       - name: Install required packages

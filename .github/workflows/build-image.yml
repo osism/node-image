@@ -22,6 +22,7 @@ jobs:
           - 'cloud-in-a-box-2'
           - 'osism-1'
           - 'osism-2'
+          - 'osism-3'
     steps:
       - uses: actions/checkout@v3
       - name: Install required packages

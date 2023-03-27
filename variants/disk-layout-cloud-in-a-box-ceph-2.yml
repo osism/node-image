@@ -68,6 +68,8 @@
   number: 5
   preserve: false
   grub_device: false
+  name: ceph-osds
+  partition_name: ceph-osds
   type: partition
   id: partition-5
 - name: system
@@ -76,54 +78,54 @@
   preserve: false
   type: lvm_volgroup
   id: lvm_volgroup-0
-- name: osd-vg
-  devices:
-  - partition-5
-  preserve: false
-  type: lvm_volgroup
-  id: lvm_volgroup-1
-- name: osd-1
-  volgroup: lvm_volgroup-1
-  size: 123G
-  wipe: superblock
-  preserve: false
-  type: lvm_partition
-  id: lvm_partition-1
-- name: osd-2
-  volgroup: lvm_volgroup-1
-  size: 123G
-  wipe: superblock
-  preserve: false
-  type: lvm_partition
-  id: lvm_partition-2
-- name: osd-3
-  volgroup: lvm_volgroup-1
-  size: 123G
-  wipe: superblock
-  preserve: false
-  type: lvm_partition
-  id: lvm_partition-3
-- name: osd-4
-  volgroup: lvm_volgroup-1
-  size: 123G
-  wipe: superblock
-  preserve: false
-  type: lvm_partition
-  id: lvm_partition-4
-- name: osd-5
-  volgroup: lvm_volgroup-1
-  size: 123G
-  wipe: superblock
-  preserve: false
-  type: lvm_partition
-  id: lvm_partition-5
-- name: osd-6
-  volgroup: lvm_volgroup-1
-  size: 123G
-  wipe: superblock
-  preserve: false
-  type: lvm_partition
-  id: lvm_partition-6      
+#- name: osd-vg
+#  devices:
+#  - partition-5
+#  preserve: false
+#  type: lvm_volgroup
+#  id: lvm_volgroup-1
+#- name: osd-1
+#  volgroup: lvm_volgroup-1
+#  size: 123G
+#  wipe: superblock
+#  preserve: false
+#  type: lvm_partition
+#  id: lvm_partition-1
+#- name: osd-2
+#  volgroup: lvm_volgroup-1
+#  size: 123G
+#  wipe: superblock
+#  preserve: false
+#  type: lvm_partition
+#  id: lvm_partition-2
+#- name: osd-3
+#  volgroup: lvm_volgroup-1
+#  size: 123G
+#  wipe: superblock
+#  preserve: false
+#  type: lvm_partition
+#  id: lvm_partition-3
+#- name: osd-4
+#  volgroup: lvm_volgroup-1
+#  size: 123G
+#  wipe: superblock
+#  preserve: false
+#  type: lvm_partition
+#  id: lvm_partition-4
+#- name: osd-5
+#  volgroup: lvm_volgroup-1
+#  size: 123G
+#  wipe: superblock
+#  preserve: false
+#  type: lvm_partition
+#  id: lvm_partition-5
+#- name: osd-6
+#  volgroup: lvm_volgroup-1
+#  size: 123G
+#  wipe: superblock
+#  preserve: false
+#  type: lvm_partition
+#  id: lvm_partition-6      
 - name: root
   volgroup: lvm_volgroup-0
   size: 100GB

@@ -68,6 +68,8 @@
   number: 5
   preserve: false
   grub_device: false
+  name: ceph-osds
+  partition_name: ceph-osds
   type: partition
   id: partition-5
 - name: system
@@ -75,13 +77,7 @@
   - partition-4
   preserve: false
   type: lvm_volgroup
-  id: lvm_volgroup-0
-- name: cinder-volumes
-  devices:
-  - partition-5
-  preserve: false
-  type: lvm_volgroup
-  id: lvm_volgroup-1
+  id: lvm_volgroup-0   
 - name: root
   volgroup: lvm_volgroup-0
   size: 100GB

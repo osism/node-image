@@ -72,6 +72,12 @@
   partition_name: ceph-osds
   type: partition
   id: partition-5
+- name: osd-vg
+  devices:
+  - partition-5
+  preserve: false
+  type: lvm_volgroup
+  id: lvm_volgroup-1
 - name: system
   devices:
   - partition-4

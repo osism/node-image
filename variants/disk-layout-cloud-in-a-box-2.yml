@@ -83,7 +83,7 @@
   - partition-4
   preserve: false
   type: lvm_volgroup
-  id: lvm_volgroup-0   
+  id: lvm_volgroup-0
 - name: root
   volgroup: lvm_volgroup-0
   size: 100GB

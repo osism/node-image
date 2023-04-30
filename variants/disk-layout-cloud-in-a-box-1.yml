@@ -53,7 +53,7 @@
   type: mount
   id: mount-2
 - device: disk-sda
-  size: 200GB
+  size: 120GB
   wipe: superblock
   flag: ''
   number: 4

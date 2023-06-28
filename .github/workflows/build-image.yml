@@ -11,7 +11,8 @@ on:
       - variants/*.yml
 jobs:
   build-image:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: [self-hosted, node-image]
     strategy:
       matrix:
         variant:
@@ -19,7 +20,9 @@ jobs:
           - '2'
           - '3'
           - 'cloud-in-a-box-1'
+          - 'cloud-in-a-box-1-pre'
           - 'cloud-in-a-box-2'
+          - 'cloud-in-a-box-2-pre'
           - 'osism-1'
           - 'osism-2'
           - 'osism-3'
@@ -27,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install required packages
-        run: sudo apt-get install --yes xorriso sed curl gpg wget fdisk isolinux
+        run: sudo apt-get install --yes xorriso sed curl gpg wget fdisk isolinux skopeo
       - name: Install python
         uses: actions/setup-python@v4
         with:
@@ -36,17 +39,20 @@ jobs:
         run: |
           cp variants/disk-layout-${{ matrix.variant }}.yml include.d/disk-layout.yml
           cp variants/runcmd-${{ matrix.variant }}.yml include.d/runcmd.yml
-      - name: Prepare user-data
+      - name: Prepare files
         run: |
+          mkdir images
           pip3 install pipenv
           pipenv install
           pipenv run python3 render-user-data.py > user-data
-      - name: Validate user-data
-        run: |
           cloud-init schema --config-file user-data
+      - name: Preload images
+        if: matrix.variant == 'cloud-in-a-box-1-pre' || matrix.variant == 'cloud-in-a-box-2-pre'
+        run: |
+          skopeo sync --dest-tls-verify --src yaml --dest dir etc/images-manager.yaml images
       - name: Build image
         run: |
-          bash image-create.sh -r -a -k -u user-data -n jammy
+          bash image-create.sh -r -a -k -u user-data -n jammy -x images
       - name: Upload image
         run: |
           wget https://dl.min.io/client/mc/release/linux-amd64/mc

@@ -51,9 +51,9 @@ jobs:
         run: |
           wget https://dl.min.io/client/mc/release/linux-amd64/mc
           chmod +x mc
-          ./mc alias set minio https://minio.services.osism.tech ${{ secrets.MINIO_ACCESS_KEY }} ${{ secrets.MINIO_SECRET_KEY }}
+          ./mc alias set minio https://swift.services.a.regiocloud.tech ${{ secrets.MINIO_ACCESS_KEY }} ${{ secrets.MINIO_SECRET_KEY }}
           mv ubuntu-autoinstall.iso ubuntu-autoinstall-${{ matrix.variant }}.iso
-          ./mc cp ubuntu-autoinstall-${{ matrix.variant }}.iso minio/node-image
+          ./mc cp ubuntu-autoinstall-${{ matrix.variant }}.iso minio/osism-node-image
           ./mc policy set download minio/node-image/ubuntu-autoinstall-${{ matrix.variant }}.iso
         if: github.ref == 'refs/heads/main'
       - name: Upload user-data

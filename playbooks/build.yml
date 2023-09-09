@@ -26,6 +26,19 @@
           mv ubuntu-autoinstall.iso ubuntu-autoinstall-{{ name }}.iso
           sha256sum ubuntu-autoinstall-{{ name }}.iso > ubuntu-autoinstall-{{ name }}.iso.CHECKSUM
 
+    - name: Generate SBOM
+      ansible.builtin.shell:
+        executable: /bin/bash
+        chdir: "{{ zuul.project.src_dir }}"
+        cmd: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sudo sh -s -- -b /usr/local/bin
+          mkdir sbom
+          sudo mount -o loop ubuntu-autoinstall-{{ name }}.iso sbom
+          /usr/local/bin/syft --base-path sbom --output spdx-json sbom > ubuntu-autoinstall-{{ name }}.iso.spdx.json
+          cat ubuntu-autoinstall-{{ name }}.iso.spdx.json
+          sudo umount sbom
+      when: generate_sbom|bool
+
     - name: Run upload script
       ansible.builtin.shell:
         executable: /bin/bash
@@ -36,5 +49,6 @@
           ./mc alias set minio https://swift.services.a.regiocloud.tech {{ minio.MINIO_ACCESS_KEY | trim }} {{ minio.MINIO_SECRET_KEY | trim }}
           ./mc cp ubuntu-autoinstall-{{ name }}.iso minio/osism-node-image
           ./mc cp ubuntu-autoinstall-{{ name }}.iso.CHECKSUM minio/osism-node-image
+          ./mc cp ubuntu-autoinstall-{{ name }}.iso.spdx.json minio/osism-node-image
       when: upload_image|bool
       no_log: true

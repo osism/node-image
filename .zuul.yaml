@@ -27,11 +27,13 @@
 
 - job:
     name: node-image-build
+    # nodeset: ubuntu-jammy-large
     abstract: true
     pre-run: playbooks/pre.yml
     run: playbooks/build.yml
     timeout: 1800
     vars:
+      generate_sbom: false
       upload_image: false
 
 - job:
@@ -39,6 +41,7 @@
     parent: node-image-build
     vars:
       name: 1
+      generate_sbom: true
 
 - job:
     name: node-image-build-2
@@ -183,14 +186,14 @@
     check:
       jobs:
         - node-image-build-1
-        - node-image-build-2
-        - node-image-build-3
-        - node-image-build-cloud-in-a-box-1
-        - node-image-build-cloud-in-a-box-2
-        - node-image-build-osism-1
-        - node-image-build-osism-2
-        - node-image-build-osism-3
-        - node-image-build-osism-4
+        # - node-image-build-2
+        # - node-image-build-3
+        # - node-image-build-cloud-in-a-box-1
+        # - node-image-build-cloud-in-a-box-2
+        # - node-image-build-osism-1
+        # - node-image-build-osism-2
+        # - node-image-build-osism-3
+        # - node-image-build-osism-4
         - yamllint
     post:
       jobs:

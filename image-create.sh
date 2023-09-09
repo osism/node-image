@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# SPDX-License-Identifier: MIT
+# source: https://github.com/cloudymax/pxeless
+
 set -Eeuo pipefail
 
 trap cleanup SIGINT SIGTERM ERR EXIT

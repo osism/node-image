@@ -3,27 +3,27 @@
     name: SECRET_NODE_IMAGE
     data:
       MINIO_ACCESS_KEY: !encrypted/pkcs1-oaep
-        - GPW0jzCECrTIbEuWqznGUkg/xB/iI1LBegX8YGRmh8wK6Qmt4yd6oLEJvV5s5KoVembso
-          UA+tynbjuC/2Ash7dXMiNgjFzcvNPBXo8OLgudD6anNXSOlRbaypiXHApm1wXW9rpHY4P
-          TcMDehS4rMk2110uLFCeTGuStS3ymhf7geqgUKpeKjqKGFkBz9c2/5enYDHyuF699B033
-          5Lj064IijI0lGadvVVueIF0jcvLxoPHKyO88yU1NY4PDg1+yB0BZZiLq4MZ2mRutpYiah
-          0PAOXh0F900OfNp8gQMTuAAqpIC5C00s3PpzMvIpjS91ujAkl554dhOvx1BpjtMJVYRNY
-          3KCI2szoO3pErcdWIXqE/ZpOxV6VnwSaNCU+kVJL+A5ndFCg86dLdONB+v8Bffs3cSeM9
-          1dtdgC8+x+uUo31pis1oQ/4fpSD92vT0cx9LKyQIBv7ltKH/tlY6/pCVQO41Bw3wPfevT
-          RIYl2PcoGrkYPX41GLQ0btzKc5ps7+MX3BzR7d5bT+0Bqj6/h/58qbBkzFU+kNXXwW8EP
-          4uv6BF6br2am8M5Kh/tbQcqsf1VaGAxNaTG0LROBgFIA2j/XzBKRj+OmbM2Rfyl+P7UCI
-          DLxWo91wHBXCVlaXuv5AsA1rBesPXf1l8Bq3s9mKlVh10KAQ0bkOnJuZuFlSnw=
+        - CTogCx39HadGnkbi45DheqCctn3MqB+P0v3OPeFklMjJxQ5zc7Glhb30SUM+VQMHWABtC
+          DLGUNvfj+hAqH0lWSdCbhT1nvoIcAgzEUZmTz9PX+ExMQV+OaMg9Lub5nlBuVSYUcCmuV
+          l2dy33znml22ZgVKhH1Db57sPSMSJOFN9Cb6oqZ8csJSVi/9CU2fXpiQwT2HatMsUQixk
+          XQbUTIHGyWQuyBGOMiTC75z2Ci2f8QY9X+aLTkLPFr4EyigzvsYP4sDwnFqUDV85tEFVt
+          RE9g8hRORZUToH1qkLh+hMbHM1WjDM1qa2rIJId5eoSbWf5HSuUHr69XXGZN3HYMObDDZ
+          E8upB5EFjajqNbWGR4f7m6e0H1dzoXRMzgHcSfgmWQzryrQ5rHIG3h6aEwLeJgItLoYP8
+          9HJJlxX3xrHEHJxVNBEINf66EBW1wwDgT1NtZZSZTYbHKJ7W9dKxZAQREEv+O5fxryeZI
+          gTYBgweYtC91rCed1UeslT/At0/NAw6dt7RNc80/uwpZMDjzvx7K1pHWESKwgFoAukBcm
+          vGZcIjLNY8FLA7Zurz6JZoykcJzJ9DFA/WX7D3ssEvrwUKg6ke8tinXxTkrLmUQIU52tD
+          9e04c3AMsm5sL/rtIMmD+3Vy6nQo/nxE2+MdsOyXMzVfjN9k8fwUvg9OfDF7UI=
       MINIO_SECRET_KEY: !encrypted/pkcs1-oaep
-        - gRvbtBGNlvUbPxdJxa2Bcszx9ZImcIW3bQd6gC3Dl2PsMyorlOnWaLMuocV1xiYvkNbUQ
-          BocDdc271cuTHZYId1cA2xpjHQJiD+w2M1/kKOs/ofaQ5RY/+ljyC9MSEbFPKk04Ae3KS
-          KO7THu2K2OOnC6KxRSqVDAqKEVTncEYCoYBy7Om7MJPsWhZDWqiZN1Ijf0j9btzsFTIQQ
-          34a8W9AGSCDY9zoZKZcxT0hdHvzU+6eKGd6klb/o5jB+lkNnkvywg9I3sOf/t2VhpqgLa
-          kCH48SSiH6OTVMmL8n5eSm/e2xiGTpr4JgJaYcDBS8SLnYy3k8mgTZnAeDsinZxbC+RQE
-          fqocQ660GPvP6+QNU5lRXDOpE29eDKIumVlkvr+hm/qAgPMh+XIWeGY8OyzCr+wTk+FkM
-          yC76qmxDMEEbSO6yic5D5M4eHFyuqxhTb5RKQFyi1MwT0VzZRccqVGNXyUtyfLvrji0R7
-          qnt8RNKozzve0aX/xF1O4mmrku451SIvwRZ+icGjmY5B2Yn7jWtMXkDgVc3YVZYzMaRKb
-          e/Zsv0Jnt2mBBwZJWojpqmtaYlCEEOK0ZfLbICUkxz/oXsS9OX1DEXpzgEih+jfy6VFuy
-          OR61DtzeNhw5KaY1fuTpXufWTyrcwUswAY4+GftrjauNXQxlGxiD42lqp1ur6M=
+        - UG90Ml5NT4w76t0K6HdHXy9rnVJg77/VqtyRzEqePozxixjs9m2ILZxVxtIJ1GKLQss56
+          wMxs4froxgpf/2H82zEuU1JCIWOEUVNuX4ta09/FDKXWTRBl9kG4y3SG3rbzKqdRnGu21
+          771+vIR7LJrAaXyEpTi30BvsbsAFpITTkm9s57IRZprFRYZtkzg9GpzisU+s/w7sFiJlc
+          HJCprbBqsmcMcRfEvAabG7d4y5qLMbtz+4amkoHv0kv7yiGhH80GZXl4x0lp/5xG5MCyv
+          X8LxRPoWRFjVLGZ8LrTWMUVWrD/VTP3cLxfzWuL+q8FRn5/CgZeeaZtKxjzBwKnrpf7R8
+          QzN4LFj3G0rWGTtc5YQlRtfhfJgpivI6xxclxneBCNPFR8RtXYKEUrSyqcgOsEeQ2DDfk
+          tRl/VnivtZEA96ijQNjWhrY0QOGVO+NAlHQRNLWZL9O0fF6o+m9mnI5PxmSoRfVYHhypw
+          gvB8/nzpuy6Nw9WLwsYqcwh+Lh/AYYj2PbtFTaI1XzTG5xbHphUWIXsPoOhqVnFQEzp4c
+          Gx9EgRUgCW05HhW6AUuMz8czk8o9k3mRfMrxUdPsapZP2POTZQTjas6z65KvCKdnxafT5
+          DOJcWgNbzeU0aTwbhFTuUsbvAz0WuWDVIz7IPi9Ka6lJgIrLw/kh4Gu2no99mU=
 
 - job:
     name: node-image-build
@@ -47,6 +47,30 @@
       name: cloud-in-a-box-2
 
 - job:
+    name: node-image-build-osism-1
+    parent: node-image-build
+    vars:
+      name: osism-1
+
+- job:
+    name: node-image-build-osism-2
+    parent: node-image-build
+    vars:
+      name: osism-2
+
+- job:
+    name: node-image-build-osism-3
+    parent: node-image-build
+    vars:
+      name: osism-3
+
+- job:
+    name: node-image-build-osism-4
+    parent: node-image-build
+    vars:
+      name: osism-4
+
+- job:
     name: node-image-publish-cloud-in-a-box-1
     parent: node-image-build-cloud-in-a-box-1
     vars:
@@ -66,18 +90,70 @@
         secret: SECRET_NODE_IMAGE
         pass-to-parent: true
 
+- job:
+    name: node-image-publish-osism-1
+    parent: node-image-build-osism-1
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
+    name: node-image-publish-osism-2
+    parent: node-image-build-osism-2
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
+    name: node-image-publish-osism-3
+    parent: node-image-build-osism-3
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
+    name: node-image-publish-osism-4
+    parent: node-image-build-osism-4
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
 - project:
     merge-mode: squash-merge
     check:
       jobs:
         - node-image-build-cloud-in-a-box-1
         - node-image-build-cloud-in-a-box-2
+        - node-image-build-osism-1
+        - node-image-build-osism-2
+        - node-image-build-osism-3
+        - node-image-build-osism-4
         - yamllint
     post:
       jobs:
         - node-image-publish-cloud-in-a-box-1:
             branches: main
         - node-image-publish-cloud-in-a-box-2:
+            branches: main
+        - node-image-publish-osism-1:
+            branches: main
+        - node-image-publish-osism-2:
+            branches: main
+        - node-image-publish-osism-3:
+            branches: main
+        - node-image-publish-osism-4:
             branches: main
     periodic-daily:
       jobs:

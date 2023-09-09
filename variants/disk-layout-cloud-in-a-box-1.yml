@@ -5,8 +5,8 @@
   name: ''
   grub_device: false
   type: disk
-  id: disk-sda
-- device: disk-sda
+  id: disk-primary
+- device: disk-primary
   size: 1GB
   wipe: superblock
   flag: boot
@@ -20,7 +20,7 @@
   preserve: false
   type: format
   id: format-2
-- device: disk-sda
+- device: disk-primary
   size: 1GB
   wipe: superblock
   flag: ''
@@ -34,7 +34,7 @@
   preserve: false
   type: format
   id: format-3
-- device: disk-sda
+- device: disk-primary
   size: 8GB
   wipe: superblock
   flag: swap
@@ -52,7 +52,7 @@
   device: format-4
   type: mount
   id: mount-2
-- device: disk-sda
+- device: disk-primary
   size: 120GB
   wipe: superblock
   flag: ''
@@ -61,7 +61,7 @@
   grub_device: false
   type: partition
   id: partition-4
-- device: disk-sda
+- device: disk-primary
   size: -1
   wipe: superblock
   flag: ''

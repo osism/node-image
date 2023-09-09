@@ -1,0 +1,39 @@
+---
+- name: Build image
+  hosts: all
+
+  vars:
+    name: cloud-in-a-box-1
+
+  tasks:
+    - name: Run build script
+      ansible.builtin.shell:
+        executable: /bin/bash
+        chdir: "{{ zuul.project.src_dir }}"
+        cmd: |
+          set -e
+          set -x
+
+          cp variants/disk-layout-{{ name }}.yml include.d/disk-layout.yml
+          cp variants/runcmd-{{ name }}.yml include.d/runcmd.yml
+
+          pipenv run python3 render-user-data.py > user-data
+          # cloud-init schema --config-file user-data
+
+          bash image-create.sh -r -a -k -u user-data -n jammy
+
+          mv ubuntu-autoinstall.iso ubuntu-autoinstall-{{ name }}.iso
+          sha256sum ubuntu-autoinstall-{{ name }}.iso > ubuntu-autoinstall-{{ name }}.iso.CHECKSUM
+
+    - name: Run upload script
+      ansible.builtin.shell:
+        executable: /bin/bash
+        chdir: "{{ zuul.project.src_dir }}"
+        cmd: |
+          wget https://dl.min.io/client/mc/release/linux-amd64/mc
+          chmod +x mc
+          ./mc alias set minio https://swift.services.a.regiocloud.tech {{ minio.MINIO_ACCESS_KEY | trim }} {{ minio.MINIO_SECRET_KEY | trim }}
+          ./mc cp ubuntu-autoinstall-{{ name }}.iso minio/osism-node-image
+          ./mc cp ubuntu-autoinstall-{{ name }}.iso.CHECKSUM minio/osism-node-image
+      when: upload_image|bool
+      no_log: true

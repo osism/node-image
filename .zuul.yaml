@@ -1,12 +1,84 @@
 ---
+- secret:
+    name: SECRET_NODE_IMAGE
+    data:
+      MINIO_ACCESS_KEY: !encrypted/pkcs1-oaep
+        - GPW0jzCECrTIbEuWqznGUkg/xB/iI1LBegX8YGRmh8wK6Qmt4yd6oLEJvV5s5KoVembso
+          UA+tynbjuC/2Ash7dXMiNgjFzcvNPBXo8OLgudD6anNXSOlRbaypiXHApm1wXW9rpHY4P
+          TcMDehS4rMk2110uLFCeTGuStS3ymhf7geqgUKpeKjqKGFkBz9c2/5enYDHyuF699B033
+          5Lj064IijI0lGadvVVueIF0jcvLxoPHKyO88yU1NY4PDg1+yB0BZZiLq4MZ2mRutpYiah
+          0PAOXh0F900OfNp8gQMTuAAqpIC5C00s3PpzMvIpjS91ujAkl554dhOvx1BpjtMJVYRNY
+          3KCI2szoO3pErcdWIXqE/ZpOxV6VnwSaNCU+kVJL+A5ndFCg86dLdONB+v8Bffs3cSeM9
+          1dtdgC8+x+uUo31pis1oQ/4fpSD92vT0cx9LKyQIBv7ltKH/tlY6/pCVQO41Bw3wPfevT
+          RIYl2PcoGrkYPX41GLQ0btzKc5ps7+MX3BzR7d5bT+0Bqj6/h/58qbBkzFU+kNXXwW8EP
+          4uv6BF6br2am8M5Kh/tbQcqsf1VaGAxNaTG0LROBgFIA2j/XzBKRj+OmbM2Rfyl+P7UCI
+          DLxWo91wHBXCVlaXuv5AsA1rBesPXf1l8Bq3s9mKlVh10KAQ0bkOnJuZuFlSnw=
+      MINIO_SECRET_KEY: !encrypted/pkcs1-oaep
+        - gRvbtBGNlvUbPxdJxa2Bcszx9ZImcIW3bQd6gC3Dl2PsMyorlOnWaLMuocV1xiYvkNbUQ
+          BocDdc271cuTHZYId1cA2xpjHQJiD+w2M1/kKOs/ofaQ5RY/+ljyC9MSEbFPKk04Ae3KS
+          KO7THu2K2OOnC6KxRSqVDAqKEVTncEYCoYBy7Om7MJPsWhZDWqiZN1Ijf0j9btzsFTIQQ
+          34a8W9AGSCDY9zoZKZcxT0hdHvzU+6eKGd6klb/o5jB+lkNnkvywg9I3sOf/t2VhpqgLa
+          kCH48SSiH6OTVMmL8n5eSm/e2xiGTpr4JgJaYcDBS8SLnYy3k8mgTZnAeDsinZxbC+RQE
+          fqocQ660GPvP6+QNU5lRXDOpE29eDKIumVlkvr+hm/qAgPMh+XIWeGY8OyzCr+wTk+FkM
+          yC76qmxDMEEbSO6yic5D5M4eHFyuqxhTb5RKQFyi1MwT0VzZRccqVGNXyUtyfLvrji0R7
+          qnt8RNKozzve0aX/xF1O4mmrku451SIvwRZ+icGjmY5B2Yn7jWtMXkDgVc3YVZYzMaRKb
+          e/Zsv0Jnt2mBBwZJWojpqmtaYlCEEOK0ZfLbICUkxz/oXsS9OX1DEXpzgEih+jfy6VFuy
+          OR61DtzeNhw5KaY1fuTpXufWTyrcwUswAY4+GftrjauNXQxlGxiD42lqp1ur6M=
+
+- job:
+    name: node-image-build
+    abstract: true
+    pre-run: playbooks/pre.yml
+    run: playbooks/build.yml
+    timeout: 1800
+    vars:
+      upload_image: false
+
+- job:
+    name: node-image-build-cloud-in-a-box-1
+    parent: node-image-build
+    vars:
+      name: cloud-in-a-box-1
+
+- job:
+    name: node-image-build-cloud-in-a-box-2
+    parent: node-image-build
+    vars:
+      name: cloud-in-a-box-2
+
+- job:
+    name: node-image-publish-cloud-in-a-box-1
+    parent: node-image-build-cloud-in-a-box-1
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
+    name: node-image-publish-cloud-in-a-box-2
+    parent: node-image-build-cloud-in-a-box-2
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
 - project:
     merge-mode: squash-merge
     check:
       jobs:
+        - node-image-build-cloud-in-a-box-1
+        - node-image-build-cloud-in-a-box-2
         - yamllint
-    gate:
+    post:
       jobs:
-        - yamllint
+        - node-image-publish-cloud-in-a-box-1:
+            branches: main
+        - node-image-publish-cloud-in-a-box-2:
+            branches: main
     periodic-daily:
       jobs:
         - yamllint

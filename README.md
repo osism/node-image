@@ -16,11 +16,18 @@
 
 ### Cloud-in-a-box images
 
+#### Sandbox
+
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso.CHECKSUM
 
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso.CHECKSUM
+
+#### Edge
+
+* https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso
+* https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso.CHECKSUM
 
 ### Other
 
@@ -62,13 +69,25 @@
 
 ## Cloud-in-a-box variants
 
-### Variant 1
+### Sandbox
+
+#### Variant 1
 
 ![Disk layout](/assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
 
-### Variant 2
+#### Variant 2
 
 ![Disk layout](/assets/disklayout-cloud-in-a-box-2.drawio.png "Disk layout")
+
+### Edge
+
+#### Variant 1
+
+Only NVMe devices are supported for the Edge variant.
+
+#### Variant 2
+
+Like Sandbox ``Variant 2``, with ``CLOUD_IN_A_BOX_TYPE=edge``.
 
 ## Other variants
 

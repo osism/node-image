@@ -1,14 +1,13 @@
 #!/bin/bash
+set -Eeuo pipefail
 
 # SPDX-License-Identifier: MIT
 # source: https://github.com/cloudymax/pxeless
 
-set -Eeuo pipefail
-
 trap cleanup SIGINT SIGTERM ERR EXIT
 [[ ! -x "$(command -v date)" ]] && echo "💥 date command not found." && exit 1
 
-# export initial varibales 
+# export initial variables
 export_metadata(){
 
         export TODAY=$(date +"%Y-%m-%d")
@@ -30,6 +29,7 @@ export_metadata(){
         export MD5_CHECKSUM=1
         export USE_RELEASE_ISO=0
         export EXTRA_FILES_FOLDER=""
+        export OFFLINE_INSTALLER=""
 
         export LEGACY_IMAGE=0
         export CURRENT_RELEASE=""
@@ -49,45 +49,47 @@ Usage: image-create.sh [-h] [-v] [-n] [-a] [-e] [-u user-data-file] [-m meta-dat
 
 Available options:
 
--h, --help              Print this help and exit
+-h, --help                Print this help and exit
 
--v, --verbose           Print script debug info
+-v, --verbose             Print script debug info
 
--n, --code-name         The Code Name of the Ubuntu release to download (bionic, focal, jammy etc...)
+-n, --code-name           The Code Name of the Ubuntu release to download (bionic, focal, jammy etc...)
 
--a, --all-in-one        Bake user-data and meta-data into the generated ISO. By default you will
-                        need to boot systems with a CIDATA volume attached containing your
-                        autoinstall user-data and meta-data files.
-                        For more information see: https://ubuntu.com/server/docs/install/autoinstall-quickstart
+-a, --all-in-one          Bake user-data and meta-data into the generated ISO. By default you will
+                          need to boot systems with a CIDATA volume attached containing your
+                          autoinstall user-data and meta-data files.
+                          For more information see: https://ubuntu.com/server/docs/install/autoinstall-quickstart
 
--e, --use-hwe-kernel    Force the generated ISO to boot using the hardware enablement (HWE) kernel. Not supported
-                        by early Ubuntu 20.04 release ISOs.
+-e, --use-hwe-kernel      Force the generated ISO to boot using the hardware enablement (HWE) kernel. Not supported
+                          by early Ubuntu 20.04 release ISOs.
 
--u, --user-data         Path to user-data file. Required if using -a
+-u, --user-data           Path to user-data file. Required if using -a
 
--m, --meta-data         Path to meta-data file. Will be an empty file if not specified and using -a
+-m, --meta-data           Path to meta-data file. Will be an empty file if not specified and using -a
 
--x, --extra-files       Specifies an folder with files and folders, which will be copied into the root of the iso image.
-                        If not set, nothing is copied
+-x, --extra-files         Specifies a folder whos contents will be copied into the /media directroy of the squashfs.
+                          If not set, nothing is copied
 
--k, --no-verify         Disable GPG verification of the source ISO file. By default SHA256SUMS-<current date> and
-                        SHA256SUMS-<current date>.gpg files in the script directory will be used to verify the authenticity and integrity
-                        of the source ISO file. If they are not present the latest daily SHA256SUMS will be
-                        downloaded and saved in the script directory. The Ubuntu signing key will be downloaded and
-                        saved in a new keyring in the script directory.
+-k, --no-verify           Disable GPG verification of the source ISO file. By default SHA256SUMS-<current date> and
+                          SHA256SUMS-<current date>.gpg files in the script directory will be used to verify the authenticity and integrity
+                          of the source ISO file. If they are not present the latest daily SHA256SUMS will be
+                          downloaded and saved in the script directory. The Ubuntu signing key will be downloaded and
+                          saved in a new keyring in the script directory.
 
--r, --use-release-iso   Use the current release ISO instead of the daily ISO. The file will be used if it already
-                        exists.
+-r, --use-release-iso     Use the current release ISO instead of the daily ISO. The file will be used if it already
+                          exists.
 
--s, --source            Source ISO file path. By default the latest daily ISO for Ubuntu server will be downloaded
-                        and saved as <script directory>/ubuntu-original-<current date>.iso
-                        That file will be used by default if it already exists.
+-s, --source              Source ISO file path. By default the latest daily ISO for Ubuntu server will be downloaded
+                          and saved as <script directory>/ubuntu-original-<current date>.iso
+                          That file will be used by default if it already exists.
 
--l, --legacy            When using the -s, --source flags you must specify the --legacy flag if the source image is based on isolinux.
-                        Otherwise, eltorito usage is assumed 
+-l, --legacy              When using the -s, --source flags you must specify the --legacy flag if the source image is based on isolinux.
+                          Otherwise, eltorito usage is assumed
 
--d, --destination       Destination ISO file. By default <script directory>/ubuntu-autoinstall-<current date>.iso will be
-                        created, overwriting any existing file.
+-d, --destination         Destination ISO file. By default <script directory>/ubuntu-autoinstall-<current date>.iso will be
+                          created, overwriting any existing file.
+-o, --offline-installer   Run a bash script to customize image, including install packages and configuration.
+                          It should be used with -x, and the bash script should be avilable in the same extras directory.
 EOF
         exit
 }
@@ -129,11 +131,17 @@ parse_params() {
                         EXTRA_FILES_FOLDER="${2-}"
                         shift
                         ;;
+                -o | --offline-installer)
+                        OFFLINE_INSTALLER="${2-}"
+                        shift
+                        ;;
                 -?*) die "Unknown option: $1" ;;
                 *) break ;;
                 esac
                 shift
         done
+
+        echo "CODE NAME IS: $CODE_NAME"
 
         log "👶 Starting up..."
 
@@ -165,10 +173,10 @@ create_tmp_dirs(){
 }
 
 # Determine if the requested ISO will be based on legacy Isolinux
-# or current eltorito image base. 
+# or current eltorito image base.
 check_legacy(){
         if [ ! -f "${SOURCE_ISO}" ] ; then
-                if $(dpkg --compare-versions "${CURRENT_RELEASE}" "lt" "20.10"); then 
+                if $(dpkg --compare-versions "${CURRENT_RELEASE}" "lt" "20.10"); then
                         log "❗ ${CURRENT_RELEASE} is lower than 20.10. Marking image as legacy."
                         export LEGACY_IMAGE=1
                 else
@@ -186,20 +194,20 @@ verify_deps(){
         [[ ! -x "$(command -v curl)" ]] && die "💥 curl is not installed. On Ubuntu, install the 'curl' package."
         [[ ! -x "$(command -v gpg)" ]] && die "💥 gpg is not installed. On Ubuntu, install the 'gpg' package."
         [[ ! -x "$(command -v fdisk)" ]] && die "💥 fdisk is not installed. On Ubuntu, install the 'fdisk' package."
-        
-        if [ ${LEGACY_IMAGE} -eq 1 ]; then      
+
+        if [ ${LEGACY_IMAGE} -eq 1 ]; then
                 [[ ! -f "/usr/lib/ISOLINUX/isohdpfx.bin" ]] && die "💥 isolinux is not installed. On Ubuntu, install the 'isolinux' package."
         fi
 
         log "👍 All required utilities are installed."
 }
 
-# get the url and iso infor for the latest release
+# get the url and iso info for the latest release
 latest_release(){
         BASE_URL="https://releases.ubuntu.com/${CODE_NAME}/"
         log "🔎 Checking for latest ${CODE_NAME} release..."
         ISO_FILE_NAME=$(curl -sSL "${BASE_URL}" |grep -oP "ubuntu-.*-server-amd64.iso" |head -n 1)
-        IMAGE_NAME=$(curl -sSL ${BASE_URL} |grep -o 'Ubuntu .* LTS .*)' |head -n 1)
+        IMAGE_NAME=$(curl -sSL ${BASE_URL} |grep -o 'Ubuntu .* .*)' |head -n 1)
         CURRENT_RELEASE=$(echo "${ISO_FILE_NAME}" | cut -f2 -d-)
         SHA_SUFFIX="${CURRENT_RELEASE}"
         log "✅ Latest release is ${CURRENT_RELEASE}"
@@ -210,7 +218,7 @@ daily_release(){
         BASE_URL="https://cdimage.ubuntu.com/ubuntu-server/${CODE_NAME}/daily-live/current"
         log "🔎 Checking for daily ${CODE_NAME} release..."
         ISO_FILE_NAME=$(curl -sSL "${BASE_URL}" |grep -oP "${CODE_NAME}-live-server-amd64.iso" |head -n 1)
-        IMAGE_NAME=$(curl -sSL ${BASE_URL} |grep -o 'Ubuntu .* LTS .*)' |head -n 1)
+        IMAGE_NAME=$(curl -sSL ${BASE_URL} |grep -o 'Ubuntu .* .*)' |head -n 1)
         CURRENT_RELEASE=$(echo "${IMAGE_NAME}" | awk '{print $3}')
         SHA_SUFFIX="${CURRENT_RELEASE}"
         log "✅ Daily release is ${CURRENT_RELEASE}"
@@ -221,7 +229,11 @@ download_iso(){
 
         if [ ! -f "${SOURCE_ISO}" ]; then
                 log "🌎 Downloading ISO image for ${IMAGE_NAME} ..."
-                wget -O "${ORIGINAL_ISO}" "${BASE_URL}/${ISO_FILE_NAME}" -q
+                wget --no-verbose \
+                    --show-progress \
+                    --progress=bar:force:noscroll \
+                    -O "${ORIGINAL_ISO}" "${BASE_URL}/${ISO_FILE_NAME}"
+
                 log "👍 Downloaded and saved to ${ORIGINAL_ISO}"
         else
                 log "☑️ Using existing ${SOURCE_ISO} file."
@@ -283,7 +295,7 @@ extract_images(){
         rm -rf "${BUILD_DIR}/"'[BOOT]'
         log "👍 Extracted to ${BUILD_DIR}"
 
-        if [ ${LEGACY_IMAGE} -eq 0 ]; then   
+        if [ ${LEGACY_IMAGE} -eq 0 ]; then
                 log "🔧 Extracting MBR image..."
                 dd if="${SOURCE_ISO}" bs=1 count=446 of="${TMP_DIR}/${MBR_IMAGE}" &>/dev/null
                 log "👍 Extracted to ${TMP_DIR}/${MBR_IMAGE}"
@@ -299,18 +311,18 @@ extract_images(){
 # enable the hardware execution kernel if desired
 set_hwe_kernel(){
         if [ ${USE_HWE_KERNEL} -eq 1 ]; then
-                if grep -q "hwe-vmlinuz" "${TMP_DIR}/boot/grub/grub.cfg"; then
+                if grep -q "hwe-vmlinuz" "${BUILD_DIR}/boot/grub/grub.cfg"; then
                         log "☑️ Destination ISO will use HWE kernel."
 
-                        sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${TMP_DIR}/boot/grub/grub.cfg"
-                        sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${TMP_DIR}/boot/grub/grub.cfg"
-                        sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${TMP_DIR}/boot/grub/loopback.cfg"
-                        sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${TMP_DIR}/boot/grub/loopback.cfg"
+                        sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${BUILD_DIR}/boot/grub/grub.cfg"
+                        sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${BUILD_DIR}/boot/grub/grub.cfg"
+                        sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+                        sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${BUILD_DIR}/boot/grub/loopback.cfg"
 
-                        if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then  
-                                export LEGACY_IMAGE=1   
-                                sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${TMP_DIR}/isolinux/txt.cfg"
-                                sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${TMP_DIR}/isolinux/txt.cfg"                         
+                        if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then
+                                export LEGACY_IMAGE=1
+                                sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${BUILD_DIR}/isolinux/txt.cfg"
+                                sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${BUILD_DIR}/isolinux/txt.cfg"
                         fi
                 else
                         log "⚠️ This source ISO does not support the HWE kernel. Proceeding with the regular kernel."
@@ -318,31 +330,24 @@ set_hwe_kernel(){
         fi
 }
 
-# add the auto-install kernel param
+# add the auto-install kerel param
 set_kernel_autoinstall(){
-        log "🧩 Reduce the boot menu timeout..."
-        sed -i -e 's/timeout=30/timeout=3/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        log "👍 Reduced the boot menu timeout to 3 seconds."
-
-        log "🧩 Change menuentry title..."
-        sed -i -e 's/Try or Install Ubuntu Server/Prepare OSISM node/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        log "👍 Changed menuentry title to 'Prepare OSISM node'."
-
         log "🧩 Adding autoinstall parameter to kernel command line..."
-        sed -i -e 's/---/ autoinstall fsck.mode=skip ---/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        sed -i -e 's/---/ autoinstall fsck.mode=skip ---/g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+        sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/grub.cfg"
+        sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/loopback.cfg"
 
-        if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then   
-                log "🧩 Adding autoinstall parameter to isolinux..."   
+        if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then
+                log "🧩 Adding autoinstall parameter to isolinux..."
                 export LEGACY_IMAGE=1
                 sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/isolinux/txt.cfg"
+                sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' "${BUILD_DIR}/isolinux/isolinux.cfg"
         fi
 
         log "👍 Added parameter to UEFI and BIOS kernel command lines."
 
         if [ ${ALL_IN_ONE} -eq 1 ]; then
                 log "🧩 Adding user-data and meta-data files..."
-                mkdir "${BUILD_DIR}/nocloud"
+                mkdir -p "${BUILD_DIR}/nocloud"
                 cp "$USER_DATA_FILE" "${BUILD_DIR}/nocloud/user-data"
 
                 if [ -n "${META_DATA_FILE}" ]; then
@@ -351,7 +356,7 @@ set_kernel_autoinstall(){
                         touch "${BUILD_DIR}/nocloud/meta-data"
                 fi
 
-                if [ ${LEGACY_IMAGE} -eq 1 ]; then    
+                if [ ${LEGACY_IMAGE} -eq 1 ]; then
                         sed -i -e 's,---, ds=nocloud;s=/cdrom/nocloud/  ---,g' "${BUILD_DIR}/isolinux/txt.cfg"
                 fi
 
@@ -361,11 +366,48 @@ set_kernel_autoinstall(){
         fi
 }
 
-# Add extra files from a folder into the build dir
+# Add extra files from a folder into the build dir and run offline installer
 insert_extra_files(){
-        log "➕ Adding additional files to the iso image..."
-        cp -R "${EXTRA_FILES_FOLDER}/." "${BUILD_DIR}/"
-        log "👍 Added additional files"
+
+        SQUASH_DIR=$(mktemp -d)
+
+        if [ ${LEGACY_IMAGE} -eq 1 ]; then
+                SQUASH_FS="filesystem.squashfs"
+        else
+                SQUASH_FS="ubuntu-server-minimal.squashfs"
+        fi
+
+        rm -rf "${SQUASH_FS}"
+
+        log "Adding additional files to the iso image..."
+
+        log " - Step 1. Copy squashfs to safe location..."
+        cp "${BUILD_DIR}/casper/${SQUASH_FS}" "${SQUASH_DIR}"
+
+        cd "${SQUASH_DIR}"
+
+        log " - Step 2. Expand filesystem..."
+        sudo unsquashfs "${SQUASH_FS}"
+
+        log " - Step 3. Copy extra files to /media..."
+        sudo cp -R "${EXTRA_FILES_FOLDER}/." "squashfs-root/media/"
+
+        if [ -n "$OFFLINE_INSTALLER" ]; then
+                log " - Step 3.5. Runing offline installer script..."
+                sudo chroot squashfs-root/ /bin/bash "/media/${OFFLINE_INSTALLER}"
+        fi
+
+        log " - Step 4. Rebuilding squashfs.."
+        sudo mksquashfs squashfs-root/ "${SQUASH_FS}" -comp xz -b 1M -noappend
+
+        log " - Step 5. Copy squashfs copied back to {BUILD_DIR}/casper/${SQUASH_FS}"
+        cp "${SQUASH_FS}" "${BUILD_DIR}/casper/${SQUASH_FS}"
+
+        log " - Step 6. Cleaning up directories..."
+        rm -rf "${SQUASH_FS}"
+        rm -rf squashfs-root
+
+        cd -
 }
 
 # re-create the MD5 checksum data
@@ -377,6 +419,8 @@ md5_checksums(){
                 md5=$(md5sum "${BUILD_DIR}/boot/grub/loopback.cfg" | cut -f1 -d ' ')
                 sed -i -e 's,^.*[[:space:]] ./boot/grub/loopback.cfg,'"$md5"'  ./boot/grub/loopback.cfg,' "${BUILD_DIR}/md5sum.txt"
                 log "👍 Updated hashes."
+                md5=$(md5sum "${BUILD_DIR}/.disk/info" | cut -f1 -d ' ')
+                sed -i -e 's,^.*[[:space:]] .disk/info,'"$md5"'  .disk/info,' "${BUILD_DIR}/md5sum.txt"
         else
                 log "🗑️ Clearing MD5 hashes..."
                 echo > "${BUILD_DIR}/md5sum.txt"
@@ -390,12 +434,12 @@ reassemble_iso(){
         if [ "${SOURCE_ISO}" != "${BUILD_DIR}/${ORIGINAL_ISO}" ]; then
                 [[ ! -f "${SOURCE_ISO}" ]] && die "💥 Source ISO file could not be found."
         fi
-        
+
         log "📦 Repackaging extracted files into an ISO image..."
-        if [ ${LEGACY_IMAGE} -eq 1 ]; then 
+        if [ ${LEGACY_IMAGE} -eq 1 ]; then
 
                 log "📦 Using isolinux method..."
-        
+
                 xorriso -as mkisofs -r -V "ubuntu-autoinstall-${TODAY}" -J \
                         -b isolinux/isolinux.bin \
                         -c isolinux/boot.cat \
@@ -410,7 +454,7 @@ reassemble_iso(){
                         -isohybrid-gpt-basdat -o "${DESTINATION_ISO}" "${BUILD_DIR}" &>/dev/null
         else
                 log "📦 Using El Torito method..."
-                
+
                 xorriso -as mkisofs \
                         -r -V "ubuntu-autoinstall-${TODAY}" -J -joliet-long -l \
                         -iso-level 3 \
@@ -463,13 +507,13 @@ main(){
         parse_params "$@"
 
         if [ ! -f "$SOURCE_ISO" ]; then
-        
+
                 if [ "${USE_RELEASE_ISO}" -eq 1 ]; then
                         latest_release
                 else
                         daily_release
                 fi
-                
+
                 check_legacy
         fi
 
@@ -483,7 +527,7 @@ main(){
         extract_images
         set_kernel_autoinstall
         set_hwe_kernel
-        
+
         if [ -n "$EXTRA_FILES_FOLDER" ]; then
                 insert_extra_files
         fi
@@ -493,7 +537,6 @@ main(){
         fi
 
         reassemble_iso
-
         cleanup
 }
 

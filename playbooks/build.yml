@@ -4,7 +4,7 @@
   hosts: all
 
   vars:
-    name: cloud-in-a-box-1
+    name: "{{ variant | default('cloud-in-a-box-1') }}"
 
   tasks:
     - name: Run build script

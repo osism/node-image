@@ -38,61 +38,61 @@
     name: node-image-build-1
     parent: node-image-build
     vars:
-      name: 1
+      variant: 1
 
 - job:
     name: node-image-build-2
     parent: node-image-build
     vars:
-      name: 2
+      variant: 2
 
 - job:
     name: node-image-build-3
     parent: node-image-build
     vars:
-      name: 3
+      variant: 3
 
 - job:
     name: node-image-build-cloud-in-a-box-1
     parent: node-image-build
     vars:
-      name: cloud-in-a-box-1
+      variant: cloud-in-a-box-1
 
 - job:
     name: node-image-build-cloud-in-a-box-2
     parent: node-image-build
     vars:
-      name: cloud-in-a-box-2
+      variant: cloud-in-a-box-2
 
 - job:
     name: node-image-build-cloud-in-a-box-edge-2
     parent: node-image-build
     vars:
-      name: cloud-in-a-box-edge-2
+      variant: cloud-in-a-box-edge-2
 
 - job:
     name: node-image-build-osism-1
     parent: node-image-build
     vars:
-      name: osism-1
+      variant: osism-1
 
 - job:
     name: node-image-build-osism-2
     parent: node-image-build
     vars:
-      name: osism-2
+      variant: osism-2
 
 - job:
     name: node-image-build-osism-3
     parent: node-image-build
     vars:
-      name: osism-3
+      variant: osism-3
 
 - job:
     name: node-image-build-osism-4
     parent: node-image-build
     vars:
-      name: osism-4
+      variant: osism-4
 
 - job:
     name: node-image-publish-1

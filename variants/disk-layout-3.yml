@@ -1,3 +1,4 @@
+---
 - ptable: gpt
   path: /dev/sda
   wipe: superblock-recursive
@@ -63,7 +64,7 @@
   id: partition-4
 - name: system
   devices:
-  - partition-4
+    - partition-4
   preserve: false
   type: lvm_volgroup
   id: lvm_volgroup-0

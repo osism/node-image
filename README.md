@@ -5,14 +5,27 @@
 
 ## Download
 
+### Standard images
+
+#### Variant 1
+
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso.CHECKSUM
+
+#### Variant 2
 
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-2.iso
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-2.iso.CHECKSUM
 
+#### Variant 3
+
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-3.iso
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-3.iso.CHECKSUM
+
+#### Variant 4
+
+* https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-4.iso
+* https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-4.iso.CHECKSUM
 
 ### Cloud-in-a-box images
 
@@ -30,6 +43,8 @@
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso.CHECKSUM
 
 ### Other
+
+We use these images for REGIO.cloud and they are probably only useful for ourselves.
 
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-1.iso
 * https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-1.iso.CHECKSUM
@@ -67,6 +82,10 @@
 
 ![Disk layout](/assets/disklayout-3.drawio.png "Disk layout")
 
+### Variant 4
+
+Like ``Variant 3``, with ``/dev/nvme0n1``.
+
 ## Cloud-in-a-box variants
 
 ### Sandbox
@@ -90,6 +109,8 @@ Only NVMe devices are supported for the Edge variant.
 Like Sandbox ``Variant 2``, with ``CLOUD_IN_A_BOX_TYPE=edge``.
 
 ## Other variants
+
+We use these images for REGIO.cloud and they are probably only useful for ourselves.
 
 ### OSISM 1
 

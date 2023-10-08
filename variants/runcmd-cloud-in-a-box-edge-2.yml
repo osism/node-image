@@ -1,3 +1,4 @@
+---
 - git clone https://github.com/osism/cloud-in-a-box /opt/cloud-in-a-box
 - /opt/cloud-in-a-box/bootstrap.sh edge
 - /opt/cloud-in-a-box/deploy.sh edge

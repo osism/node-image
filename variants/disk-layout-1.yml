@@ -1,3 +1,4 @@
+---
 - grub_device: false
   id: disk-sda
   name: ''

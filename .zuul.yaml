@@ -53,6 +53,12 @@
       variant: 3
 
 - job:
+    name: node-image-build-4
+    parent: node-image-build
+    vars:
+      variant: 4
+
+- job:
     name: node-image-build-cloud-in-a-box-1
     parent: node-image-build
     vars:
@@ -117,6 +123,16 @@
 - job:
     name: node-image-publish-3
     parent: node-image-build-3
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
+    name: node-image-publish-4
+    parent: node-image-build-4
     vars:
       upload_image: true
     secrets:
@@ -204,6 +220,7 @@
         - node-image-build-1
         - node-image-build-2
         - node-image-build-3
+        - node-image-build-4
         - node-image-build-cloud-in-a-box-1
         - node-image-build-cloud-in-a-box-2
         - node-image-build-cloud-in-a-box-edge-2
@@ -218,6 +235,8 @@
         - node-image-publish-2:
             branches: main
         - node-image-publish-3:
+            branches: main
+        - node-image-publish-4:
             branches: main
         - node-image-publish-cloud-in-a-box-1:
             branches: main

@@ -1,3 +1,4 @@
+---
 - lvconvert -y --type raid1 -m 1 system/root
 - lvconvert -y --type raid1 -m 1 system/home
 - lvconvert -y --type raid1 -m 1 system/tmp

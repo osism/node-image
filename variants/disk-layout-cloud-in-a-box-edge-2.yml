@@ -1,3 +1,4 @@
+---
 - ptable: gpt
   path: /dev/nvme0n1
   wipe: superblock-recursive
@@ -74,13 +75,13 @@
   id: partition-5
 - name: osd-vg
   devices:
-  - partition-5
+    - partition-5
   preserve: false
   type: lvm_volgroup
   id: lvm_volgroup-1
 - name: system
   devices:
-  - partition-4
+    - partition-4
   preserve: false
   type: lvm_volgroup
   id: lvm_volgroup-0

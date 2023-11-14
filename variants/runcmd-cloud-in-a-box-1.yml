@@ -1,4 +1,3 @@
 ---
-- git clone https://github.com/osism/cloud-in-a-box /opt/cloud-in-a-box
-- /opt/cloud-in-a-box/bootstrap.sh sandbox
-- /opt/cloud-in-a-box/deploy.sh sandbox
+- curl -o /root/init.sh https://raw.githubusercontent.com/osism/cloud-in-a-box/main/init.sh
+- bash /root/init.sh sandbox

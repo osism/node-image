@@ -12,19 +12,7 @@
         executable: /bin/bash
         chdir: "{{ zuul.project.src_dir }}"
         cmd: |
-          set -e
-          set -x
-
-          cp variants/disk-layout-{{ name }}.yml include.d/disk-layout.yml
-          cp variants/runcmd-{{ name }}.yml include.d/runcmd.yml
-
-          pipenv run python3 render-user-data.py > user-data
-          # cloud-init schema --config-file user-data
-
-          bash image-create.sh -r -a -k -u user-data -n jammy
-
-          mv ubuntu-autoinstall.iso ubuntu-autoinstall-{{ name }}.iso
-          sha256sum ubuntu-autoinstall-{{ name }}.iso > ubuntu-autoinstall-{{ name }}.iso.CHECKSUM
+          ./create-image-flavor.sh {{ name }}
 
     - name: Run upload script
       ansible.builtin.shell:

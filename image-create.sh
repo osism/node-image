@@ -155,7 +155,7 @@ parse_params() {
         return 0
 }
 
-# Create temporary directories for fie download and expansion
+# Create temporary directories for file download and expansion
 create_tmp_dirs(){
         export TMP_DIR=$(mktemp -d)
         if [[ ! "${TMP_DIR}" || ! -d "${TMP_DIR}" ]]; then

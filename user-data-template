@@ -47,6 +47,7 @@ autoinstall:
       - jq
       - linux-generic-hwe-22.04
       - lldpd
+      - lldpd
       - procps
       - python3
       - vim

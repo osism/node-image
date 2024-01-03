@@ -24,7 +24,11 @@ pipenv install
 pipenv run python3 render-user-data.py > user-data
 # cloud-init schema --config-file user-data
 
-./image-create.sh -r -a -k -u user-data -n jammy
+if ( echo "$image_name" | grep "cloud-in-a-box-" );then
+   extra_files="--extra-files $PWD/assets/scripts/"
+   chmod -R 755 $PWD/assets/scripts/
+fi
+./image-create.sh -r -a -k ${extra_files:-} -u user-data -n jammy
 
 mv ubuntu-autoinstall.iso ubuntu-autoinstall-${image_name}.iso
 sha256sum ubuntu-autoinstall-${image_name}.iso > ubuntu-autoinstall-${image_name}.iso.CHECKSUM

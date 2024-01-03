@@ -67,7 +67,7 @@ Available options:
 
 -m, --meta-data           Path to meta-data file. Will be an empty file if not specified and using -a
 
--x, --extra-files         Specifies a folder whos contents will be copied into the /media directroy of the squashfs.
+-x, --extra-files         Specifies a folder whos contents will be copied into the /media directory of the squashfs.
                           If not set, nothing is copied
 
 -k, --no-verify           Disable GPG verification of the source ISO file. By default SHA256SUMS-<current date> and
@@ -409,11 +409,11 @@ insert_extra_files(){
         sudo mksquashfs squashfs-root/ "${SQUASH_FS}" -comp xz -b 1M -noappend
 
         log " - Step 5. Copy squashfs copied back to {BUILD_DIR}/casper/${SQUASH_FS}"
-        cp "${SQUASH_FS}" "${BUILD_DIR}/casper/${SQUASH_FS}"
+        sudo cp "${SQUASH_FS}" "${BUILD_DIR}/casper/${SQUASH_FS}"
 
         log " - Step 6. Cleaning up directories..."
-        rm -rf "${SQUASH_FS}"
-        rm -rf squashfs-root
+        sudo rm -rf "${SQUASH_FS}"
+        sudo rm -rf squashfs-root
 
         cd -
 }

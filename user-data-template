@@ -28,8 +28,11 @@ autoinstall:
     - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
     - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
     - cat /proc/cmdline > /target/etc/.initial-kernel-commandline
-    # shut-down the host to avoid an infinite installer loop
-    - shutdown -h now
+    # try to set the installed disk to be the boot device and shutdown or reboot depending on the
+    # success of the configuration of the boot device
+    - find /media/
+    - df -h
+    - bash /media/change_boot_order.sh auto
 
   user-data:
     disable_root: true
@@ -52,6 +55,7 @@ autoinstall:
       - vim
       - wget
       - whois
+      - efibootmgr
 
     apt:
       primary:

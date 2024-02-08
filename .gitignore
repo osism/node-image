@@ -1,0 +1,13 @@
+.idea
+*.swp
+*.swo
+*.new
+*-new.json
+note-*
+hardware/servers/setup/sum*
+*.passwords
+sum.log
+Supermicro_*_*.*.log.*_*
+users/userdata/vpn/
+venv
+__pycache__

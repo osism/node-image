@@ -1,0 +1,34 @@
+<mxfile host="app.diagrams.net" modified="2024-02-21T11:46:26.061Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0" etag="EhQcGvaGwuK0KyMxOF-I" version="23.1.2" type="device">
+  <diagram id="pNlgbZmsKTASvtVl8QK2" name="Seite-1">
+    <mxGraphModel dx="1234" dy="1070" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-20" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="160" y="260" width="200" height="460" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-1" value="/dev/nvme0n1" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-3" value="/dev/nvme0n1p1: 1 GByte&lt;br&gt;/boot" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-5" value="/dev/nvme0n1p22: 1 GByte&lt;br&gt;/boot/efi" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-7" value="/dev/nvme0n1p3: 8 GByte&lt;br&gt;Swap" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-9" value="/dev/nvme0n1p14: -1&lt;br&gt;PV" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-12" value="VG system" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="630" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-13" value="LV root: 100 GByte, /" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="670" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

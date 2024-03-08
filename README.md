@@ -24,7 +24,7 @@
 
 [Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso) - 
   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso.CHECKSUM)
- 
+
 ![Disk layout](assets/disklayout-1.drawio.png "Disk layout")
 
 #### Variant 2
@@ -62,20 +62,18 @@
 
 ![Disk layout](assets/disklayout-4.drawio.png "Disk layout")
 
-### Cloud-in-a-box images
+## Cloud-in-a-box images
 
 The [cloud in a box](https://osism.github.io/docs/guides/deploy-guide/examples/cloud-in-a-box) documentation provides more details about this.
 
-## Cloud-in-a-box variants
-
-### Variant 1
+### Variant 1 -  SCSI images
 
 [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso) - 
     [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso.CHECKSUM)
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
 
-### Variant 2
+### Variant 2 - NVME images
 
  * [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso) - 
    [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso.CHECKSUM)
@@ -87,7 +85,7 @@ The [cloud in a box](https://osism.github.io/docs/guides/deploy-guide/examples/c
 
 ## Frequently asked Questions / Known Issues
 
-### Verifying Images
+### Download and verify images
 
 ```bash
 osism_image(){

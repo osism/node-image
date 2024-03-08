@@ -73,7 +73,7 @@ The [cloud in a box](https://osism.github.io/docs/guides/deploy-guide/examples/c
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
 
-### Variant 2 - NVME images
+### Variant 2 - NVMe images
 
  * [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso) - 
    [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso.CHECKSUM)

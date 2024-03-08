@@ -13,10 +13,10 @@
 * After the first boot the system shuts down again
 * System is ready for use, by default DHCP is tried on all available  interfaces
 * Perform a SSH-login
-  * user: ``osism``
-  * password: ``password``
+  * user: `osism` (use `dragon` for CIAB images)
+  * password: `password`
 
-## Available images
+## Published images
 
 ### Generic Node Images
 
@@ -64,7 +64,7 @@
 
 ## Cloud-in-a-box images
 
-The [cloud in a box](https://osism.github.io/docs/guides/deploy-guide/examples/cloud-in-a-box) documentation provides more details about this.
+The [cloud in a box](https://osism.github.io/docs/guides/other-guides/cloud-in-a-box/) documentation provides more details about this.
 
 ### Variant 1 -  SCSI images
 

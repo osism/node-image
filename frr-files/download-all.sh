@@ -1,0 +1,14 @@
+apt-get download frr
+apt-get download frr-pythontools
+apt-get download libc-ares2
+apt-get download libyang2
+apt-get download ipmitool
+apt-get download freeipmi-common
+apt-get download libfreeipmi17
+apt-get download libopenipmi0
+apt-get download libsensors-config
+apt-get download libsensors5
+apt-get download libsnmp-base
+apt-get download libsnmp-base
+apt-get download libsnmp40
+apt-get download openipmi

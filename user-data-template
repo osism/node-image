@@ -18,16 +18,19 @@ autoinstall:
         alleths:
           match:
             name: en*
-          dhcp4: true
+          dhcp4: false
           optional: true
 
   storage:
     config: !include include.d/disk-layout.yml
 
   late-commands:
-    - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
-    - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
-    - cat /proc/cmdline > /target/etc/.initial-kernel-commandline
+    - mkdir /target/frr-files
+    - cp /cdrom/frr-files/* /target/frr-files
+    - curtin in-target --target=/target -- bash -c "dpkg -i /frr-files/*.deb"
+    - curtin in-target -- /frr-files/install.sh | tee /var/log/installer/frr.log
+    - tar cf /target/install.log.tar /var/log/installer
+
     # shut-down the host to avoid an infinite installer loop
     - shutdown -h now
 

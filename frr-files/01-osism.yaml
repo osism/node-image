@@ -1,0 +1,32 @@
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+---
+network:
+  version: 2
+  renderer: networkd
+
+  bonds:
+    {}
+
+
+  bridges:
+    {}
+
+
+  ethernets:
+    dummy0:
+        addresses:
+        - 10.10.21.IP/32
+        - fd0c:cc24:75a0:1:10:10:21:IP/128
+    ens1f0np0:
+        mtu: 9100
+    ens1f1np1:
+        mtu: 9100
+
+
+  tunnels:
+    {}
+
+
+  vlans:
+    {}

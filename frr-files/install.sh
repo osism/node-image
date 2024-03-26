@@ -13,8 +13,8 @@ echo $SYSTEM_HOSTNAME > /etc/hostname
 echo "\n - \S - IP - 10.10.21.$IP_SUFFIX" > /etc/issue
 
 rm -f /etc/netplan/00-installer-config.yaml
-sed -e "s/IP_SUFFIX/$IP_SUFFIX/" $BASE/01-osism.yaml > /etc/netplan/01-osism.yaml
-sed -e "s/IP_SUFFIX/$IP_SUFFIX/" -e "s/HOST/$SYSTEM_HOSTNAME/" $BASE/frr.conf > /etc/frr/frr.conf
+sed -e "s/IP/$IP_SUFFIX/" $BASE/01-osism.yaml > /etc/netplan/01-osism.yaml
+sed -e "s/IP/$IP_SUFFIX/" -e "s/HOST/$SYSTEM_HOSTNAME/" $BASE/frr.conf > /etc/frr/frr.conf
 cp $BASE/daemons /etc/frr/
 cp $BASE/05-dummy0.netdev /etc/systemd/network/
 

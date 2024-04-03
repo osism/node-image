@@ -13,7 +13,7 @@
 * After the first boot the system shuts down again
 * System is ready for use, by default DHCP is tried on all available  interfaces
 * Perform a SSH-login
-  * user: `osism` (use `dragon` for CIAB images)
+  * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
   * password: `password`
 
 ## Published images

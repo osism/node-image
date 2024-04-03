@@ -64,7 +64,7 @@
 
 ## Cloud-in-a-box images
 
-The [cloud in a box](https://osism.github.io/docs/guides/other-guides/cloud-in-a-box/) documentation provides more details about this.
+The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box) documentation provides more details about this.
 
 ### Variant 1 -  SCSI images
 

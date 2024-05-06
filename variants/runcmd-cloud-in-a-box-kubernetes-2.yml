@@ -1,0 +1,3 @@
+---
+- curl -o /root/init.sh https://raw.githubusercontent.com/osism/cloud-in-a-box/main/init.sh
+- bash /root/init.sh kubernetes

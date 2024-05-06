@@ -77,6 +77,12 @@
       variant: cloud-in-a-box-edge-2
 
 - job:
+    name: node-image-build-cloud-in-a-box-kubernetes-2
+    parent: node-image-build
+    vars:
+      variant: cloud-in-a-box-kubernetes-2
+
+- job:
     name: node-image-build-osism-1
     parent: node-image-build
     vars:
@@ -171,6 +177,16 @@
         pass-to-parent: true
 
 - job:
+    name: node-image-publish-cloud-in-a-box-kubernetes-2
+    parent: node-image-build-cloud-in-a-box-kubernetes-2
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
     name: node-image-publish-osism-1
     parent: node-image-build-osism-1
     vars:
@@ -224,6 +240,7 @@
         - node-image-build-cloud-in-a-box-1
         - node-image-build-cloud-in-a-box-2
         - node-image-build-cloud-in-a-box-edge-2
+        - node-image-build-cloud-in-a-box-kubernetes-2
         - node-image-build-osism-1
         - node-image-build-osism-2
         - node-image-build-osism-3
@@ -243,6 +260,8 @@
         - node-image-publish-cloud-in-a-box-2:
             branches: main
         - node-image-publish-cloud-in-a-box-edge-2:
+            branches: main
+        - node-image-publish-cloud-in-a-box-kubernetes-2:
             branches: main
         - node-image-publish-osism-1:
             branches: main

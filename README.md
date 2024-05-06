@@ -13,10 +13,10 @@
 * After the first boot the system shuts down again
 * System is ready for use, by default DHCP is tried on all available  interfaces
 * Perform a SSH-login
-  * user: ``osism``
-  * password: ``password``
+  * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
+  * password: `password`
 
-## Available images
+## Published images
 
 ### Generic Node Images
 

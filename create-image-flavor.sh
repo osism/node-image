@@ -1,31 +1,28 @@
 #!/bin/bash
 
-rundir="$(dirname $(readlink -f $0))"
+rundir="$(dirname "$(readlink -f "$0")")"
 
-echo "Entering $rundir directory"
-cd $rundir || exit 1
+create_env(){
+   set -e
+   rm -rf "${rundir}/venv"
+   python3 -m venv "${rundir}/venv"
+   source "${rundir}/venv/bin/activate"
+   pip install -r "${rundir}/requirements.txt"
+   touch --reference "${rundir}/requirements.txt" "${rundir}/venv/bin/activate"
+   set +e
+}
 
-if [ -z "$1" ];then
-   echo "$0 <variant>"
+if ! [ -d venv ] ;then
+   echo "Creating venv: ${rundir}/venv"
    echo
-   grep variant .zuul.yaml
-   exit 1
+   create_env
+elif [[ "$(stat --format='%Y' "${rundir}/requirements.txt")" -gt "$(stat --format='%Y' "${rundir}/venv/bin/activate")" ]];then
+   echo "Recreating venv: ${rundir}/venv"
+   echo
+   create_env
+else
+   source "${rundir}/venv/bin/activate"
 fi
 
-image_name="${1}"
-
-set -x
-set -e
-
-cp variants/disk-layout-${image_name}.yml include.d/disk-layout.yml
-cp variants/runcmd-${image_name}.yml include.d/runcmd.yml
-
-pipenv install
-pipenv run python3 render-user-data.py > user-data
-# cloud-init schema --config-file user-data
-
-./image-create.sh -r -a -k -u user-data -n jammy
-
-mv ubuntu-autoinstall.iso ubuntu-autoinstall-${image_name}.iso
-sha256sum ubuntu-autoinstall-${image_name}.iso > ubuntu-autoinstall-${image_name}.iso.CHECKSUM
-
+cd "${rundir}" || exit 1
+"${rundir}/contrib/create-image-flavor.py" $@

@@ -1,0 +1,79 @@
+#cloud-config
+autoinstall:
+  # https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html
+  version: 1
+
+  ssh:
+    allow-pw: true
+    install-server: true
+
+  identity:
+    hostname: osism
+    password: {{ password_hash }}
+    username: osism
+  network:
+    network:
+      version: 2
+      ethernets:
+        alleths:
+          match:
+            name: en*
+          dhcp4: {% if layer3_underlay == "true" %}false{% else %}true{% endif %}
+          accept-ra: {% if layer3_underlay == "true" %}false{% else %}true{% endif %}
+          optional: true
+
+  storage:
+    config:
+{%- filter indent(width=4) %}
+{% include 'variants/disk-layout-' + variant|string + '.yml.j2' %}
+{% endfilter %}
+  late-commands:
+    - cat /proc/cmdline > /target/etc/.initial-kernel-commandline
+{% if layer3_underlay == "true" %}
+    - mkdir -p /target/root/frr
+    - cp /media/frr/* /target/root/frr/
+    - curtin in-target --target=/target -- bash -c "dpkg -i /root/frr/*.deb"
+    - curtin in-target -- /root/frr/install.sh 2>&1 | tee /var/log/installer/frr.log
+    - tar cf /target/var/log/install.log.tar /var/log/installer
+{% else %}
+    - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
+    - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
+{% endif %}
+    # shut-down the host to avoid an infinite installer loop
+    - shutdown -h now
+
+  user-data:
+    disable_root: true
+    timezone: Etc/UTC
+    package_update: true
+    package_upgrade: true
+    packages:
+      - ca-certificates
+      - curl
+      - file
+      - frr
+      - git
+      - htop
+      - ipmitool
+      - jq
+      - linux-generic-hwe-22.04
+      - lldpd
+      - procps
+      - python3
+      - vim
+      - wget
+      - whois
+
+    apt:
+      primary:
+        - arches: [default]
+          uri: http://de.archive.ubuntu.com/ubuntu/
+
+    runcmd:
+{%- filter indent(width=4) %}
+{% include 'runcmd-default.yml.j2' %}
+{% include 'variants/runcmd-' + variant|string + '.yml.j2' %}
+{% endfilter %}
+    # shutdown after first host initial provisioning
+    power_state:
+      mode: poweroff

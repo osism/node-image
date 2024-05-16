@@ -16,6 +16,80 @@
   * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
   * password: `password`
 
+## Creation of specific images
+
+If the node images created in the release process are not sufficient or variants are required
+that need specific parameters (e.g. for the setup of layer 3 underlay nodes), variants of the images can be created.
+
+
+### The build process
+
+[Jinja2](https://jinja.palletsprojects.com) is used here as a templating mechanism. By adding new templates or
+specific logic, operators of osism cloud environments can use their own flavor of node images.
+
+Node images are created using the [`create-image-flavor.sh`](./create-image-flavor.sh) tool, which uses
+templates from the [`templates`](./templates)` folder.
+
+Values used in the templates are obtained from the following sources and in the following hierarchy:
+
+1. from the `vars` section of the respective node image in `.zuul.yaml`.
+2. from parameters that are passed via the `--arg <key>=<value>` parameter
+3. via a YAML file that is passed with `--config <filename>`.
+
+Last values are effective / winning.
+
+```bash
+usage: ./create-image-flavor.sh [-h] (--show | --build BUILD [BUILD ...] | --env | --clean) [--arg KEY=VALUE [KEY=VALUE ...]] [--config CONFIG]
+                                                                          [--template_only] [--layer3_underlay]
+
+options:
+  -h, --help            show this help message and exit
+  --show, -s            Show possible images
+  --build BUILD [BUILD ...], -b BUILD [BUILD ...]
+                        Build images
+  --env, -e             Create build environment
+  --clean, -r           Drop cached build data
+  --arg KEY=VALUE [KEY=VALUE ...], -a KEY=VALUE [KEY=VALUE ...]
+                        Extra values, see template
+  --config CONFIG, -c CONFIG
+                        A config as yaml file
+  --template_only, -t   Do only templating
+  --layer3_underlay, -l
+                        Use layer 3 underlay
+```
+
+### Build a image flavor adapted/new values
+
+Don't build a image, just test the templating and show effective values:
+(templated files are created in [`./build`](./build) folder)
+
+```bash
+$ ./create-image-flavor.sh --build node-image-build-osism-1 --layer3_underlay --template
+Created context (yaml):
+---
+asn_node_base: '42100210'
+description: Two mirrored NVME disks with a enhanced set of predefined logical volumes
+  (/dev/nvme3n1 and /dev/nvme4n1)
+interface1_asn: '65405'
+interface1_name: enp2s0f0np0
+interface2_asn: '65404'
+interface2_name: enp2s0f1np1
+ipv4_base: 10.10.21.
+ipv6_base: 'fd0c:cc24:75a0:1:10:10:21:'
+layer3_underlay: 'true'
+variant: osism-1
+....
+```
+
+Build the image:
+````bash
+$ ./create-image-flavor.sh \
+    --build node-image-build-osism-1 \
+    --layer3_underlay \
+    --config Supermicro_A2SDV-8C-LN8F.yml \
+    --arg "ipv6_base=fd0c:cc24:75a0:1:10:10:21:"
+````
+
 ## Published images
 
 ### Generic Node Images

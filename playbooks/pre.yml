@@ -4,7 +4,8 @@
   hosts: all
 
   roles:
-    - ensure-pip
+    - ensure-virtualenv
+    - ensure-docker
 
   tasks:
     - name: Run install script
@@ -14,16 +15,5 @@
         cmd: |
           set -e
           set -x
-
-          sudo apt-get update
-          sudo apt-get install -y \
-            cloud-init \
-            curl \
-            fdisk \
-            gpg \
-            isolinux \
-            sed \
-            wget \
-            xorriso
-
-          sudo pip3 install pipenv
+          ./create-image-flavor.sh --clean
+          ./create-image-flavor.sh --env

@@ -1,0 +1,4 @@
+[NetDev]
+Name=dummy0
+Kind=dummy
+MTUBytes=9000

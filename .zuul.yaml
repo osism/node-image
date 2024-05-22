@@ -39,72 +39,84 @@
     parent: node-image-build
     vars:
       variant: 1
+      description: 'Two mirrored SCSI disks with a enhanced set of predefined logical volumes'
 
 - job:
     name: node-image-build-2
     parent: node-image-build
     vars:
       variant: 2
+      description: 'Two mirrored SCSI disks with a single logical rootfs volume'
 
 - job:
     name: node-image-build-3
     parent: node-image-build
     vars:
       variant: 3
+      description: 'A single SCSI disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-4
     parent: node-image-build
     vars:
       variant: 4
+      description: 'A single NVME disk with a single logical rootfs volume (/dev/nvme0n1'
 
 - job:
     name: node-image-build-cloud-in-a-box-1
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-1
+      description: 'a CiaB image for a single scsi disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-cloud-in-a-box-2
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-2
+      description: 'a CiaB image for a single nvme disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-cloud-in-a-box-edge-2
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-edge-2
+      description: 'a CiaB edge image for a single nvme disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-cloud-in-a-box-kubernetes-2
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-kubernetes-2
+      description: 'a CiaB image with k8s for a single nvme disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-osism-1
     parent: node-image-build
     vars:
       variant: osism-1
+      description: 'Two mirrored NVME disks with a enhanced set of predefined logical volumes (/dev/nvme3n1 and /dev/nvme4n1)'
 
 - job:
     name: node-image-build-osism-2
     parent: node-image-build
     vars:
       variant: osism-2
+      description: 'Two mirrored NVME disks with a enhanced set of predefined logical volumes (/dev/nvme4n1 and /dev/nvme5n1)'
 
 - job:
     name: node-image-build-osism-3
     parent: node-image-build
     vars:
       variant: osism-3
+      description: 'Two mirrored NVME disks with a enhanced set of predefined logical volumes (/dev/nvme2n1 and /dev/nvme3n1)'
 
 - job:
     name: node-image-build-osism-4
     parent: node-image-build
     vars:
       variant: osism-4
+      description: 'Two mirrored NVME disks with a enhanced set of predefined logical volumes (/dev/nvme0n1 and /dev/nvme1n1)'
 
 - job:
     name: node-image-publish-1

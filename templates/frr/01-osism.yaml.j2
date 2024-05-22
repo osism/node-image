@@ -1,0 +1,36 @@
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+---
+network:
+  version: 2
+  renderer: networkd
+
+  bonds:
+    {}
+
+
+  bridges:
+    {}
+
+
+  ethernets:
+    dummy0:
+        addresses:
+        - {{ ipv4_base }}OSISM_IP/32
+        - {{ ipv6_base }}OSISM_IP/128
+    {{ interface1_name }}:
+        mtu: 9100
+        dhcp4: no
+        dhcp6: no
+    {{ interface2_name }}:
+        mtu: 9100
+        dhcp4: no
+        dhcp6: no
+
+
+  tunnels:
+    {}
+
+
+  vlans:
+    {}

@@ -12,7 +12,7 @@
         executable: /bin/bash
         chdir: "{{ zuul.project.src_dir }}"
         cmd: |
-          ./create-image-flavor.sh {{ name }}
+          ./create-image-flavor.sh -b {{ name }}
 
     - name: Run upload script
       ansible.builtin.shell:

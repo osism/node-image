@@ -1,2 +1,0 @@
----
-- lvconvert -y --type raid1 -m 1 system/root

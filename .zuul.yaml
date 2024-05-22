@@ -28,6 +28,7 @@
 - job:
     name: node-image-build
     abstract: true
+    pre-run: playbooks/pre.yml
     run: playbooks/build.yml
     timeout: 1800
     vars:

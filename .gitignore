@@ -4,5 +4,4 @@ venv
 base_image
 *.iso
 *.iso.CHECKSUM
-.idea
 build

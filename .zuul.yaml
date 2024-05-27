@@ -242,6 +242,8 @@
     merge-mode: squash-merge
     check:
       jobs:
+        - flake8
+        - python-black
         - yamllint
     label:
       jobs:
@@ -285,4 +287,6 @@
             branches: main
     periodic-daily:
       jobs:
+        - flake8
+        - python-black
         - yamllint

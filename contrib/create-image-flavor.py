@@ -20,7 +20,7 @@ def get_current_git_branch_name() -> str:
         ["git", "rev-parse", "--abbrev-ref", "HEAD"],
         capture_output=True,
         text=True,
-        check=True
+        check=True,
     )
     return result.stdout.strip()
 
@@ -34,11 +34,13 @@ def get_variants_data() -> dict[str, Any]:
     yaml.SafeLoader.add_constructor(None, ignore_tags_constructor)
     variant_data = dict()
 
-    with open(f"{run_dir}/.zuul.yaml", 'r') as file:
+    with open(f"{run_dir}/.zuul.yaml", "r") as file:
         zuul_config = yaml.safe_load(file)
         for element in zuul_config:
             for elem_name, elem_data in element.items():
-                if elem_name != "job" or not re.fullmatch(r"node-image-build-.+", elem_data["name"]):
+                if elem_name != "job" or not re.fullmatch(
+                    r"node-image-build-.+", elem_data["name"]
+                ):
                     continue
                 variant_data[elem_data["name"]] = elem_data["vars"]
     return variant_data
@@ -61,18 +63,24 @@ def build_template(context: dict[str, Any]) -> str:
 def docker_run(cmd: str, working_dir: str, chown_glob="*.iso"):
     print()
     os.chdir(run_dir)
-    subprocess.run(f"docker build --network=host --progress=plain -t  {DOCKER_BUILD_IMAGE} " +
-                   f"--build-arg BASE_IMAGE=ubuntu:{DISTRIBUTION} -f Dockerfile .", check=True, shell=True)
+    subprocess.run(
+        f"docker build --network=host --progress=plain -t  {DOCKER_BUILD_IMAGE} "
+        + f"--build-arg BASE_IMAGE=ubuntu:{DISTRIBUTION} -f Dockerfile .",
+        check=True,
+        shell=True,
+    )
     print("DOCKER:", color="green")
     print(f"+ {cmd}")
 
     chown_command = ""
     if chown_glob and chown_glob != "":
-        chown_command=f"&& chown -vR {os.getuid()}:{os.getgid()} {chown_glob}"
+        chown_command = f"&& chown -vR {os.getuid()}:{os.getgid()} {chown_glob}"
 
-    cmd_docker = (f"docker run --rm --net=host -v {working_dir}:/work -ti " +
-                  f"docker.io/library/{DOCKER_BUILD_IMAGE} " +
-                  f"bash -c \"{cmd} {chown_command}\"")
+    cmd_docker = (
+        f"docker run --rm --net=host -v {working_dir}:/work -ti "
+        + f"docker.io/library/{DOCKER_BUILD_IMAGE} "
+        + f'bash -c "{cmd} {chown_command}"'
+    )
     subprocess.run(cmd_docker, check=True, shell=True)
 
 
@@ -80,25 +88,38 @@ def package_ffr_files(context: dict) -> str:
     frr_dir = f"{build_dir}/media/frr"
     os.makedirs(frr_dir, exist_ok=True)
 
-    packages = ["frr", "frr-pythontools", "libc-ares2", "libyang2", "ipmitool", "freeipmi-common",
-                "libfreeipmi17", "libopenipmi0", "libsensors-config", "libsensors5", "libsnmp-base",
-                "libsnmp-base", "libsnmp40", "openipmi",
-                ]
+    packages = [
+        "frr",
+        "frr-pythontools",
+        "libc-ares2",
+        "libyang2",
+        "ipmitool",
+        "freeipmi-common",
+        "libfreeipmi17",
+        "libopenipmi0",
+        "libsensors-config",
+        "libsensors5",
+        "libsnmp-base",
+        "libsnmp-base",
+        "libsnmp40",
+        "openipmi",
+    ]
 
     os.chdir(frr_dir)
 
-    download_command = \
-        f"apt-get update && apt-get download {' '.join(packages)}"
+    download_command = f"apt-get update && apt-get download {' '.join(packages)}"
     download_ready = f"{frr_dir}/.download_ready"
     if not os.path.exists(download_ready):
         docker_run(download_command, frr_dir, ".")
-        with open(f"{frr_dir}/.download_ready", 'w') as f:
+        with open(f"{frr_dir}/.download_ready", "w"):
             pass  # do nothing, just create an empty file
 
-    env = Environment(loader=FileSystemLoader('/'))
+    env = Environment(loader=FileSystemLoader("/"))
     for file_name in glob.glob(f"{run_dir}/templates/frr/*"):
         if file_name.endswith(".j2"):
-            target_filename = frr_dir + "/" + os.path.basename(file_name.removesuffix(".j2"))
+            target_filename = (
+                frr_dir + "/" + os.path.basename(file_name.removesuffix(".j2"))
+            )
             print(f"rendering file : {target_filename}", color="magenta")
             template = env.get_template(file_name)
             with open(target_filename, mode="w", encoding="utf-8") as results:
@@ -108,10 +129,12 @@ def package_ffr_files(context: dict) -> str:
             shutil.copyfile(file_name, target_filename)
         if target_filename.endswith(".sh"):
             os.chmod(target_filename, 0o755)
-    return f"-x /work/build/media"
+    return "-x /work/build/media"
 
 
-def build_image(name: str, context_data: dict, template_only: bool = False) -> str | None:
+def build_image(
+    name: str, context_data: dict, template_only: bool = False
+) -> str | None:
     print(f"build image >>>{name}<<<", color="magenta")
     user_data_file = build_template(context_data)
 
@@ -127,17 +150,23 @@ def build_image(name: str, context_data: dict, template_only: bool = False) -> s
         print(f"image {iso_file}", color="magenta")
         os.chdir(run_dir)
 
-        build_command = f"/work/contrib/image-create.sh -r -a -k " + \
-                        f"-u /work/build/{os.path.basename(user_data_file)} -n {DISTRIBUTION}" + \
-                        f" --destination {iso_file} {add_dir}"
+        build_command = (
+            "/work/contrib/image-create.sh -r -a -k "
+            + f"-u /work/build/{os.path.basename(user_data_file)} -n {DISTRIBUTION}"
+            + f" --destination {iso_file} {add_dir}"
+        )
         docker_run(build_command, run_dir)
         iso_file_checksum = f"{iso_file}.CHECKSUM"
         print(f"Creating checksum file {iso_file_checksum}", color="magenta")
-        subprocess.run(f"sha256sum {iso_file} > {iso_file_checksum}", check=True, shell=True)
+        subprocess.run(
+            f"sha256sum {iso_file} > {iso_file_checksum}", check=True, shell=True
+        )
     return iso_file
 
 
-def create_context(image_name: str, commandline_args: argparse.Namespace) -> dict[str, str]:
+def create_context(
+    image_name: str, commandline_args: argparse.Namespace
+) -> dict[str, str]:
     context_data_default = {
         "layer3_underlay": "false",
         "asn_node_base": "42100210",
@@ -148,13 +177,15 @@ def create_context(image_name: str, commandline_args: argparse.Namespace) -> dic
         "interface1_asn": "65405",
         "interface2_asn": "65404",
         "password_hash": "$5$H2wkOHUVMIm2Yl2n$2AR/A2ILtgZcWx5UXL6N56Ha/wkdGvs0w5sFUMQ3iaB",
-        "ssh_public_key_user_osism": "# no key specified"
+        "ssh_public_key_user_osism": "# no key specified",
     }
     context_data = {**context_data_default, **variants[image_name]}
 
     if commandline_args.config:
-        with open(commandline_args.config, 'r') as file:
-            config_data = {key: str(value) for key, value in yaml.safe_load(file).items()}
+        with open(commandline_args.config, "r") as file:
+            config_data = {
+                key: str(value) for key, value in yaml.safe_load(file).items()
+            }
         context_data = {**context_data, **config_data}
 
     for extra_arg in commandline_args.arg:
@@ -169,8 +200,11 @@ def create_context(image_name: str, commandline_args: argparse.Namespace) -> dic
     print("Created context (yaml):", color="green")
     print("---")
     print(yaml.dump(context_data, default_flow_style=False))
-    print("You can adapt the context by submitting other values with >>--arg KEY=VALUE<< or by specifying a yaml "
-          "config file with --config", color="magenta")
+    print(
+        "You can adapt the context by submitting other values with >>--arg KEY=VALUE<< or by specifying a yaml "
+        "config file with --config",
+        color="magenta",
+    )
 
     return context_data
 
@@ -188,33 +222,43 @@ def build_images(commandline_args: argparse.Namespace):
             images.add(image)
 
     for image in images:
-        build_image(image, create_context(image, commandline_args), commandline_args.template_only)
+        build_image(
+            image,
+            create_context(image, commandline_args),
+            commandline_args.template_only,
+        )
 
 
 def wrap_text_by_words(text: str, words_per_line: int):
     words = text.split(" ")
     lines = []
     for i in range(0, len(words), words_per_line):
-        line = ' '.join(words[i:i + words_per_line]).strip()
+        line = " ".join(words[i : i + words_per_line]).strip()
         lines.append(line)
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def show_variants():
-    print("The available images:", color='green')
+    print("The available images:", color="green")
     print()
     table = PrettyTable()
     table.align = "l"
     table.field_names = ["Image Name", "Description", "Layout"]
     for image_name, data in variants.items():
-        table.add_row([
-            image_name,
-            wrap_text_by_words(data.get("description", "-"), 5),
-            f"assets/disklayout-{data['variant']}.drawio.png"], divider=True)
+        table.add_row(
+            [
+                image_name,
+                wrap_text_by_words(data.get("description", "-"), 5),
+                f"assets/disklayout-{data['variant']}.drawio.png",
+            ],
+            divider=True,
+        )
     print(table)
     print()
-    print(f"A overview: https://github.com/osism/node-image/tree/{BRANCH}", color='green')
+    print(
+        f"A overview: https://github.com/osism/node-image/tree/{BRANCH}", color="green"
+    )
     sys.exit(0)
 
 
@@ -223,24 +267,42 @@ DOCKER_WORKDIR = "/work"
 BRANCH = get_current_git_branch_name()
 DOCKER_BUILD_IMAGE = f"osism-node-image-builder:latest-{BRANCH}"
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run_dir = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../")
     build_dir = f"{run_dir}/build"
 
     parser = argparse.ArgumentParser(prog=f"{run_dir}/create-image-flavor.sh")
 
     exclusive_group = parser.add_mutually_exclusive_group(required=True)
-    exclusive_group.add_argument('--show', '-s', action='store_true', help="Show possible images")
-    exclusive_group.add_argument('--build', '-b', type=str, nargs='+', help='Build images')
-    exclusive_group.add_argument('--env', '-e', action='store_true', help="Create build environment")
-    exclusive_group.add_argument('--clean', '-r', action='store_true', help="Drop cached build data")
+    exclusive_group.add_argument(
+        "--show", "-s", action="store_true", help="Show possible images"
+    )
+    exclusive_group.add_argument(
+        "--build", "-b", type=str, nargs="+", help="Build images"
+    )
+    exclusive_group.add_argument(
+        "--env", "-e", action="store_true", help="Create build environment"
+    )
+    exclusive_group.add_argument(
+        "--clean", "-r", action="store_true", help="Drop cached build data"
+    )
 
-    parser.add_argument('--arg', '-a', nargs='+',
-                        help='Extra values, see template', metavar="KEY=VALUE", default=[])
-    parser.add_argument('--config', '-c', type=str, help='A config as yaml file')
+    parser.add_argument(
+        "--arg",
+        "-a",
+        nargs="+",
+        help="Extra values, see template",
+        metavar="KEY=VALUE",
+        default=[],
+    )
+    parser.add_argument("--config", "-c", type=str, help="A config as yaml file")
 
-    parser.add_argument('--template_only', '-t', action='store_true', help="Do only templating")
-    parser.add_argument('--layer3_underlay', '-l', action='store_true', help="Use layer 3 underlay")
+    parser.add_argument(
+        "--template_only", "-t", action="store_true", help="Do only templating"
+    )
+    parser.add_argument(
+        "--layer3_underlay", "-l", action="store_true", help="Use layer 3 underlay"
+    )
     args = parser.parse_args()
 
     os.chdir(run_dir)
@@ -251,11 +313,18 @@ if __name__ == '__main__':
         show_variants()
 
     if args.clean:
-        print("Cleaning up cached build data", color='green')
+        print("Cleaning up cached build data", color="green")
         if os.path.exists(build_dir):
             shutil.rmtree(build_dir)
             os.makedirs(build_dir)
-        if len(subprocess.check_output(f"docker images {DOCKER_BUILD_IMAGE} -q ", shell=True)) > 0:
+        if (
+            len(
+                subprocess.check_output(
+                    f"docker images {DOCKER_BUILD_IMAGE} -q ", shell=True
+                )
+            )
+            > 0
+        ):
             subprocess.run(f"docker rmi {DOCKER_BUILD_IMAGE}", check=True, shell=True)
         sys.exit(0)
 
@@ -265,4 +334,3 @@ if __name__ == '__main__':
 
     if args.env:
         docker_run("cat /etc/lsb-release", build_dir, chown_glob="")
-

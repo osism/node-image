@@ -211,7 +211,7 @@ def show_variants():
         table.add_row([
             image_name,
             wrap_text_by_words(data.get("description", "-"), 5),
-            f"assets/disklayout-{data["variant"]}.drawio.png"], divider=True)
+            f"assets/disklayout-{data['variant']}.drawio.png"], divider=True)
     print(table)
     print()
     print(f"A overview: https://github.com/osism/node-image/tree/{BRANCH}", color='green')

@@ -64,7 +64,9 @@ def docker_run(cmd: str, working_dir: str, chown_glob="*.iso"):
     print()
     os.chdir(run_dir)
     subprocess.run(
-        f"docker build --network=host --progress=plain -t  {DOCKER_BUILD_IMAGE} "
+        # Seems to only with docker > 26.1.0
+        # f"docker build --network=host --progress=plain -t {DOCKER_BUILD_IMAGE}
+        f"docker build --network=host -t {DOCKER_BUILD_IMAGE} "
         + f"--build-arg BASE_IMAGE=ubuntu:{DISTRIBUTION} -f Dockerfile .",
         check=True,
         shell=True,

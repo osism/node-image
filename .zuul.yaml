@@ -248,17 +248,6 @@
     label:
       jobs:
         - node-image-build-1
-        - node-image-build-2
-        - node-image-build-3
-        - node-image-build-4
-        - node-image-build-cloud-in-a-box-1
-        - node-image-build-cloud-in-a-box-2
-        - node-image-build-cloud-in-a-box-edge-2
-        - node-image-build-cloud-in-a-box-kubernetes-2
-        - node-image-build-osism-1
-        - node-image-build-osism-2
-        - node-image-build-osism-3
-        - node-image-build-osism-4
     post:
       jobs:
         - node-image-publish-1:

@@ -4,7 +4,7 @@
   hosts: all
 
   roles:
-    - ensure-virtualenv
+    - ensure-pip
     - ensure-docker
 
   tasks:

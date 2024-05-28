@@ -6,4 +6,13 @@
     - osism.services.squid
     - osism.commons.motd
     - scs-landscape-nodes
+  tasks:
+    - name: Set the Root volume to 80g of size
+      community.general.lvol:
+        vg: system
+        lv: root
+        size: 80g
+        force: yes
+        resizefs: yes
+
 

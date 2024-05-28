@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
 
 import glob
@@ -64,7 +63,7 @@ def docker_run(cmd: str, working_dir: str, chown_glob="*.iso"):
     print()
     os.chdir(run_dir)
     subprocess.run(
-        f"docker build --network=host --progress=plain -t  {DOCKER_BUILD_IMAGE} "
+        f"docker build --network=host -t {DOCKER_BUILD_IMAGE} "
         + f"--build-arg BASE_IMAGE=ubuntu:{DISTRIBUTION} -f Dockerfile .",
         check=True,
         shell=True,
@@ -77,7 +76,7 @@ def docker_run(cmd: str, working_dir: str, chown_glob="*.iso"):
         chown_command = f"&& chown -vR {os.getuid()}:{os.getgid()} {chown_glob}"
 
     cmd_docker = (
-        f"docker run --rm --net=host -v {working_dir}:/work -ti "
+        f"docker run --rm --net=host -v {working_dir}:/work "
         + f"docker.io/library/{DOCKER_BUILD_IMAGE} "
         + f'bash -c "{cmd} {chown_command}"'
     )
@@ -89,12 +88,11 @@ def package_ffr_files(context: dict) -> str:
     os.makedirs(frr_dir, exist_ok=True)
 
     packages = [
+        "freeipmi-common",
         "frr",
         "frr-pythontools",
-        "libc-ares2",
-        "libyang2",
         "ipmitool",
-        "freeipmi-common",
+        "libc-ares2",
         "libfreeipmi17",
         "libopenipmi0",
         "libsensors-config",
@@ -102,6 +100,7 @@ def package_ffr_files(context: dict) -> str:
         "libsnmp-base",
         "libsnmp-base",
         "libsnmp40",
+        "libyang2",
         "openipmi",
     ]
 
@@ -139,7 +138,7 @@ def build_image(
     user_data_file = build_template(context_data)
 
     add_dir = ""
-    if context_data.get("layer3_underlay"):
+    if context_data.get("layer3_underlay") == "true":
         add_dir = package_ffr_files(context_data)
 
     iso_file = None
@@ -159,7 +158,7 @@ def build_image(
         iso_file_checksum = f"{iso_file}.CHECKSUM"
         print(f"Creating checksum file {iso_file_checksum}", color="magenta")
         subprocess.run(
-            f"sha256sum {iso_file} > {iso_file_checksum}", check=True, shell=True
+            f"shasum -a 256 {iso_file} > {iso_file_checksum}", check=True, shell=True
         )
     return iso_file
 
@@ -269,9 +268,8 @@ DOCKER_BUILD_IMAGE = f"osism-node-image-builder:latest-{BRANCH}"
 
 if __name__ == "__main__":
     run_dir = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../")
-    build_dir = f"{run_dir}/build"
 
-    parser = argparse.ArgumentParser(prog=f"{run_dir}/create-image-flavor.sh")
+    parser = argparse.ArgumentParser(prog=f"{run_dir}/create-image.sh")
 
     exclusive_group = parser.add_mutually_exclusive_group(required=True)
     exclusive_group.add_argument(
@@ -296,16 +294,22 @@ if __name__ == "__main__":
         default=[],
     )
     parser.add_argument("--config", "-c", type=str, help="A config as yaml file")
+    parser.add_argument(
+        "--build-directory", type=str, help="Overwrite the default build directory"
+    )
 
     parser.add_argument(
-        "--template_only", "-t", action="store_true", help="Do only templating"
+        "--template-only", "-t", action="store_true", help="Do only templating"
     )
     parser.add_argument(
-        "--layer3_underlay", "-l", action="store_true", help="Use layer 3 underlay"
+        "--layer3-underlay", "-l", action="store_true", help="Use layer 3 underlay"
     )
     args = parser.parse_args()
 
+    build_dir = f"{run_dir}/build"
+
     os.chdir(run_dir)
+    os.umask(0o022)
 
     variants = get_variants_data()
 
@@ -333,4 +337,4 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if args.env:
-        docker_run("cat /etc/lsb-release", build_dir, chown_glob="")
+        docker_run("cat /etc/lsb-release", run_dir, chown_glob="")

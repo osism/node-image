@@ -1,4 +1,4 @@
-# Node-Images
+# Node Images
 
 | :zap: When booting from one of these images, all data on the hard disks will be destroyed without confirmation. :zap: |
 |-----------------------------------------------------------------------------------------------------------------------|
@@ -8,10 +8,10 @@
 * Copy image to USB stick or place the image on your network provisioning environment (Redfish, BMC mount, ....)
 * Mount the image in the BMC in another way
 * Boot from the device
-* Installation is performed, system shuts down afterward
-* Unmount the device or remove it and start system
-* After the first boot the system shuts down again
-* System is ready for use, by default DHCP is tried on all available  interfaces
+* Installation is performed, system shuts down afterwards
+* Unmount the device or remove it and start system again
+* After the first boot the system shuts down once more
+* System is ready for use, by default DHCP is tried on all available interfaces
 * Perform a SSH-login
   * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
   * password: `password`
@@ -21,29 +21,28 @@
 If the node images created in the release process are not sufficient or variants are required
 that need specific parameters (e.g. for the setup of layer 3 underlay nodes), variants of the images can be created.
 
-
 ### The build process
 
 [Jinja2](https://jinja.palletsprojects.com) is used here as a templating mechanism. By adding new templates or
 specific logic, operators of osism cloud environments can use their own flavor of node images.
 
-Node images are created using the [`create-image-flavor.sh`](./create-image-flavor.sh) tool, which uses
+Node images are created using the [`create-image.sh`](./create-image.sh) tool, which uses
 templates from the [`templates`](./templates)` folder.
 
 Values used in the templates are obtained from the following sources and in the following hierarchy:
 
 1. from the `vars` section of the respective node image in `.zuul.yaml`.
-2. from parameters that are passed via the `--arg <key>=<value>` parameter
+2. from parameters that are passed via the `--arg <key>=<value>` parameter.
 3. via a YAML file that is passed with `--config <filename>`.
 
 Last values are effective / winning.
 
 ```bash
-usage: ./create-image-flavor.sh [-h] (--show | --build BUILD [BUILD ...] | --env | --clean) [--arg KEY=VALUE [KEY=VALUE ...]] [--config CONFIG]
-                                                                          [--template_only] [--layer3_underlay]
+usage: create-image.sh [-h] (--show | --build BUILD [BUILD ...] | --env | --clean) [--arg KEY=VALUE [KEY=VALUE ...]]
+                       [--config CONFIG] [--template-only] [--layer3-underlay]
 
 options:
-  -h, --help            show this help message and exit
+  -h, --help            Show this help message and exit
   --show, -s            Show possible images
   --build BUILD [BUILD ...], -b BUILD [BUILD ...]
                         Build images
@@ -53,18 +52,18 @@ options:
                         Extra values, see template
   --config CONFIG, -c CONFIG
                         A config as yaml file
-  --template_only, -t   Do only templating
-  --layer3_underlay, -l
+  --template-only, -t   Do only templating
+  --layer3-underlay, -l
                         Use layer 3 underlay
 ```
 
-### Build a image flavor adapted/new values
+### Build an image with adapted/new values
 
-Don't build a image, just test the templating and show effective values:
-(templated files are created in [`./build`](./build) folder)
+In order to just test the templating and show the effective values
+(templated files are created in the [`./build`](./build) folder):
 
 ```bash
-$ ./create-image-flavor.sh --build node-image-build-osism-1 --layer3_underlay --template
+$ ./create-image.sh --build node-image-build-osism-1 --layer3-underlay --template
 Created context (yaml):
 ---
 asn_node_base: '42100210'
@@ -83,9 +82,9 @@ variant: osism-1
 
 Build the image:
 ````bash
-$ ./create-image-flavor.sh \
+$ ./create-image.sh \
     --build node-image-build-osism-1 \
-    --layer3_underlay \
+    --layer3-underlay \
     --config Supermicro_A2SDV-8C-LN8F.yml \
     --arg "ipv6_base=fd0c:cc24:75a0:1:10:10:21:"
 ````
@@ -140,7 +139,7 @@ $ ./create-image-flavor.sh \
 
 The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box) documentation provides more details about this.
 
-### Variant 1 -  SCSI images
+### Variant 1 - SCSI images
 
 [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso) - 
     [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso.CHECKSUM)

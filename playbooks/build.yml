@@ -7,12 +7,15 @@
     name: "{{ variant | default('cloud-in-a-box-1') }}"
 
   tasks:
-    - name: Run build script
-      ansible.builtin.shell:
-        executable: /bin/bash
+    - name: Prepare build environment
+      ansible.builtin.command:
         chdir: "{{ zuul.project.src_dir }}"
-        cmd: |
-          ./create-image-flavor.sh -b {{ name }}
+        cmd: bash create-image.sh --env
+
+    - name: Run build script
+      ansible.builtin.command:
+        chdir: "{{ zuul.project.src_dir }}"
+        cmd: bash create-image.sh -b node-image-build-{{ name }}
 
     - name: Run upload script
       ansible.builtin.shell:

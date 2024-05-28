@@ -1,5 +1,7 @@
 
-all: A2SDV-4C-LN8F.iso A2SDV-8C-LN8F.iso ARS-110M-NR.iso H12SSL-CT.iso H12SSL-NT.iso
+UMASK = "002"
+
+all: samba A2SDV-4C-LN8F.iso A2SDV-8C-LN8F.iso ARS-110M-NR.iso H12SSL-CT.iso H12SSL-NT.iso
 .PHONY: all
 
 A2SDV-4C-LN8F.iso: node-image
@@ -47,6 +49,10 @@ H12SSL-NT.iso: node-image
 node-image:
 	git clone git@github.com:osism/node-image.git
 
+
+samba:
+	. ../../venv/bin/activate && ansible-galaxy collection install vladgh.samba 
+	osism apply manager_redfish-source
 
 clean:
 	rm -rf node-image

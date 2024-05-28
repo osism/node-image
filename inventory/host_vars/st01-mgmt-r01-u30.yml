@@ -17,8 +17,6 @@ external_interface: eno2
 mgmt_interface: eno3
 
 
-
-
 ##########################################################
 # network
 
@@ -56,6 +54,7 @@ network_ethernets:
   eno3:
     addresses:
       - "10.10.23.10/24"
+
 
 
 motd_content: |

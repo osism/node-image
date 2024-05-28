@@ -1,0 +1,10 @@
+---
+- name: Deploy redfish datasource
+  hosts: manager
+  become: true
+  tasks:
+    - name: Include Samba Server role
+      ansible.builtin.include_role:
+        name: vladgh.samba.server
+
+

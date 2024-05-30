@@ -4,16 +4,5 @@
   hosts: all
 
   roles:
-    - ensure-virtualenv
+    - ensure-pip
     - ensure-docker
-
-  tasks:
-    - name: Run install script
-      ansible.builtin.shell:
-        executable: /bin/bash
-        chdir: "{{ zuul.project.src_dir }}"
-        cmd: |
-          set -e
-          set -x
-          ./create-image-flavor.sh --clean
-          ./create-image-flavor.sh --env

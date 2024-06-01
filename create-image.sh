@@ -25,4 +25,4 @@ else
 fi
 
 cd "${rundir}" || exit 1
-python3 ${rundir}/contrib/create-image.py $@
+python3 ${rundir}/contrib/create-image.py "$@"

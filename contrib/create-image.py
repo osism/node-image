@@ -55,7 +55,7 @@ def build_template(context: dict[str, Any]) -> str:
         templated_string = results_template.render(context)
         yaml_loaded = yaml.load(templated_string, Loader=yaml.FullLoader)
         results.write("#cloud-config\n")
-        results.write(yaml.dump(yaml_loaded))
+        results.write(yaml.dump(yaml_loaded, width=300))
     return results_filename
 
 

@@ -9,7 +9,7 @@ import sys
 from print_color import print
 from prettytable import PrettyTable
 from typing import Any
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 import yaml
 import argparse
 
@@ -48,7 +48,7 @@ def get_variants_data() -> dict[str, Any]:
 def build_template(context: dict[str, Any]) -> str:
     results_filename = f"{build_dir}/user-data-{context['variant']}.yaml"
     template_loader = FileSystemLoader(searchpath=f"{run_dir}/templates/")
-    template_env = Environment(loader=template_loader)
+    template_env = Environment(loader=template_loader, undefined=StrictUndefined)
     results_template = template_env.get_template("user-data.yml.j2")
     with open(results_filename, mode="w", encoding="utf-8") as results:
         print(f"rendering file : {results_filename}", color="magenta")

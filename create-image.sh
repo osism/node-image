@@ -12,7 +12,7 @@ create_env(){
    set +e
 }
 
-if ! [ -d venv ] ;then
+if ! [ -d "${rundir}/venv" ] ;then
    echo "Creating venv: ${rundir}/venv"
    echo
    create_env

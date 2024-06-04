@@ -198,11 +198,9 @@ def create_context(
             }
         context_data = {**context_data, **config_data}
 
-    for extra_arg in commandline_args.arg:
+    for extra_arg in commandline_args.parameters:
         arg_arr = extra_arg.split("=")
         context_data[arg_arr[0]] = "=".join(arg_arr[1:])
-    if commandline_args.layer3_underlay:
-        context_data["layer3_underlay"] = "true"
 
     # convert everything to strings
     context_data = {k: str(v) for k, v in context_data.items()}
@@ -297,8 +295,8 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--arg",
-        "-a",
+        "--parameters",
+        "-p",
         nargs="+",
         help="Extra values, see template",
         metavar="KEY=VALUE",
@@ -311,9 +309,6 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--template-only", "-t", action="store_true", help="Do only templating"
-    )
-    parser.add_argument(
-        "--layer3-underlay", "-l", action="store_true", help="Use layer 3 underlay"
     )
     args = parser.parse_args()
 

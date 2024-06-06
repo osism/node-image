@@ -30,7 +30,7 @@ systemctl restart systemd-networkd
 netplan apply
 systemctl restart frr
 
-DUMMY_IPV="$(ip -o -4 addr list dummy0 | awk '{print $4}' | cut -d/ -f1)"
+DUMMY_IPV4="$(ip -o -4 addr list dummy0 | awk '{print $4}' | cut -d/ -f1)"
 echo "\n - \S - IP - ${DUMMY_IPV4}" > /etc/issue
 
 vtysh -c "show ip bgp summary"

@@ -26,11 +26,22 @@ chmod 600 /etc/systemd/network/05-dummy0.netdev
 chown systemd-network:root /etc/systemd/network/05-dummy0.netdev
 
 systemctl restart systemd-networkd
-
 netplan apply
+
+interface_problems=0
+for interface in "{{ interface1_name }}" "{{ interface2_name }}";
+do
+   echo "-> checking interface $interface"
+   ip link ls $interface|grep "state UP"
+   if [ "$?" != "0" ];then
+      echo "ERROR: interface not ready"
+      interface_problems="$(( $interface_problems + 1 ))"
+   fi
+done
+if [ $interface_problems -gt 0 ];then
+   exit 1
+fi
+
 systemctl restart frr
 
-DUMMY_IPV4="$(ip -o -4 addr list dummy0 | awk '{print $4}' | cut -d/ -f1)"
-echo "\n - \S - IP - ${DUMMY_IPV4}" > /etc/issue
-
-vtysh -c "show ip bgp summary"
+echo "\n - \S - IP - {{ ipv4_base }}.${IP_SUFFIX}" > /etc/issue

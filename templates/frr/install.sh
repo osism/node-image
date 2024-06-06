@@ -14,7 +14,7 @@ dpkg -i  $BASE/*.deb
 ls -1 $BASE/*.deb|sed -e 's,_.*$,' -e 's,^.*/,,' | xargs apt-mark manual
 
 echo $SYSTEM_HOSTNAME > /etc/hostname
-echo "\n - \S - IP - 10.10.21.$IP_SUFFIX" > /etc/issue
+
 
 rm -f /etc/netplan/00-installer-config.yaml
 sed -e "s/OSISM_IP/$IP_SUFFIX/" $BASE/01-osism.yaml > /etc/netplan/01-osism.yaml
@@ -29,3 +29,8 @@ systemctl restart systemd-networkd
 
 netplan apply
 systemctl restart frr
+
+DUMMY_IPV="$(ip -o -4 addr list dummy0 | awk '{print $4}' | cut -d/ -f1)"
+echo "\n - \S - IP - ${DUMMY_IPV4}" > /etc/issue
+
+vtysh -c "show ip bgp summary"

@@ -1,6 +1,0 @@
----
-features:
-  - |
-    - Store the inital kernel parameters of the initial installer in
-      /target/etc/.initial-kernel-commandline
-    - ciab: Download the deployment script from the cloud-in-the-box repo

@@ -60,42 +60,49 @@
     parent: node-image-build
     vars:
       variant: 4
-      description: 'A single NVME disk with a single logical rootfs volume (/dev/nvme0n1'
+      description: 'A single NVMe disk with a single logical rootfs volume (/dev/nvme0n1)'
 
 - job:
     name: node-image-build-cloud-in-a-box-1
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-1
-      description: 'a CiaB image for a single scsi disk with a single logical rootfs volume'
+      description: 'A Cloud in a Box image for a single SCSI disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-cloud-in-a-box-2
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-2
-      description: 'a CiaB image for a single nvme disk with a single logical rootfs volume'
+      description: 'A Cloud in a Box image for a single NVMe disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-cloud-in-a-box-edge-2
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-edge-2
-      description: 'a CiaB edge image for a single nvme disk with a single logical rootfs volume'
+      description: 'A Cloud in a Box edge image for a single NVMe disk with a single logical rootfs volume'
+
+- job:
+    name: node-image-build-cloud-in-a-box-kubernetes-1
+    parent: node-image-build
+    vars:
+      variant: cloud-in-a-box-kubernetes-1
+      description: 'A Cloud in a Box image with Kubernetes for a single SCSI disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-cloud-in-a-box-kubernetes-2
     parent: node-image-build
     vars:
       variant: cloud-in-a-box-kubernetes-2
-      description: 'a CiaB image with k8s for a single nvme disk with a single logical rootfs volume'
+      description: 'A Cloud in a Box image with Kubernetes for a single NVMe disk with a single logical rootfs volume'
 
 - job:
     name: node-image-build-osism-1
     parent: node-image-build
     vars:
       variant: osism-1
-      description: 'Two mirrored NVME disks with a single logical rootfs volume (/dev/nvme3n1 and /dev/nvme4n1)'
+      description: 'Two mirrored NVMe disks with a single logical rootfs volume (/dev/nvme3n1 and /dev/nvme4n1)'
       layer3_underlay: true
 
 - job:
@@ -103,7 +110,7 @@
     parent: node-image-build
     vars:
       variant: osism-2
-      description: 'Two mirrored NVME disks with a single logical rootfs volume (/dev/nvme4n1 and /dev/nvme5n1)'
+      description: 'Two mirrored NVMe disks with a single logical rootfs volume (/dev/nvme4n1 and /dev/nvme5n1)'
       layer3_underlay: true
 
 - job:
@@ -111,7 +118,7 @@
     parent: node-image-build
     vars:
       variant: osism-3
-      description: 'Two mirrored NVME disks with a single logical rootfs volume (/dev/nvme2n1 and /dev/nvme3n1)'
+      description: 'Two mirrored NVMe disks with a single logical rootfs volume (/dev/nvme2n1 and /dev/nvme3n1)'
       layer3_underlay: true
 
 - job:
@@ -119,7 +126,7 @@
     parent: node-image-build
     vars:
       variant: osism-4
-      description: 'Two mirrored NVME disks with a single logical rootfs volume (/dev/nvme0n1 and /dev/nvme1n1)'
+      description: 'Two mirrored NVMe disks with a single logical rootfs volume (/dev/nvme0n1 and /dev/nvme1n1)'
       layer3_underlay: true
 
 - job:
@@ -193,6 +200,16 @@
         pass-to-parent: true
 
 - job:
+    name: node-image-publish-cloud-in-a-box-kubernetes-1
+    parent: node-image-build-cloud-in-a-box-kubernetes-1
+    vars:
+      upload_image: true
+    secrets:
+      - name: minio
+        secret: SECRET_NODE_IMAGE
+        pass-to-parent: true
+
+- job:
     name: node-image-publish-cloud-in-a-box-kubernetes-2
     parent: node-image-build-cloud-in-a-box-kubernetes-2
     vars:
@@ -258,6 +275,7 @@
         - node-image-build-cloud-in-a-box-1
         - node-image-build-cloud-in-a-box-2
         - node-image-build-cloud-in-a-box-edge-2
+        - node-image-build-cloud-in-a-box-kubernetes-1
         - node-image-build-cloud-in-a-box-kubernetes-2
         - node-image-build-osism-1
         - node-image-build-osism-2
@@ -278,6 +296,8 @@
         - node-image-publish-cloud-in-a-box-2:
             branches: main
         - node-image-publish-cloud-in-a-box-edge-2:
+            branches: main
+        - node-image-publish-cloud-in-a-box-kubernetes-1:
             branches: main
         - node-image-publish-cloud-in-a-box-kubernetes-2:
             branches: main

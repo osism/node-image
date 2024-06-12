@@ -80,7 +80,7 @@ usage: create-image.sh [-h] (--show | --build BUILD [BUILD ...] | --env | --clea
 
 
 options:
-  -h, --help            show this help message and exit
+  -h, --help            Show this help message and exit
   --show, -s            Show possible images
   --build BUILD [BUILD ...], -b BUILD [BUILD ...]
                         Build images
@@ -93,8 +93,6 @@ options:
   --build-directory BUILD_DIRECTORY
                         Overwrite the default build directory
   --template-only, -t   Do only templating
-  --layer3-underlay, -l
-                        Use layer 3 underlay
 ```
 
 ### Build an image with adapted/new values
@@ -103,7 +101,7 @@ In order to just test the templating and show the effective values
 (templated files are created in the [`./build`](./build) folder):
 
 ```bash
-$ ./create-image.sh --build node-image-build-osism-1 --layer3-underlay --template
+$ ./create-image.sh --build node-image-build-osism-1 --parameters layer3-underlay=true --template
 Created context (yaml):
 ---
 asn_node_base: '42100210'
@@ -117,6 +115,8 @@ ipv4_base: 10.10.21.
 ipv6_base: 'fd0c:cc24:75a0:1:10:10:21:'
 layer3_underlay: 'true'
 variant: osism-1
+password_hash: $5$H2wkOHUVMIm2Yl2n$2AR/A2ILtgZcWx5UXL6N56Ha/wkdGvs0w5sFUMQ3iaB
+ssh_public_key_user_osism: '# no key specified'
 ....
 ```
 
@@ -124,10 +124,27 @@ Build the image:
 ````bash
 $ ./create-image.sh \
     --build node-image-build-osism-1 \
-    --layer3-underlay \
     --config Supermicro_A2SDV-8C-LN8F.yml \
-    --parameters "ipv6_base=fd0c:cc24:75a0:1:10:10:21:"
+    --parameters "ipv6_base=fd0c:cc24:75a0:1:10:10:21:" "layer3-underlay=true"
 ````
+
+### Charateristics of layer3_underlay deployments
+
+The parameter `layer3_underlay: 'true'` enables the support for layer3 underlays for the image.
+
+The logic currently implemented is relatively simple and behaves as follows:
+
+- The following must be configured on the system's BMC:
+   - the hostname of the system
+   - The BMC IPv4
+- The last group of numbers is taken from the BMC IPv4 configured in the system
+  and used as the basis for other configurations (`node-suffix`):
+   - the IPV4 of the “dummy0” interface: `<ipv4_base><node-suffix>>`
+   - the IPV6 of the “dummy0” interface : `<ipv6_base><node-suffix>`
+   - the node ASN of the FRR instance of the node: `<asn_node_base><node-suffix>`
+- The image installs itself with deactivated IPv6 Router Advertisements because otherwise Ubuntu Autoinstall
+  tries to reach package sources (so no internet connection is necessary)
+- The names of two Ethernet interfaces and the corresponding ASNs of the switches must be specified (e.g. `interface1_asn` and `interface1_name`)
 
 ## Published images
 

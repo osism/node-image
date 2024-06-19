@@ -143,9 +143,12 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
 
 * [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso) - 
   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso.CHECKSUM)
- * [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso) - 
-   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso.CHECKSUM)<BR>
-   Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
+* [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso) - 
+  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso.CHECKSUM)<BR>
+  Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
+* [Ironic Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso) - 
+  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso.CHECKSUM)<BR>
+  Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
 
@@ -159,6 +162,9 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
  * [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso) - 
    [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso.CHECKSUM)<BR>
    Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
+ * [Ironic Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso) - 
+   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso.CHECKSUM)<BR>
+   Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-2.drawio.png "Disk layout")
 

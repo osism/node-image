@@ -5,8 +5,8 @@
   name: ''
   grub_device: false
   type: disk
-  id: disk-primary
-- device: disk-primary
+  id: disk-nvme0n1
+- device: disk-nvme0n1
   size: 1GB
   wipe: superblock
   flag: boot
@@ -20,7 +20,7 @@
   preserve: false
   type: format
   id: format-2
-- device: disk-primary
+- device: disk-nvme0n1
   size: 1GB
   wipe: superblock
   flag: ''
@@ -34,7 +34,7 @@
   preserve: false
   type: format
   id: format-3
-- device: disk-primary
+- device: disk-nvme0n1
   size: 8GB
   wipe: superblock
   flag: swap
@@ -52,8 +52,8 @@
   device: format-4
   type: mount
   id: mount-2
-- device: disk-primary
-  size: 120GB
+- device: disk-nvme0n1
+  size: -1
   wipe: superblock
   flag: ''
   number: 4
@@ -61,23 +61,6 @@
   grub_device: false
   type: partition
   id: partition-4
-- device: disk-primary
-  size: -1
-  wipe: superblock
-  flag: ''
-  number: 5
-  preserve: false
-  grub_device: false
-  name: ceph-osds
-  partition_name: ceph-osds
-  type: partition
-  id: partition-5
-- name: osd-vg
-  devices:
-    - partition-5
-  preserve: false
-  type: lvm_volgroup
-  id: lvm_volgroup-1
 - name: system
   devices:
     - partition-4

@@ -14,7 +14,7 @@ dpkg -i  $BASE/*.deb
 ls -1 $BASE/*.deb|sed -e 's,_.*$,' -e 's,^.*/,,' | xargs apt-mark manual
 
 echo $SYSTEM_HOSTNAME > /etc/hostname
-echo "\n - \S - IP - 10.10.21.$IP_SUFFIX" > /etc/issue
+
 
 rm -f /etc/netplan/00-installer-config.yaml
 sed -e "s/OSISM_IP/$IP_SUFFIX/" $BASE/01-osism.yaml > /etc/netplan/01-osism.yaml
@@ -26,6 +26,22 @@ chmod 600 /etc/systemd/network/05-dummy0.netdev
 chown systemd-network:root /etc/systemd/network/05-dummy0.netdev
 
 systemctl restart systemd-networkd
-
 netplan apply
+
+interface_problems=0
+for interface in "{{ interface1_name }}" "{{ interface2_name }}";
+do
+   echo "-> checking interface $interface"
+   ip link ls $interface|grep "state UP"
+   if [ "$?" != "0" ];then
+      echo "ERROR: interface not ready"
+      interface_problems="$(( $interface_problems + 1 ))"
+   fi
+done
+if [ $interface_problems -gt 0 ];then
+   exit 1
+fi
+
 systemctl restart frr
+
+echo "\n - \S - IP - {{ ipv4_base }}.${IP_SUFFIX}" > /etc/issue

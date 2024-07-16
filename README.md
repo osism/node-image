@@ -183,6 +183,18 @@ osism_image(){
 osism_image <image url>
 ```
 
+### Efficent adapting, developing and testing
+
+In order for images to be adapted or further developed, they must be tested or checked on the respective hardware. 
+It has proven to be advantageous to develop these on a system close to the installation hardware and then mount the images 
+via the SMB protocol in the DVD emulation of the BMC.
+This saves you having to create a USB stick, go to the system and often also manually select the boot device.
+
+The Samba server is started as follows:
+```
+contrib/samba-local/samba_quick.sh
+```
+
 ### Disk initialization fails
 
 Disk initialization may fail if the devices have been in use before.

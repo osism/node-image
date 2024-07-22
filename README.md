@@ -185,15 +185,18 @@ osism_image <image url>
 
 ### Efficent adapting, developing and testing
 
-In order for images to be adapted or further developed, they must be tested or checked on the respective hardware. 
-It has proven to be advantageous to develop these on a system close to the installation hardware and then mount the images 
-via the SMB protocol in the DVD emulation of the BMC.
-This saves you having to create a USB stick, go to the system and often also manually select the boot device.
+In order for images to be adapted or further developed, they must be tested or checked on the respective hardware.
+It has proven to be advantageous to develop these on a system close to the installation hardware
+and then mount the images via the SMB protocol in the DVD emulation of the BMC.
 
-The Samba server is started as follows:
+T shorten roundtrip times, you can publish created images a Samba server on your workstation as follows:
 ```
 contrib/samba-local/samba_quick.sh
 ```
+After initial installation of the image (system is in shutdown), you can just stop this samba instance by hitting `CTRL+c`
+to ensure that the next boot is perfomed from the local disk.
+
+This saves you having to create a USB stick, go to the system and often also manually select the boot device.
 
 ### Disk initialization fails
 

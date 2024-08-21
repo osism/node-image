@@ -191,7 +191,7 @@ and then mount the images via the SMB protocol in the DVD emulation of the BMC.
 
 To shorten roundtrip times, you can publish created images a Samba server on your workstation as follows:
 ```
-contrib/samba-local/samba_quick.sh
+contrib/samba-local/samba_local.sh
 ```
 After initial installation of the image (system is in shutdown), you can just stop this samba instance by hitting `CTRL+c`
 to ensure that the next boot is performed from the local disk.

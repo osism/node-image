@@ -175,9 +175,10 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
 ```bash
 osism_image(){
   local url="${1?image url}"
+  local base_path="$(basename ${url})"
   wget -c "${url}" && \
   wget -c "${url}.CHECKSUM" && \
-  sha256sum -c "$(basename ${url})" < "${url}"
+  sha256sum -c "${base_path}.CHECKSUM" < "${base_path}"
 }
 
 osism_image <image url>

@@ -64,7 +64,7 @@ def docker_run(cmd: str, working_dir: str, chown_glob="*.iso"):
     os.chdir(run_dir)
     subprocess.run(
         f"docker build --network=host -t {DOCKER_BUILD_IMAGE} "
-        + f"--build-arg BASE_IMAGE=ubuntu:{DISTRIBUTION} -f Dockerfile .",
+        + f"--build-arg UBUNTU_VERSION={DISTRIBUTION} -f Dockerfile .",
         check=True,
         shell=True,
     )

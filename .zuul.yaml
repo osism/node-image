@@ -298,6 +298,7 @@
     check:
       jobs:
         - flake8
+        - hadolint
         - python-black
         - yamllint
     label:
@@ -352,5 +353,6 @@
     periodic-daily:
       jobs:
         - flake8
+        - hadolint
         - python-black
         - yamllint

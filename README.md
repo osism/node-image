@@ -190,7 +190,7 @@ In order for images to be adapted or further developed, they must be tested or c
 It has proven to be advantageous to develop these on a system close to the installation hardware
 and then mount the images via the SMB protocol in the DVD emulation of the BMC.
 
-To shorten roundtrip times, you can publish created images a Samba server on your workstation as follows:
+To shorten roundtrip times, you can publish created images via a Samba server on your workstation as follows:
 ```
 contrib/samba-local/samba_local.sh
 ```

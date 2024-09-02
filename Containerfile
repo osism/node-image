@@ -1,7 +1,17 @@
-ARG BASE_IMAGE
-FROM ${BASE_IMAGE}
+ARG UBUNTU_VERSION=jammy
+FROM ubuntu:${UBUNTU_VERSION}
 
-RUN apt-get update && \
-    apt-get install xorriso curl gpg fdisk sudo squashfs-tools wget -y
+RUN apt-get update \
+  && apt-get install --yes --no-install-recommends \
+      curl \
+      fdisk \
+      gpg \
+      squashfs-tools \
+      sudo \
+      wget \
+      xorriso \
+  && apt-get clean \
+  && rm -rf \
+    /var/lib/apt/lists/*
 
 WORKDIR /work

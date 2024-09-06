@@ -301,6 +301,7 @@
         - hadolint
         - python-black
         - yamllint
+        - node-image-build-1
     label:
       jobs:
         - node-image-build-1

@@ -3,6 +3,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 
 RUN apt-get update \
   && apt-get install --yes --no-install-recommends \
+      ca-certificates \
       curl \
       fdisk \
       gpg \

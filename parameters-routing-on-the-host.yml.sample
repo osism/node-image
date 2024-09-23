@@ -1,0 +1,15 @@
+---
+# The last number of the BMC ip is added (2 digits)
+asn_node_base: '42100210'
+description: Two mirrored NVMe disks with a enhanced set of predefined logical volumes
+  (/dev/nvme3n1 and /dev/nvme4n1)
+interface1_asn: '65405'
+interface1_name: enp2s0f0np0
+interface2_asn: '65404'
+interface2_name: enp2s0f1np1
+# The last number of the BMC ip is added (2 digits)
+ipv4_base: 10.10.21.
+# The last number of the BMC ip is added (2 digits)
+ipv6_base: 'fd0c:cc24:75a0:1:10:10:21:'
+layer3_underlay: 'true'
+variant: osism-1

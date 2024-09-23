@@ -5,16 +5,53 @@
 
 ## Usage of the node images
 
-* Copy image to USB stick or place the image on your network provisioning environment (Redfish, BMC mount, ....)
-* Mount the image in the BMC in another way
-* Boot from the device
-* Installation is performed, system shuts down afterwards
-* Unmount the device or remove it and start system again
-* After the first boot the system shuts down once more
-* System is ready for use, by default DHCP is tried on all available interfaces
-* Perform a SSH-login
-  * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
-  * password: `password`
+### Installing generic images
+
+1. Connect one ore more ethernet ports and provide DHCP with gateway- and DNS access
+2. Add the installation media to your system
+   * Copy image to USB stick
+   * Place the image on your network provisioning environment
+    (Redfish-BMC Mount)
+3. Boot from the device
+4. Mount the image in the BMC in another way
+5. Installation is performed, system shuts down afterwards
+6. Unmount the device or remove it and start system again
+7. After the first boot the system shuts down once more
+8. Start the system, system is ready for use, by default DHCP is tried on all available interfaces
+9. Perform a SSH-login
+   * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
+   * password: `password`
+
+### Installing images with "Routing on the Host"
+
+Normally, for reasons of efficiency, you would like to use the default images provided by OSISM for the installation.
+However, if you want to install systems that use Routing on the Host you have to integrate a number of parameters
+into the image for the installation.
+
+These parameters are listed in the file `parameters-routing-on-the-host.yml.sample` as example.
+
+The installation is then carried out as follows:
+
+1. Configure the BMC of the server hardware and configure the following properties
+   * The hostname of the system
+   * The BMC IP address
+     (the last number of the IPv4 adress is used for building the node ASN, the node IPs, ..)
+   * Configure the involved switches to have a BGP peering with the host
+2. Build a node image specific for your environment
+   (see [parameters-routing-on-the-host.yml.sample](./parameters-routing-on-the-host.yml.sample)
+3. Add the installation media to your system
+   * Copy image to USB stick
+   * Place the image on your network provisioning environment
+    (Redfish-BMC Mount)
+4. Boot from the device
+   Installation is performed, system shuts down afterwards
+5. Unmount the device or remove it and start system again
+6. After the first boot the system shuts down once more
+7. Start the system, system is ready for use
+   (System starts with a ready to use network setup: dummy interface, frr-config, ...)
+8. Perform a SSH-login
+   * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
+   * password: `password`
 
 ## Creation of specific images
 

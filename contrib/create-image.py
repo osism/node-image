@@ -77,10 +77,14 @@ def docker_run(cmd: str, working_dir: str, chown_glob="*.iso"):
 
     cmd_docker = (
         f"docker run --rm --net=host -v {working_dir}:/work "
-        + f"docker.io/library/{DOCKER_BUILD_IMAGE} "
+        + f"{DOCKER_BUILD_IMAGE} "
         + f'bash -c "{cmd} {chown_command}"'
     )
-    subprocess.run(cmd_docker, check=True, shell=True)
+
+    try:
+        subprocess.run(cmd_docker, check=True, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Command {e.cmd} returned non-zero exit status {e.returncode}.")
 
 
 def package_ffr_files(context: dict) -> str:
@@ -151,15 +155,22 @@ def build_image(
 
         build_command = (
             "/work/contrib/image-create.sh -r -a -k "
-            + f"-u /work/build/{os.path.basename(user_data_file)} -n {DISTRIBUTION}"
-            + f" --destination {iso_file} {add_dir}"
+            + f"-u /work/build/{os.path.basename(user_data_file)} -n {DISTRIBUTION} "
+            + f"--destination {iso_file} {add_dir}"
         )
         docker_run(build_command, run_dir)
+
         iso_file_checksum = f"{iso_file}.CHECKSUM"
         print(f"Creating checksum file {iso_file_checksum}", color="magenta")
-        subprocess.run(
-            f"shasum -a 256 {iso_file} > {iso_file_checksum}", check=True, shell=True
-        )
+        try:
+            subprocess.run(
+                f"shasum -a 256 {iso_file} > {iso_file_checksum}",
+                check=True,
+                shell=True,
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Command {e.cmd} returned non-zero exit status {e.returncode}.")
+
     return iso_file
 
 

@@ -5,9 +5,9 @@
 
 ## Usage of the node images
 
-### Installimg Generic Images
+### Installing generic images
 
-1. Connect one ore more ethernet ports and provide DHCP with gateway- and dns access
+1. Connect one ore more ethernet ports and provide DHCP with gateway- and DNS access
 2. Add the installation media to your system
    * Copy image to USB stick
    * Place the image on your network provisioning environment
@@ -22,13 +22,13 @@
    * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
    * password: `password`
 
-### Installing Layer3 Underlay Images with "BGP on the Host"
+### Installing images with "Routing on the Host"
 
 Normally, for reasons of efficiency, you would like to use the default images provided by OSISM for the installation.
-However, if you want to install systems that use a layer 3 underlay or that use BGP routing
-on layer 3 instead of LACP on layer 2, you have to integrate a number of parameters into the image for the installation.
+However, if you want to install systems that use Routing on the Host you have to integrate a number of parameters
+into the image for the installation.
 
-These parameters are listed in the file “parameters-layer3-underlay-example.yaml” as examples.
+These parameters are listed in the file `parameters-routing-on-the-host.yml.sample` as example.
 
 The installation is then carried out as follows:
 
@@ -38,7 +38,7 @@ The installation is then carried out as follows:
      (the last number of the IPv4 adress is used for building the node ASN, the node IPs, ..)
    * Configure the involved switches to have a BGP peering with the host
 2. Build a node image specific for your environment
-   (see [parameters-layer3-underlay-bgp-to-the-host-example.yml](./parameters-layer3-underlay-bgp-to-the-host-example.yml)
+   (see [parameters-routing-on-the-host.yml.sample](./parameters-routing-on-the-host.yml.sample)
 3. Add the installation media to your system
    * Copy image to USB stick
    * Place the image on your network provisioning environment

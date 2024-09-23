@@ -7,6 +7,7 @@ RUN apt-get update \
       curl \
       fdisk \
       gpg \
+      perl \
       squashfs-tools \
       sudo \
       wget \

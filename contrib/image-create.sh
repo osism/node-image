@@ -1,5 +1,6 @@
 #!/bin/bash
 set -Eeuo pipefail
+set -x
 
 # SPDX-License-Identifier: MIT
 # source: https://github.com/cloudymax/pxeless

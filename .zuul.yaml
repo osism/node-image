@@ -25,9 +25,16 @@
           DS7X5cWBbvTYN7JDrOCyEHzoJGP1ehf9Xh6nSDFvazIbVJatw1SEHZMq7I5thFTpsbu2E
           fFriHuZ8zLGIYP4QcLDWRPP0S1m6K2mpfg4jXs1BkHRxS6wsuWu0N0LRpJD+Ds=
 
+- semaphore:
+    name: semaphore-node-image-build
+    max: 5
+
 - job:
     name: node-image-build
+    nodeset: ubuntu-jammy-large
     abstract: true
+    semaphores:
+      - name: semaphore-node-image-build
     pre-run: playbooks/pre.yml
     run: playbooks/build.yml
     timeout: 1800

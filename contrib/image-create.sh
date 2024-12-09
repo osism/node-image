@@ -1,28 +1,36 @@
 #!/bin/bash
-set -Eeuo pipefail
-set -x
 
 # SPDX-License-Identifier: MIT
 # source: https://github.com/cloudymax/pxeless
 
-trap cleanup SIGINT SIGTERM ERR EXIT
+if [ "${DEBUG:-no}" = "yes" ];then
+  export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]-*no-function*}: '
+else
+  set -Eeuo pipefail
+  trap "cleanup; exit " SIGINT SIGTERM ERR
+fi
+
 [[ ! -x "$(command -v date)" ]] && echo "💥 date command not found." && exit 1
 
 # export initial variables
 export_metadata(){
 
-        export TODAY=$(date +"%Y-%m-%d")
+        export TODAY="$(date +"%Y-%m-%d")"
         export USER_DATA_FILE=''
         export META_DATA_FILE=''
         export CODE_NAME=""
         export BASE_URL=""
         export ISO_FILE_NAME=""
+        export ARCH=""
         export ORIGINAL_ISO="ubuntu-original-$TODAY.iso"
         export EFI_IMAGE="ubuntu-original-$TODAY.efi"
         export MBR_IMAGE="ubuntu-original-$TODAY.mbr"
-        export SOURCE_ISO="${ORIGINAL_ISO}"
+        export SOURCE_ISO=""
         export DESTINATION_ISO="ubuntu-autoinstall.iso"
         export SHA_SUFFIX="${TODAY}"
+        export DEFAULT_TIMEOUT="30"
+        export TIMEOUT="${DEFAULT_TIMEOUT}"
+        export MENU_BANNER=""
         export UBUNTU_GPG_KEY_ID="843938DF228D22F7B3742BC0D94AA3F0EFE21092"
         export GPG_VERIFY=1
         export ALL_IN_ONE=0
@@ -32,6 +40,7 @@ export_metadata(){
         export EXTRA_FILES_FOLDER=""
         export OFFLINE_INSTALLER=""
 
+        export ORIGINAL_ISO_TMP=""
         export LEGACY_IMAGE=0
         export CURRENT_RELEASE=""
         export ISO_NAME=""
@@ -64,6 +73,8 @@ Available options:
 -e, --use-hwe-kernel      Force the generated ISO to boot using the hardware enablement (HWE) kernel. Not supported
                           by early Ubuntu 20.04 release ISOs.
 
+-c, --cpu-arch            Set architecture for the created image (arm64, amd64). Defaults to amd64
+
 -u, --user-data           Path to user-data file. Required if using -a
 
 -m, --meta-data           Path to meta-data file. Will be an empty file if not specified and using -a
@@ -80,6 +91,9 @@ Available options:
 -r, --use-release-iso     Use the current release ISO instead of the daily ISO. The file will be used if it already
                           exists.
 
+-t, --timeout             Set the GRUB timeout. Defaults to 30.
+-b, --banner              Set a text for the grub menu banner
+
 -s, --source              Source ISO file path. By default the latest daily ISO for Ubuntu server will be downloaded
                           and saved as <script directory>/ubuntu-original-<current date>.iso
                           That file will be used by default if it already exists.
@@ -91,6 +105,8 @@ Available options:
                           created, overwriting any existing file.
 -o, --offline-installer   Run a bash script to customize image, including install packages and configuration.
                           It should be used with -x, and the bash script should be avilable in the same extras directory.
+
+--no-md5                  No not perform a checksum check after downloading
 EOF
         exit
 }
@@ -103,7 +119,7 @@ parse_params() {
                 -v | --verbose) set -x ;;
                 -a | --all-in-one) ALL_IN_ONE=1 ;;
                 -e | --use-hwe-kernel) USE_HWE_KERNEL=1 ;;
-                -c | --no-md5) MD5_CHECKSUM=0 ;;
+                --no-md5) MD5_CHECKSUM=0 ;;
                 -k | --no-verify) GPG_VERIFY=0 ;;
                 -r | --use-release-iso) USE_RELEASE_ISO=1 ;;
                 -l | --legacy) LEGACY_OVERRIDE="true" ;;
@@ -136,15 +152,28 @@ parse_params() {
                         OFFLINE_INSTALLER="${2-}"
                         shift
                         ;;
+                -t | --timeout)
+                        TIMEOUT="${2-}"
+                        shift
+                        ;;
+                -b | --banner)
+                        MENU_BANNER="${2-}"
+                        shift
+                        ;;
+                -c | --cpu-arch)
+                        CPU_ARCH="${2-}"
+                        ( [ "$CPU_ARCH" != "amd64" ] && [ "$CPU_ARCH" != "arm64" ] ) && \
+                            die "💥 CPU Architecture ${CPU_ARCH} is not implemented."
+                        shift
+                        ;;
+
                 -?*) die "Unknown option: $1" ;;
                 *) break ;;
                 esac
                 shift
         done
 
-        echo "CODE NAME IS: $CODE_NAME"
-
-        log "👶 Starting up..."
+        log "👶 Starting up for $CODE_NAME..."
 
         # check required params and arguments
         if [ ${ALL_IN_ONE} -ne 0 ]; then
@@ -205,12 +234,22 @@ verify_deps(){
 
 # get the url and iso info for the latest release
 latest_release(){
-        BASE_URL="https://releases.ubuntu.com/${CODE_NAME}/"
+        if [ "$CPU_ARCH" = "arm64" ];then
+          BASE_URL="https://cdimage.ubuntu.com/releases/${CODE_NAME}/release"
+          FILE_REGEX="ubuntu-.*-server-arm64.iso"
+        elif [ "$CPU_ARCH" = "amd64" ];then
+          BASE_URL="https://releases.ubuntu.com/${CODE_NAME}"
+          FILE_REGEX="ubuntu-.*-server-amd64.iso"
+        else
+          die "${CPU_ARCH} not implemented"
+        fi
         log "🔎 Checking for latest ${CODE_NAME} release..."
-        ISO_FILE_NAME=$(curl -sSL "${BASE_URL}" |grep -oP "ubuntu-.*-server-amd64.iso" |head -n 1)
+        ISO_FILE_NAME=$(curl -sSL "${BASE_URL}" |grep -oP "$FILE_REGEX" |grep -v '"'|head -n 1)
         IMAGE_NAME=$(curl -sSL ${BASE_URL} |grep -o 'Ubuntu .* .*)' |head -n 1)
         CURRENT_RELEASE=$(echo "${ISO_FILE_NAME}" | cut -f2 -d-)
         SHA_SUFFIX="${CURRENT_RELEASE}"
+        SOURCE_ISO="${ISO_FILE_NAME}" # request the release iso
+        ORIGINAL_ISO="${ISO_FILE_NAME}" # set it as the filename for the download
         log "✅ Latest release is ${CURRENT_RELEASE}"
 }
 
@@ -218,10 +257,11 @@ latest_release(){
 daily_release(){
         BASE_URL="https://cdimage.ubuntu.com/ubuntu-server/${CODE_NAME}/daily-live/current"
         log "🔎 Checking for daily ${CODE_NAME} release..."
-        ISO_FILE_NAME=$(curl -sSL "${BASE_URL}" |grep -oP "${CODE_NAME}-live-server-amd64.iso" |head -n 1)
+        ISO_FILE_NAME=$(curl -sSL "${BASE_URL}" |grep -oP "${CODE_NAME}-live-server-${CPU_ARCH}.iso" |head -n 1)
         IMAGE_NAME=$(curl -sSL ${BASE_URL} |grep -o 'Ubuntu .* .*)' |head -n 1)
         CURRENT_RELEASE=$(echo "${IMAGE_NAME}" | awk '{print $3}')
         SHA_SUFFIX="${CURRENT_RELEASE}"
+        SOURCE_ISO="${ORIGINAL_ISO}" # pick up todays download
         log "✅ Daily release is ${CURRENT_RELEASE}"
 }
 
@@ -229,11 +269,18 @@ daily_release(){
 download_iso(){
 
         if [ ! -f "${SOURCE_ISO}" ]; then
-                log "🌎 Downloading ISO image for ${IMAGE_NAME} ..."
+                DOWNLOAD_URL="${BASE_URL}/${ISO_FILE_NAME}"
+                log "🌎 Downloading ISO image for ${IMAGE_NAME} from $DOWNLOAD_URL"
+
+                ORIGINAL_ISO_TMP="${ORIGINAL_ISO}.${RANDOM}"
                 wget --no-verbose \
                     --show-progress \
                     --progress=bar:force:noscroll \
-                    -O "${ORIGINAL_ISO}" "${BASE_URL}/${ISO_FILE_NAME}"
+                    -O "${ORIGINAL_ISO_TMP}" "${DOWNLOAD_URL}"
+                if [ "$?" = "0" ];then
+                  mv "$ORIGINAL_ISO_TMP" "$ORIGINAL_ISO"
+                  ORIGINAL_ISO_TMP=""
+                fi
 
                 log "👍 Downloaded and saved to ${ORIGINAL_ISO}"
         else
@@ -317,7 +364,9 @@ set_hwe_kernel(){
 
                         sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${BUILD_DIR}/boot/grub/grub.cfg"
                         sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${BUILD_DIR}/boot/grub/grub.cfg"
-                        sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+                        if [ -f "${BUILD_DIR}/boot/grub/loopback.cfg" ]; then
+                            sed -i -e 's|/casper/vmlinuz|/casper/hwe-vmlinuz|g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+                        fi
                         sed -i -e 's|/casper/initrd|/casper/hwe-initrd|g' "${BUILD_DIR}/boot/grub/loopback.cfg"
 
                         if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then
@@ -333,23 +382,32 @@ set_hwe_kernel(){
 
 # add the auto-install kerel param
 set_kernel_autoinstall(){
-        log "🧩 Reduce the boot menu timeout..."
-        sed -i -e 's/timeout=30/timeout=3/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        log "👍 Reduced the boot menu timeout to 3 seconds."
-
         log "🧩 Change menuentry title..."
-        sed -i -e 's/Try or Install Ubuntu Server/Install OSISM node/g' "${BUILD_DIR}/boot/grub/grub.cfg"
+        if [ -n "$MENU_BANNER" ];then
+                sed -i -e "s/Try or Install Ubuntu Server/${MENU_BANNER}/g" "${BUILD_DIR}/boot/grub/grub.cfg"
+        fi
         log "👍 Changed menuentry title to 'Install OSISM node'."
 
         log "🧩 Adding autoinstall parameter to kernel command line..."
         sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/grub.cfg"
-        sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+        if [ -f "${BUILD_DIR}/boot/grub/loopback.cfg" ]; then
+          sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+        fi
 
         if [ -f "${BUILD_DIR}/isolinux/txt.cfg" ]; then
                 log "🧩 Adding autoinstall parameter to isolinux..."
                 export LEGACY_IMAGE=1
                 sed -i -e 's/---/ autoinstall  ---/g' "${BUILD_DIR}/isolinux/txt.cfg"
-                sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' "${BUILD_DIR}/isolinux/isolinux.cfg"
+                sed -i -r "s/timeout\s+[0-9]+/timeout ${TIMEOUT}/g" "${BUILD_DIR}/isolinux/isolinux.cfg"
+        fi
+
+        if [[ "${TIMEOUT}" != "${DEFAULT_TIMEOUT}" ]]; then
+                log "🧩 Setting grub timeout to ${TIMEOUT} sec ..."
+                sed -i -e "s/set timeout=30/set timeout=${TIMEOUT}/g" "${BUILD_DIR}/boot/grub/grub.cfg"
+                if [ -f "${BUILD_DIR}/boot/grub/loopback.cfg" ]; then
+                    sed -i -e "s/set timeout=30/set timeout=${TIMEOUT}/g" "${BUILD_DIR}/boot/grub/loopback.cfg"
+                fi
+                log "👍 Set grub timeout to ${TIMEOUT} sec."
         fi
 
         log "👍 Added parameter to UEFI and BIOS kernel command lines."
@@ -370,7 +428,9 @@ set_kernel_autoinstall(){
                 fi
 
                 sed -i -e 's,---, ds=nocloud\\\;s=/cdrom/nocloud/  ---,g' "${BUILD_DIR}/boot/grub/grub.cfg"
-                sed -i -e 's,---, ds=nocloud\\\;s=/cdrom/nocloud/  ---,g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+                if [ -f "${BUILD_DIR}/boot/grub/loopback.cfg" ]; then
+                    sed -i -e 's,---, ds=nocloud\\\;s=/cdrom/nocloud/  ---,g' "${BUILD_DIR}/boot/grub/loopback.cfg"
+                fi
                 log "👍 Added data and configured kernel command line."
         fi
 }
@@ -425,8 +485,11 @@ md5_checksums(){
                 log "👷 Updating ${BUILD_DIR}/md5sum.txt with hashes of modified files..."
                 md5=$(md5sum "${BUILD_DIR}/boot/grub/grub.cfg" | cut -f1 -d ' ')
                 sed -i -e 's,^.*[[:space:]] ./boot/grub/grub.cfg,'"$md5"'  ./boot/grub/grub.cfg,' "${BUILD_DIR}/md5sum.txt"
-                md5=$(md5sum "${BUILD_DIR}/boot/grub/loopback.cfg" | cut -f1 -d ' ')
-                sed -i -e 's,^.*[[:space:]] ./boot/grub/loopback.cfg,'"$md5"'  ./boot/grub/loopback.cfg,' "${BUILD_DIR}/md5sum.txt"
+
+                if [ -f "${BUILD_DIR}/boot/grub/loopback.cfg" ]; then
+                    md5=$(md5sum "${BUILD_DIR}/boot/grub/loopback.cfg" | cut -f1 -d ' ')
+                    sed -i -e 's,^.*[[:space:]] ./boot/grub/loopback.cfg,'"$md5"'  ./boot/grub/loopback.cfg,' "${BUILD_DIR}/md5sum.txt"
+                fi
                 log "👍 Updated hashes."
                 md5=$(md5sum "${BUILD_DIR}/.disk/info" | cut -f1 -d ' ')
                 sed -i -e 's,^.*[[:space:]] .disk/info,'"$md5"'  .disk/info,' "${BUILD_DIR}/md5sum.txt"
@@ -463,7 +526,6 @@ reassemble_iso(){
                         -isohybrid-gpt-basdat -o "${DESTINATION_ISO}" "${BUILD_DIR}" &>/dev/null
         else
                 log "📦 Using El Torito method..."
-
                 xorriso -as mkisofs \
                         -r -V "ubuntu-autoinstall-${TODAY}" -J -joliet-long -l \
                         -iso-level 3 \
@@ -487,11 +549,19 @@ reassemble_iso(){
 
 # Cleanup folders we created
 cleanup() {
-        trap - SIGINT SIGTERM ERR EXIT
         if [ -n "${TMP_DIR+x}" ]; then
-                #rm -rf "${TMP_DIR}"
-                #rm -rf "${BUILD_DIR}"
+                rm -rf "${TMP_DIR}"
                 log "🚽 Deleted temporary working directory ${TMP_DIR}"
+        fi
+
+        if [ -n "${BUILD_DIR+x}" ]; then
+                rm -rf "${BUILD_DIR}"
+                log "🚽 Deleted temporary build directory ${BUILD_DIR}"
+        fi
+
+        if [ -n "${ORIGINAL_ISO_TMP+x}" ]; then
+                rm -rf "${ORIGINAL_ISO_TMP}"
+                log "🚽 Deleted temporary iso file ${ORIGINAL_ISO_TMP}"
         fi
 }
 
@@ -514,19 +584,18 @@ main(){
         create_tmp_dirs
 
         parse_params "$@"
+        verify_deps
 
-        if [ ! -f "$SOURCE_ISO" ]; then
+        if ( [[ -z "${SOURCE_ISO}" ]] && [ ! -f "$SOURCE_ISO" ] ); then
 
                 if [ "${USE_RELEASE_ISO}" -eq 1 ]; then
                         latest_release
                 else
                         daily_release
                 fi
-
                 check_legacy
         fi
 
-        verify_deps
         download_iso
 
         if [ ${GPG_VERIFY} -eq 1 ]; then
@@ -546,7 +615,9 @@ main(){
         fi
 
         reassemble_iso
+        trap "" SIGINT SIGTERM ERR
         cleanup
+        exit 0
 }
 
 main "$@"

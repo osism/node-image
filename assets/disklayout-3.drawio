@@ -1,1 +1,34 @@
-<mxfile host="Electron" modified="2022-11-18T19:03:25.528Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/20.3.0 Chrome/104.0.5112.114 Electron/20.1.3 Safari/537.36" etag="ra8zfr9rtqBt9PPNR-bD" version="20.3.0" type="device"><diagram id="pNlgbZmsKTASvtVl8QK2" name="Seite-1">zZdRb5swEMc/DY+VwCaQPDZZQ6V2UyekTtubg11wZXBknJDs0+8cDISSRpmmLLwg+3+H7+53YIyDF/kuUmSdfZWUCQe5dOfgLw5C02kIVyPsreBbIVWc1pLXCTH/zazoWnXDKSt7jlpKofm6LyayKFiiexpRSlZ9tzcp+lHXJGUDIU6IGKo/ONWZrQKFnf7IeJo1kb1gVlty0jjbSsqMUFkdSfjBwQslpa5H+W7BhGHXcKnvW35ibRNTrNCX3PCkchKE73e/okUYb77zJ//bz7smuS0RG1uxzVbvGwRKbgrKzCqug+dVxjWL1yQx1gp6DlqmcwEzD4bDrGyiW6Y02x1JNsuIyZxptQeXxhrYpOwjg5p51TUAuVbLjuD7jSOxTU/btTsuMLBo/gKTd4LSkrItXEtKbk6spdEQmw6JeegEsasBw2eBQdn3YIWi3Gi+18xBgYCM5isFo1QfoCxX5s0YG1k8uTXZyVmy6HKyS/bGR8fXR7fmG57li2u+08/5xhVgGh3W2a2xzs5i9WusZp/9yPPldXQ0Jyc+SP+XpocGOF8jA2lfapaPDliALwSGrwZs+EF6hgfLrY9fhy3T5Ny81BDENQH/CSQRPC1gnABIpkAQZMXEiyy55rJnMGQ5nDmfPzjknFITunW4t0u2hms0K7xes2DaHXgPtqO/BvzwBw==</diagram></mxfile>
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
+  <diagram id="pNlgbZmsKTASvtVl8QK2" name="Seite-1">
+    <mxGraphModel dx="1114" dy="824" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-20" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="270" width="140" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-1" value="/dev/sda" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-3" value="/dev/sda1: 1 GByte&lt;br&gt;/boot" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-5" value="/dev/sda2: 1 GByte&lt;br&gt;/boot/efi" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-7" value="/dev/sda3: 8 GByte&lt;br&gt;Swap" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-9" value="/dev/sda4: -1&lt;br&gt;PV" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-12" value="VG system" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="630" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-13" value="LV root: 200 GByte, /" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="670" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

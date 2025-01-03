@@ -1,9 +1,13 @@
 # Node Images
 
-| :zap: When booting from one of these images, all data on the hard disks will be destroyed without confirmation. :zap: |
-|-----------------------------------------------------------------------------------------------------------------------|
+| :zap: When booting from one of these images, all data on the disks will be destroyed without confirmation. :zap: |
+|------------------------------------------------------------------------------------------------------------------|
 
 ## Usage of the node images
+
+## Requirements
+
+The disks used must be at least 480 GByte in size.
 
 ### Installing generic images
 

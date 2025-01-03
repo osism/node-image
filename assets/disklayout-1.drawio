@@ -1,1 +1,67 @@
-<mxfile host="Electron" modified="2022-11-18T18:30:49.110Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/20.3.0 Chrome/104.0.5112.114 Electron/20.1.3 Safari/537.36" etag="-WULrtjVA8qMe1J6q4Av" version="20.3.0" type="device"><diagram id="pNlgbZmsKTASvtVl8QK2" name="Seite-1">5ZnRbpswFIafhstKgBMgl21aMqnd1ClSp+3OwS54M3HkOCHZ088GEwIOqNOUOFNukDnHYPv7f8BHOGCa72YcrrLPDGHq+C7aOeDR8f0oCuVRBfY6MNKBlBNUhbwmMCe/sQ66OrohCK9bHQVjVJBVO5iw5RInohWDnLOi3e2d0faoK5hiIzBPIDWj3wgSmV6FHzbxT5ikWT2yF0yqTA7rznol6wwiVhyFwJMDppwxUbXy3RRTxa7mUl0X92QPE+N4KT5ywTPPYRD+vPsxm4bzzVfyPPry/a6e3BbSjV6xnq3Y1wg42ywRVndxHfBQZETg+QomKltIzWUsEzmVZ55smrPSE91iLvDuKKRnOcMsx4LvZZc6G+hJacv49XnRCADqWHYEP3R1EGrR08O9Gy6yodH8BSbvBKUY4a08rhG0Tsx3O8Qik5jnnyAWnAuYPwRsYR0Y6FrMOjAw6DC57HuZlYtyZw97gR0/oHJGDwsuW6koocQL9SqxTbZrRTC2TXY0aEWT7JVZ0z7A8aA1/Y9bM8bvxDrfrkFHvm2+waBBTb5XZlD7AMNBg4IKYNRv0HkhMdnGavhyYhtrNOjL/wSr4VbrWCeDbh1VWNWOs8vz9c06za5Jxye25pelWdeJPS69bpxdc14BTnPj/jZTkPZrgXPrwLr+C4AJ7LCXPwYGzgbM3Li/SGO5VV1ffrnd5hUpx3DVeP/EEVKSLmU7kRwxlwEKF5i+sjURhLUSCixJIH3pdMgJQmroQ4d7fctD4hxahda1MkuBUqtM3r9XqzJ5i3qFnnW9zMqj1Evkq165VO4m1TpRJl5YLbOOKdXaQt6rlsrdpFondqEXVsssmkq14AYRYZScx3LFlKXyWHW8RfEi+x8yszQrxUMs+YX10xb0PG0xJQu1Q6663qJ+E/sfNrMGLPVTT9bgq7J69m5Qs+iMG3152vyFK3NHvzLB0x8=</diagram></mxfile>
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
+  <diagram id="pNlgbZmsKTASvtVl8QK2" name="Seite-1">
+    <mxGraphModel dx="1114" dy="824" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-20" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="270" width="300" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-1" value="/dev/sda" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-2" value="/dev/sdb" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-3" value="/dev/sda1: 1 GByte&lt;br&gt;/boot" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-4" value="/dev/sdb1: 1 GByte" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-5" value="/dev/sda2: 1 GByte&lt;br&gt;/boot/efi" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-6" value="/dev/sdb2: 1 GByte" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-7" value="/dev/sda3: 8 GByte&lt;br&gt;Swap" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-8" value="/dev/sdb3: 8 GByte&lt;br&gt;Swap" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-9" value="/dev/sda4: -1&lt;br&gt;PV" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-10" value="/dev/sdb4: -1&lt;br&gt;PV" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-12" value="VG system" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="630" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-13" value="LV root: 10 GByte, /" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="670" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-14" value="LV home: 10 GByte, /home" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="710" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-15" value="LV tmp: 10 GByte, /tmp" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="750" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-16" value="LV var: 10 GByte, /var" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="790" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-17" value="LV audit: 1 GByte, /var/log/audit" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="870" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-18" value="LV docker: 100 GByte, /var/lib/docker" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="910" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Krma67j-ZGC7SuQiK4NY-19" value="LV log: 10 GByte, /var/log" style="rounded=0;whiteSpace=wrap;html=1;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="200" y="830" width="280" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

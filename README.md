@@ -117,6 +117,7 @@ interface2_asn: '65404'
 interface2_name: enp2s0f1np1
 ipv4_base: 10.10.21.
 ipv6_base: 'fd0c:cc24:75a0:1:10:10:21:'
+ipv6_hex: 'false'
 layer3_underlay: 'true'
 variant: osism-1
 password_hash: $5$H2wkOHUVMIm2Yl2n$2AR/A2ILtgZcWx5UXL6N56Ha/wkdGvs0w5sFUMQ3iaB

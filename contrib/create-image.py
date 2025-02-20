@@ -182,6 +182,7 @@ def create_context(
         "asn_node_base": "42100210",
         "ipv4_base": "10.10.21.",
         "ipv6_base": "fd0c:cc24:75a0:1:10:10:21:",
+        "ipv6_hex": "false",
         "interface1_name": "enp2s0f0np0",
         "interface2_name": "enp2s0f1np1",
         "interface1_asn": "65405",

@@ -1,7 +1,7 @@
 # Node Images
 
 | :zap: When booting from one of these images, all data on the disks will be destroyed without confirmation. :zap: |
-| ---------------------------------------------------------------------------------------------------------------- |
+|------------------------------------------------------------------------------------------------------------------|
 
 ## Usage of the node images
 
@@ -13,9 +13,9 @@ The disks used must be at least 480 GByte in size.
 
 1. Connect one ore more ethernet ports and provide DHCP with gateway- and DNS access
 2. Add the installation media to your system
-   - Copy image to USB stick
-   - Place the image on your network provisioning environment
-     (Redfish-BMC Mount)
+   * Copy image to USB stick
+   * Place the image on your network provisioning environment
+    (Redfish-BMC Mount)
 3. Boot from the device
 4. Mount the image in the BMC in another way
 5. Installation is performed, system shuts down afterwards
@@ -23,8 +23,8 @@ The disks used must be at least 480 GByte in size.
 7. After the first boot the system shuts down once more
 8. Start the system, system is ready for use, by default DHCP is tried on all available interfaces
 9. Perform a SSH-login
-   - user: `osism` (alternatively use `dragon` after the 2nd deployment run)
-   - password: `password`
+   * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
+   * password: `password`
 
 ### Installing images with "Routing on the Host"
 
@@ -37,16 +37,16 @@ These parameters are listed in the file `parameters-routing-on-the-host.yml.samp
 The installation is then carried out as follows:
 
 1. Configure the BMC of the server hardware and configure the following properties
-   - The hostname of the system
-   - The BMC IP address
+   * The hostname of the system
+   * The BMC IP address
      (the last number of the IPv4 adress is used for building the node ASN, the node IPs, ..)
-   - Configure the involved switches to have a BGP peering with the host
+   * Configure the involved switches to have a BGP peering with the host
 2. Build a node image specific for your environment
    (see [parameters-routing-on-the-host.yml.sample](./parameters-routing-on-the-host.yml.sample)
 3. Add the installation media to your system
-   - Copy image to USB stick
-   - Place the image on your network provisioning environment
-     (Redfish-BMC Mount)
+   * Copy image to USB stick
+   * Place the image on your network provisioning environment
+    (Redfish-BMC Mount)
 4. Boot from the device
    Installation is performed, system shuts down afterwards
 5. Unmount the device or remove it and start system again
@@ -54,8 +54,8 @@ The installation is then carried out as follows:
 7. Start the system, system is ready for use
    (System starts with a ready to use network setup: dummy interface, frr-config, ...)
 8. Perform a SSH-login
-   - user: `osism` (alternatively use `dragon` after the 2nd deployment run)
-   - password: `password`
+   * user: `osism` (alternatively use `dragon` after the 2nd deployment run)
+   * password: `password`
 
 ## Creation of specific images
 
@@ -127,13 +127,12 @@ ssh_public_key_user_osism: '# no key specified'
 ```
 
 Build the image:
-
-```bash
+````bash
 $ ./create-image.sh \
     --build node-image-build-osism-1 \
     --config Supermicro_A2SDV-8C-LN8F.yml \
     --parameters "ipv6_base=fd0c:cc24:75a0:1:10:10:21:" "layer3-underlay=true"
-```
+````
 
 ### Charateristics of layer3_underlay deployments
 
@@ -142,13 +141,13 @@ The parameter `layer3_underlay: 'true'` enables the support for layer3 underlays
 The logic currently implemented is relatively simple and behaves as follows:
 
 - The following must be configured on the system's BMC:
-  - the hostname of the system
-  - The BMC IPv4
+   - the hostname of the system
+   - The BMC IPv4
 - The last group of numbers is taken from the BMC IPv4 configured in the system
   and used as the basis for other configurations (`node-suffix`):
-  - the IPV4 of the “dummy0” interface: `<ipv4_base><node-suffix>>`
-  - the IPV6 of the “dummy0” interface : `<ipv6_base><node-suffix>`
-  - the node ASN of the FRR instance of the node: `<asn_node_base><node-suffix>`
+   - the IPV4 of the “dummy0” interface: `<ipv4_base><node-suffix>>`
+   - the IPV6 of the “dummy0” interface : `<ipv6_base><node-suffix>`
+   - the node ASN of the FRR instance of the node: `<asn_node_base><node-suffix>`
 - The image installs itself with deactivated IPv6 Router Advertisements because otherwise Ubuntu Autoinstall
   tries to reach package sources (so no internet connection is necessary)
 - The names of two Ethernet interfaces and the corresponding ASNs of the switches must be specified (e.g. `interface1_asn` and `interface1_name`)
@@ -159,27 +158,27 @@ The logic currently implemented is relatively simple and behaves as follows:
 
 #### Variant 1
 
-[Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso) -
-[[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso.CHECKSUM)
+[Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso) - 
+  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-1.iso.CHECKSUM)
 
 ![Disk layout](assets/disklayout-1.drawio.png "Disk layout")
 
 #### Variant 2
 
-- [Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-2.iso) -
+* [Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-2.iso) - 
   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-2.iso.CHECKSUM)
-- Regio Cloud Images<BR>
+* Regio Cloud Images<BR>
   used for the REGIO.cloud environment, variants of the used devices.
-  - [OSISM 1](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-1.iso) -
+  * [OSISM 1](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-1.iso) -
     [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-1.iso.CHECKSUM)<BR>
     Like `Variant 2`, with `/dev/nvme3n1` and `/dev/nvme4n1`<BR>
-  - [OSISM 2](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-2.iso) -
+  * [OSISM 2](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-2.iso) - 
     [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-2.iso.CHECKSUM)<BR>
     Like `Variant 2`, with `/dev/nvme4n1` and `/dev/nvme5n1`<BR>
-  - [OSISM 3](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-3.iso) -
+  * [OSISM 3](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-3.iso) - 
     [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-3.iso.CHECKSUM)<BR>
     Like `Variant 2`, with `/dev/nvme2n1` and `/dev/nvme3n1`<BR>
-  - [OSISM 4](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-4.iso) -
+  * [OSISM 4](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-4.iso) - 
     [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-osism-4.iso.CHECKSUM)<BR>
     Like `Variant 2`, with `/dev/nvme0n1` and `/dev/nvme1n1`<BR>
 
@@ -187,15 +186,15 @@ The logic currently implemented is relatively simple and behaves as follows:
 
 #### Variant 3
 
-[Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-3.iso) -
-[[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-3.iso.CHECKSUM)
+[Standard Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-3.iso) - 
+  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-3.iso.CHECKSUM)
 
 ![Disk layout](assets/disklayout-3.drawio.png "Disk layout")
 
 #### Variant 4
 
-[Standard Images](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-4.iso) -
-[[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-4.iso.CHECKSUM)
+[Standard Images](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-4.iso) - 
+  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-4.iso.CHECKSUM)
 
 ![Disk layout](assets/disklayout-4.drawio.png "Disk layout")
 
@@ -205,12 +204,12 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
 
 ### Variant 1 - SCSI images
 
-- [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso) -
+* [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso) - 
   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-1.iso.CHECKSUM)
-- [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso) -
+* [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso) - 
   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso.CHECKSUM)<BR>
   Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
-- [Ironic Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso) -
+* [Ironic Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso) - 
   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso.CHECKSUM)<BR>
   Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
 
@@ -218,17 +217,17 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
 
 ### Variant 2 - NVMe images
 
-- [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso) -
-  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso.CHECKSUM)
-- [Edge Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso) -
-  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso.CHECKSUM)<BR>
-  Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=edge` boot parameter.
-- [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso) -
-  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso.CHECKSUM)<BR>
-  Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
-- [Ironic Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso) -
-  [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso.CHECKSUM)<BR>
-  Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
+ * [Sandbox Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso) - 
+   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-2.iso.CHECKSUM)
+ * [Edge Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso) - 
+   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-edge-2.iso.CHECKSUM)<BR>
+   Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=edge` boot parameter.
+ * [Kubernetes Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso) - 
+   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso.CHECKSUM)<BR>
+   Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
+ * [Ironic Image](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso) - 
+   [[SHA256]](https://swift.services.a.regiocloud.tech/swift/v1/AUTH_b182637428444b9aa302bb8d5a5a418c/osism-node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso.CHECKSUM)<BR>
+   Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-2.drawio.png "Disk layout")
 
@@ -255,11 +254,9 @@ It has proven to be advantageous to develop these on a system close to the insta
 and then mount the images via the SMB protocol in the DVD emulation of the BMC.
 
 To shorten roundtrip times, you can publish created images via a Samba server on your workstation as follows:
-
 ```
 contrib/samba-local/samba_local.sh
 ```
-
 After initial installation of the image (system is in shutdown), you can just stop this samba instance by hitting `CTRL+c`
 to ensure that the next boot is performed from the local disk.
 
@@ -273,16 +270,14 @@ installation to break. In this case boot some Ubuntu live image and
 erase all data from your disks.
 
 In that case it is a good idea to erase the disk:
-
 ```bash
 dd if=/dev/zero of=/dev/<device> bs=1M count=1024
 ```
-
 (you can use that from the shell prompt available from the installation image or with a live systems)
 
 ## References
 
-- https://curtin.readthedocs.io/en/latest/topics/storage.html
-- https://github.com/cloudymax/pxeless
-- https://jimangel.io/posts/automate-ubuntu-22-04-lts-bare-metal/
-- https://ubuntu.com/server/docs/install/autoinstall-reference
+* https://curtin.readthedocs.io/en/latest/topics/storage.html
+* https://github.com/cloudymax/pxeless
+* https://jimangel.io/posts/automate-ubuntu-22-04-lts-bare-metal/
+* https://ubuntu.com/server/docs/install/autoinstall-reference

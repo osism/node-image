@@ -6,9 +6,9 @@ BASE="/root/frr"
 SYSTEM_HOSTNAME="$(ipmitool dcmi get_mc_id_string|awk '/^.*:/{hostname=$0;gsub(/^(..*): /, "", hostname);printf("%s", hostname); exit}')"
 BMC_IP="$(ipmitool lan print |awk '/^IP Address[ ]*:/{hostname=$0;gsub(/^(..*): /, "", hostname);printf("%s", hostname); exit}')"
 IP4_SUFFIX="$(echo "$BMC_IP"|grep -P -oh '\d+$')"
-IP6_SUFFIX={% if ipv6_hex == 'true' %}"$(printf "%x" "$IP4_SUFFIX")"{% else %}$IP4_SUFFIX{% endif %}
+IP6_SUFFIX={% if ipv6_hex | bool %}"$(printf "%x" "$IP4_SUFFIX")"{% else %}$IP4_SUFFIX{% endif %}
 
-echo "Name is: $SYSTEM_HOSTNAME, IPv4 suffix is: $IP4_SUFFIX, BMC IP is: $BMC_IP"
+echo "Name is: $SYSTEM_HOSTNAME, IPv4 suffix is: $IP4_SUFFIX, IPv6 suffix is: $IP6_SUFFIX, BMC IP is: $BMC_IP"
 
 dpkg -i  $BASE/*.deb
 # otherwise, apt-get autoremove revoves the packages at the end of the installation

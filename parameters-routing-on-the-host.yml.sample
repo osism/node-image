@@ -1,6 +1,8 @@
 ---
 # The last byte of the BMC ip is added
 asn_node_base: '42100210'
+# Fill ASN part with leading zeroes to make it always 2 digits long
+asn_part_digits: 2
 description: Two mirrored NVMe disks with a enhanced set of predefined logical volumes
   (/dev/nvme3n1 and /dev/nvme4n1)
 interface1_asn: '65405'

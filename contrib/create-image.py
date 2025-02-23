@@ -180,6 +180,7 @@ def create_context(
     context_data_default = {
         "layer3_underlay": "false",
         "asn_node_base": "42100210",
+        "asn_part_digits": "0",
         "ipv4_base": "10.10.21.",
         "ipv6_base": "fd0c:cc24:75a0:1:10:10:21:",
         "ipv6_hex": "false",

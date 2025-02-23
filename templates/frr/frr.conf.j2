@@ -4,7 +4,7 @@ hostname OSISM_HOST
 log syslog informational
 service integrated-vtysh-config
 !
-router bgp {{ asn_node_base }}OSISM_IP4
+router bgp {{ asn_node_base }}OSISM_ASN
  no bgp ebgp-requires-policy
  bgp bestpath as-path multipath-relax
  bgp router-id {{ ipv4_base }}OSISM_IP4

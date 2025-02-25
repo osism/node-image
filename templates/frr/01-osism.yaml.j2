@@ -16,8 +16,8 @@ network:
   ethernets:
     dummy0:
         addresses:
-        - {{ ipv4_base }}OSISM_IP/32
-        - {{ ipv6_base }}OSISM_IP/128
+        - {{ ipv4_base }}OSISM_IP4/32
+        - {{ ipv6_base }}OSISM_IP6/128
     {{ interface1_name }}:
         mtu: 9100
         dhcp4: no

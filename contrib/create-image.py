@@ -170,9 +170,7 @@ def package_ffr_files(context: dict, arch_dir: str, cargs: argparse.Namespace) -
     env = Environment(loader=FileSystemLoader("/"))
     for file_name in glob.glob(f"{RUN_DIR}/templates/frr/*"):
         if file_name.endswith(".j2"):
-            target_filename = (
-                    frr_dir + "/" + os.path.basename(file_name.removesuffix(".j2"))
-            )
+            target_filename = ( frr_dir + "/" + os.path.basename(file_name.removesuffix(".j2")) )
             print(f"rendering file : {target_filename}", color="magenta")
             template = env.get_template(file_name)
             with open(target_filename, mode="w", encoding="utf-8") as results:
@@ -212,8 +210,8 @@ def build_image(
                 f"/work/contrib/image-create.sh -r -a -k "
                 f"--cpu-arch {cargs.arch} "
                 "--timeout 3 --banner 'Install OSISM Node' "
-                + f"-u /work/build/{os.path.basename(user_data_file)} -n {cargs.release} "
-                + f"--destination /work/build/{iso_file} {add_dir}"
+                f"-u /work/build/{os.path.basename(user_data_file)} -n {cargs.release} "
+                f"--destination /work/build/{iso_file} {add_dir}"
         )
         docker_run(build_command, image_build_dir, cargs)
         docker_run(f"sha256sum {iso_file} > {iso_file_checksum}", image_build_dir, cargs)

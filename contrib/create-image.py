@@ -118,7 +118,7 @@ def package_ffr_files(context: dict) -> str:
             pass  # do nothing, just create an empty file
 
     env = Environment(loader=FileSystemLoader("/"))
-    env.filters['bool']= bool
+    env.filters["bool"] = bool
     for file_name in glob.glob(f"{run_dir}/templates/frr/*"):
         if file_name.endswith(".j2"):
             target_filename = (

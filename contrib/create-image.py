@@ -273,7 +273,7 @@ def show_variants():
     sys.exit(0)
 
 
-DISTRIBUTION = "jammy"
+DISTRIBUTION = "noble"
 DOCKER_WORKDIR = "/work"
 BRANCH = get_current_git_branch_name()
 DOCKER_BUILD_IMAGE = f"osism-node-image-builder:latest-{BRANCH}"

@@ -80,7 +80,7 @@ Last values are effective / winning.
 
 ```bash
 usage: create-image.sh [-h] (--show | --build BUILD [BUILD ...] | --env | --clean) [--parameters KEY=VALUE [KEY=VALUE ...]]
-                       [--config CONFIG] [--template-only] [--layer3-underlay]
+                       [--config CONFIG] [--template-only] [--layer3_underlay]
 
 
 options:
@@ -105,7 +105,7 @@ In order to just test the templating and show the effective values
 (templated files are created in the [`./build`](./build) folder):
 
 ```bash
-$ ./create-image.sh --build node-image-build-osism-1 --parameters layer3-underlay=true --template
+$ ./create-image.sh --build node-image-build-osism-1 --parameters layer3_underlay=true --template
 Created context (yaml):
 ---
 asn_node_base: '42100210'
@@ -131,7 +131,7 @@ Build the image:
 $ ./create-image.sh \
     --build node-image-build-osism-1 \
     --config Supermicro_A2SDV-8C-LN8F.yml \
-    --parameters "ipv6_base=fd0c:cc24:75a0:1:10:10:21:" "layer3-underlay=true"
+    --parameters "ipv6_base=fd0c:cc24:75a0:1:10:10:21:" "layer3_underlay=true"
 ````
 
 ### Charateristics of layer3_underlay deployments

@@ -37,7 +37,7 @@ autoinstall:
     - tar cf /target/var/log/install.log.tar /var/log/installer
 {% else %}
     - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
-    - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
+    - echo "$(lsb_release -d -s | grep Ubuntu) \nIP - $(hostname -I)\n" > /target/etc/issue
 {% endif %}
     # shut-down the host to avoid an infinite installer loop
     - shutdown -h now

@@ -1,5 +1,10 @@
 # Node Images
 
+The image is in maintenance mode. We are currently no longer using it ourselves
+as we have switched to a new approach for providing the nodes for ourselves and
+our customers: the Metalbox. We are not yet archiving the repository. If anyone
+is currently using it and needs changes, please open issues.
+
 | :zap: When booting from one of these images, all data on the disks will be destroyed without confirmation. :zap: |
 |------------------------------------------------------------------------------------------------------------------|
 

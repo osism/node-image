@@ -24,7 +24,7 @@
         cmd: |
           wget https://dl.min.io/client/mc/release/linux-amd64/mc
           chmod +x mc
-          ./mc alias set minio https://osism.de.object-storage.io {{ minio.MINIO_ACCESS_KEY | trim }} {{ minio.MINIO_SECRET_KEY | trim }} --api "s3v4"
+          ./mc alias set minio https://nbg1.your-objectstorage.com {{ minio.MINIO_ACCESS_KEY | trim }} {{ minio.MINIO_SECRET_KEY | trim }} --api "s3v4"
           ./mc cp ubuntu-autoinstall-{{ name }}.iso minio/osism/node-image/
           ./mc cp ubuntu-autoinstall-{{ name }}.iso.CHECKSUM minio/osism/node-image/
       when: upload_image|bool

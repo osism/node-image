@@ -3,27 +3,27 @@
     name: SECRET_NODE_IMAGE
     data:
       MINIO_ACCESS_KEY: !encrypted/pkcs1-oaep
-        - hYDmLN9GOsYF9kKM6LB96mMHaC1PN0HrRrIHIDFHq9HFUo2wL4np0xrc0eoxd4iZziqsu
-          J1jJZkTU+vlZKn9viE0HXbCnmi9dqWI0toZYCw/olrZnR3EK0Ks8b1cGFwSW+w361UOPG
-          eS5WQ4IAfvnav/FvubpB19H3Al8s215o3TYiwBejTNiQg4p5NI3Y9HxlUpGQden0ojJ3N
-          Wv27AXFJ2f+8ITNtZo6UTylwy27euKcTgq0r98tJNYxrtnbqyuBCDO9bhBrtyusy4gSrv
-          yOXbqhLAy08BH02W3BfDhf5MSlZpilkanrYZWpndaBX2iiQeDsigOLl8Xp0HnW8wNulAu
-          Y1hng2LmM9vvvPNSNt80xJuOua6eY7q2pfP46dYvC0Ls28QdF8/HBwx8RV6Pn8Wu+XIiw
-          7l4ByJZh8iGzQx4hrFRK5dW9ulVKk70Ll+so/NNMu5av5C3aBGjPr5jsa465U/+OUyB+V
-          5g98qBqs3xq41qfp966CteYbvaYJItJtdgdGwZDXzouTYD0zAwq2RXicSIA2CSKbqKkuI
-          IrtDxolpVQ3szhenZHjOsJpAKuMsxf9YX1tA8r+K2r5eqDFO1oATku/xiI/7GVMqxNlUC
-          jrO+AI3TU4unGMbkCQXuxpZUZG71q3JA5AIx/LgXFvwzo+PAU34DW7ZaFVDvtY=
+        - Xyo9dhgCiURY/SMtKPRtrU89JlYk5cv6Yj5rMfmpyoY5+46BenMvn6diMPJoYlXL4O5tM
+          RvfTO/k6xdrSimEjei/Fae82Mr/JFm3nCUULdbc6WedR0jSdZZAUCXoRbSMy3Y0IBsSM+
+          rtAOFIosEF0rJtM7Jrm6sOqrGUZRMByn7bDutosRK9XmZeAHaOLSIM49NRWrx5cl3GsIx
+          ZW2HHELamjx/divxMjKVQP1N0n0iO9lDRnxYvheOXcbH+iWMnYgmaoGKPQ7MvQhirqgic
+          eC6B0f9zCHPoBSYWm1zjASuI+bYc8d1PM5fgtdGYJwE7HPN+nMucXIAqQi+6dZNA5D2y7
+          9G56aKm7GpQRzNlTamYML6yWT5FVgtZvOZMktR4Ygb/+CH5HJF8rVne7hhEbsny6c8PzL
+          Llq2nDDwaDNc1Ltpq4dI6fShjcvIWmt+48u8FE7qaRuHQG2fugOoHQU0sOVXSf0DAHKhO
+          EmlKaCqoL3vxDzWAyA4U5IIrSIv77ED0xSboCI+8qSpguE0s2tkii0iVoRvIAlrmKrUxX
+          Ft8sF+WkWwaOLg6gOKo6g3sAhF2fzAbxFcvCCoo3SU0yxaltlnq8eIGJGNfArCvBIwMTZ
+          8T1H7p5vyNiGNC7k2/6asZDHnRoOzB1iGOwRP5XD2I3MCSi23ewsuQIofodVzw=
       MINIO_SECRET_KEY: !encrypted/pkcs1-oaep
-        - Oj8wmmuZC6WRGP7Ut6BDYKIj6VZqfso+2ewK5MrgPpUKPK63Pb6nAThKlQscLiFVzON++
-          AzEXGQN8vxX7HGvXwNdFn5C2z3+jIauTXbBPPR22pBbE/QQVjXfGV9TuaMhOhe2sKP7Yi
-          ngZ9ABin2AsXC4YMt0unvEsqsdC73O774eA2J6BQOFYCwPjsPLeN2R89FDh55Nj0wZrlS
-          v3QWuXQzwMbSrAMuEyTKPxXQdeVjkXxG1HkjF/1GTqpPaCIWQbQ4Okm6djbEdBTu94eKx
-          nB35VQTjceiU+KPVrNbKz0JAB63Ysro3qmgZO5qc6OVCFa8KZIpH84LAh1dX4MiiCTZfS
-          z9EXk2CjeThMfrIIT2vx0VdtUC1MX4zbe/Rj+zLmtXQwRNdoqF348yCnpmfv7DYxWrsyQ
-          yllH0fmi8iClqE0S3+SF3jM1Cj4rtbV6uXy0b6aaFMvbt2kM1/BaL/c/3pwN/Xlu62Wy0
-          iCkJT8l1I/zYDaZlFzK04QsNWjtXmKBzh4ymCWoA4WveMxSmrnpWCTjqZ2jQqreeaTZCZ
-          DS7X5cWBbvTYN7JDrOCyEHzoJGP1ehf9Xh6nSDFvazIbVJatw1SEHZMq7I5thFTpsbu2E
-          fFriHuZ8zLGIYP4QcLDWRPP0S1m6K2mpfg4jXs1BkHRxS6wsuWu0N0LRpJD+Ds=
+        - Z+RrUQo4NSHNJTZvG0mMq2BJFQqYV80rlV8xefbGxzcMSm4EDi/t1h0Wak71+buU6F1K5
+          nTWROU21DlnAlabHEG7T36bze4mzN+/ccaLCkH8OBBG4WygFjpaHBg8l23DFMWHT4aat5
+          21Ij7DwfvHXuS2S3/8qtSAw7G1o2tCY7Os3S1f86c+UB77tvB83+Urbc9Km93b0/MN2LV
+          IRqwyccIcXCiYgs0XOotWfRKhW8sGk8rqfvcvT5OUgiHhRIIM/I7PrprD8RfG2YzyJ/9V
+          Rx8GpAgLRH6Wfxhh8U3hLzbzUv/G5yvY/T8PDirqeXzfPl+Lnm3pxZlZRkF83rNKo95rX
+          CSWgMKwDPS7DoVBs4c0w26FVoQXbVn5NlnqsFgiZC7e5K1q0Sk1JaJIzhLc/YhutvwW5W
+          pGJTWedoTWCXk3OJle2d6LKLI6ZBgCPwWNUFQenK9RMmV1NpoQNeSl/ejR8vvq53yJQ53
+          DwbgNQGi5sWWfv1PAIatZRShHL63oMbR3+k39isJR1SrDM0eKR8vkYTJn1kvWXOfxTLFG
+          Pd4Ut+KfAb/HVWNnCEX0g2IafOrRkynR+Dj0yimEbRX0QTicbUcQmF6w6TudT+D3/ZnrQ
+          3CGapx0SBFtugeHkZ0aQnTunC5fym4cdZj+XJqtdhuvvu7/V/wrKgjfIsKp9wE=
 
 - semaphore:
     name: semaphore-node-image-build

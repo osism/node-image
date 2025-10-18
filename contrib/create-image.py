@@ -96,15 +96,15 @@ def package_ffr_files(context: dict) -> str:
         "frr",
         "frr-pythontools",
         "ipmitool",
-        "libc-ares2",
+        "libc-ares-dev",
         "libfreeipmi17",
-        "libopenipmi0",
+        "libopenipmi0t64",
         "libsensors-config",
         "libsensors5",
         "libsnmp-base",
         "libsnmp-base",
-        "libsnmp40",
-        "libyang2",
+        "libsnmp40t64",
+        "libyang2t64",
         "openipmi",
     ]
 
@@ -273,7 +273,7 @@ def show_variants():
     sys.exit(0)
 
 
-DISTRIBUTION = "jammy"
+DISTRIBUTION = "noble"
 DOCKER_WORKDIR = "/work"
 BRANCH = get_current_git_branch_name()
 DOCKER_BUILD_IMAGE = f"osism-node-image-builder:latest-{BRANCH}"

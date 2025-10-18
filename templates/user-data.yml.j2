@@ -37,7 +37,7 @@ autoinstall:
     - tar cf /target/var/log/install.log.tar /var/log/installer
 {% else %}
     - echo osism-$(openssl rand -hex 3) > /target/etc/hostname
-    - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
+    - echo "OSIMS Cloud in a Box \nIP - $(hostname -I)\n" > /target/etc/issue
 {% endif %}
     # shut-down the host to avoid an infinite installer loop
     - shutdown -h now
@@ -56,7 +56,7 @@ autoinstall:
       - htop
       - ipmitool
       - jq
-      - linux-generic-hwe-22.04
+      - linux-generic-hwe-24.04
       - lldpd
       - procps
       - python3

@@ -214,9 +214,6 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
 * [Kubernetes Image](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso) - 
   [[SHA256]](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-1.iso.CHECKSUM)<BR>
   Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
-* [Ironic Image](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso) - 
-  [[SHA256]](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-1.iso.CHECKSUM)<BR>
-  Like Sandbox `Variant 1`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-1.drawio.png "Disk layout")
 
@@ -230,9 +227,6 @@ The [cloud in a box](https://osism.tech/docs/guides/other-guides/cloud-in-a-box)
  * [Kubernetes Image](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso) - 
    [[SHA256]](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-kubernetes-2.iso.CHECKSUM)<BR>
    Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=kubernetes` boot parameter.
- * [Ironic Image](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso) - 
-   [[SHA256]](https://nbg1.your-objectstorage.com/osism/node-image/ubuntu-autoinstall-cloud-in-a-box-ironic-2.iso.CHECKSUM)<BR>
-   Like Sandbox `Variant 2`, with `CLOUD_IN_A_BOX_TYPE=ironic` boot parameter.
 
 ![Disk layout](assets/disklayout-cloud-in-a-box-2.drawio.png "Disk layout")
 
